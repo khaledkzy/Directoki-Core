@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+
+</head>
+<body>
+
+<form id="ReportForm" onsubmit="reportFormSubmit(); return false;">
+    <div>
+        Project ID: <input type="text" name="project">
+    </div>
+    <div>
+        Directory ID: <input type="text" name="directory">
+    </div>
+    <div>
+        Record ID: <input type="text" name="record">
+    </div>
+    <div>
+        Report: <textarea name="description"></textarea>
+    </div>
+    <div>
+        <input type="submit" value="SEND REPORT">
+    </div>
+</form>
+
+
+
+
+<script
+        src="https://code.jquery.com/jquery-1.12.4.min.js"
+        integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
+        crossorigin="anonymous"></script>
+<script>
+
+    function reportFormSubmit() {
+
+
+        var url = 'http://localhost:8080/app_dev.php/api1/project/' +
+                $('#ReportForm input[name="project"]').val() +
+                '/directory/' +
+                $('#ReportForm input[name="directory"]').val() +
+                '/record/' +
+                $('#ReportForm input[name="record"]').val() +
+                '/newReport.jsonp?q=?'+
+                '&description=' + encodeURIComponent( $('#ReportForm textarea[name="description"]').val() );
+
+        $.ajax(url, {
+            'dataType': 'jsonp',
+            'complete': function(data) {
+
+                console.log(data.responseJSON);
+
+            }
+        });
+
+    }
+
+</script>
+
+
+</body>
+</html>
+

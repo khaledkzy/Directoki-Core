@@ -1,0 +1,32 @@
+{##
+#  @license 3-clause BSD
+#  @link https://github.com/Directoki/Directoki-Core/blob/master/LICENSE.txt
+##}
+
+
+{% extends 'DirectokiBundle::base.html.twig' %}
+
+{% block title %}Welcome{% endblock %}
+
+{% block main %}
+
+
+	<ol class="breadcrumb">
+		<li>Project: {{  project.title }}</li>
+		<li>Directory: {{  directory.title }}</li>
+		<li class="active">New Record</li>
+	</ol>
+
+	<h1>Directory: {{  directory.title }} New Record</h1>
+
+
+	<form class="styled" action="" method="post" {{ form_enctype(form) }}>
+		{{ form_errors(form) }}
+
+		{{ form_rest(form) }}
+
+		<input type="submit" value="Save" />
+
+	</form>
+
+{%  endblock %}

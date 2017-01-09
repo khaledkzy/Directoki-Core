@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+
+	</head>
+	<body>
+
+	<form id="LoadForm" onsubmit="loadFormSubmit(); return false;">
+		<div>
+			Project ID: <input type="text" name="project">
+		</div>
+		<div>
+			Directory ID: <input type="text" name="directory">
+		</div>
+		<div>
+			Record ID: <input type="text" name="record">
+		</div>
+		<div>
+			<input type="submit" value="GET DETAILS">
+		</div>
+	</form>
+
+	<form id="SaveForm" onsubmit="saveFormSubmit(); return false;" style="display: none;">
+
+		<div id="SaveFormContent">
+
+		</div>
+
+		<div>
+			Your Email: <input type="text" name="email">
+		</div>
+
+		<div>
+			Your comment: <textarea name="comment"></textarea>
+		</div>
+
+		<div>
+			<input type="submit" value="SAVE">
+		</div>
+
+	</form>
+
+
+	<script
+			src="https://code.jquery.com/jquery-1.12.4.min.js"
+			integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
+			crossorigin="anonymous"></script>
+	<script>
+
+		function loadFormSubmit() {
+
+			var url = 'http://localhost:8080/app_dev.php/api1/project/' +
+							$('#LoadForm input[name="project"]').val() +
+							'/directory/' +
+							$('#LoadForm input[name="directory"]').val() +
+							'/record/' +
+							$('#LoadForm input[name="record"]').val() +
+							'/index.jsonp?q=?';
+
+			$.ajax(url, {
+				'dataType': 'jsonp',
+				'complete': function(data) {
+
+					if (!data.responseJSON.record.published) {
+						alert('This record is not published!');
+					} else {
+						var html = '';
+						for (i in data.responseJSON.fields) {
+
+							console.log(data.responseJSON.fields[i]);
+
+							html += '<div> ' + escapeHTML(data.responseJSON.fields[i].title);
+							if (data.responseJSON.fields[i].type == 'string') {
+
+								html += '<input type="text" name="field_' + escapeHTMLAttribute(i) + '_value" value="' + escapeHTMLAttribute(data.responseJSON.fields[i].value.value) + '">';
+							} else if (data.responseJSON.fields[i].type == 'text') {
+
+								html += '<textarea name="field_' + escapeHTMLAttribute(i) + '_value">' + escapeHTML(data.responseJSON.fields[i].value.value) + '</textarea>';
+							} else if (data.responseJSON.fields[i].type == 'boolean') {
+
+								html += '<input type="checkbox" name="field_' + escapeHTMLAttribute(i) + '_value" ' + (data.responseJSON.fields[i].value.value ? 'checked="checked" ' : '') + ' >';
+
+							} else if (data.responseJSON.fields[i].type == 'latlng') {
+
+								html += '<input type="text" name="field_' + escapeHTMLAttribute(i) + '_lat" value="' + escapeHTMLAttribute(data.responseJSON.fields[i].value.lat) + '">, ';
+								html += '<input type="text" name="field_' + escapeHTMLAttribute(i) + '_lng" value="' + escapeHTMLAttribute(data.responseJSON.fields[i].value.lng) + '">';
+							}
+
+							html += '</div>';
+
+						}
+
+						$('#SaveFormContent').html(html);
+						$('#SaveForm').show();
+					}
+				}
+			});
+
+		}
+
+
+		function saveFormSubmit() {
+
+			var url = 'http://localhost:8080/app_dev.php/api1/project/' +
+					$('#LoadForm input[name="project"]').val() +
+					'/directory/' +
+					$('#LoadForm input[name="directory"]').val() +
+					'/record/' +
+					$('#LoadForm input[name="record"]').val() +
+					'/edit.jsonp?q=?';
+
+			var data = $('#SaveForm').serialize();
+
+			$.ajax(url, {
+				'dataType': 'jsonp',
+				'type': 'GET',
+				'data': data,
+				'complete': function(data) {
+
+					console.log(data.responseJSON);
+
+				}
+			});
+
+
+		}
+
+
+		function escapeHTMLNewLine(str, maxLength) {
+			if (str === null) {
+				return '';
+			}
+			var div = document.createElement('div');
+			div.appendChild(document.createTextNode(str));
+			var out =  div.innerHTML;
+			if (out.length > maxLength) {
+				out = out.substr(0,maxLength)+" ...";
+			}
+			return out.replace(/\n/g,'<br>');
+		}
+		function escapeHTML(str) {
+			if (str === null) {
+				return '';
+			}
+			var div = document.createElement('div');
+			div.appendChild(document.createTextNode(str));
+			return div.innerHTML;
+		}
+		function escapeHTMLAttribute(str) {
+			if (str === null) {
+				return '';
+			}
+			return (new String(str))
+					.replace(/&/g, '&amp;')
+					.replace(/'/g, '&apos;')
+					.replace(/"/g, '&quot;')
+					.replace(/</g, '&lt;')
+					.replace(/>/g, '&gt;')
+					.replace(/\r/g, '')
+					.replace(/\n/g, '');
+			;
+		}
+
+	</script>
+
+
+	</body>
+</html>
+

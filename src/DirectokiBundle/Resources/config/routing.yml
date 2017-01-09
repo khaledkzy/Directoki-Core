@@ -1,0 +1,145 @@
+directoki_homepage:
+    path:     /
+    defaults: { _controller: DirectokiBundle:Default:index }
+
+directoki_project_new:
+    path:     /newProject
+    defaults: { _controller: DirectokiBundle:DefaultEdit:newProject }
+
+directoki_project_list:
+    path:     /project
+    defaults: { _controller: DirectokiBundle:Default:projects }
+
+directoki_project_show:
+    path:     /project/{projectId}
+    defaults: { _controller: DirectokiBundle:Project:index }
+
+directoki_project_directory_new:
+    path:     /project/{projectId}/newDirectory
+    defaults: { _controller: DirectokiBundle:ProjectEdit:newDirectory }
+
+directoki_project_directory_show:
+    path:     /project/{projectId}/directory/{directoryId}
+    defaults: { _controller: DirectokiBundle:ProjectDirectory:index }
+
+directoki_project_directory_new_string_field:
+    path:     /project/{projectId}/directory/{directoryId}/newField/string
+    defaults: { _controller: DirectokiBundle:ProjectDirectoryEdit:newStringField }
+
+directoki_project_directory_new_text_field:
+    path:     /project/{projectId}/directory/{directoryId}/newField/text
+    defaults: { _controller: DirectokiBundle:ProjectDirectoryEdit:newTextField }
+
+directoki_project_directory_new_boolean_field:
+    path:     /project/{projectId}/directory/{directoryId}/newField/boolean
+    defaults: { _controller: DirectokiBundle:ProjectDirectoryEdit:newBooleanField }
+
+directoki_project_directory_new_latlng_field:
+    path:     /project/{projectId}/directory/{directoryId}/newField/latlng
+    defaults: { _controller: DirectokiBundle:ProjectDirectoryEdit:newLatLngField }
+
+directoki_project_directory_fields:
+    path:     /project/{projectId}/directory/{directoryId}/field
+    defaults: { _controller: DirectokiBundle:ProjectDirectory:fields }
+
+directoki_project_directory_record_list:
+    path:     /project/{projectId}/directory/{directoryId}/record
+    defaults: { _controller: DirectokiBundle:ProjectDirectory:records }
+
+directoki_project_directory_record_list_needing_attention:
+    path:     /project/{projectId}/directory/{directoryId}/recordsNeedingAttention
+    defaults: { _controller: DirectokiBundle:ProjectDirectory:recordsNeedingAttention }
+
+directoki_project_directory_new_record:
+    path:     /project/{projectId}/directory/{directoryId}/newRecord
+    defaults: { _controller: DirectokiBundle:ProjectDirectoryEdit:newRecord }
+
+directoki_project_directory_record_show:
+    path:     /project/{projectId}/directory/{directoryId}/record/{recordId}
+    defaults: { _controller: DirectokiBundle:ProjectDirectoryRecord:index }
+
+directoki_project_directory_record_contacts:
+    path:     /project/{projectId}/directory/{directoryId}/record/{recordId}/contacts
+    defaults: { _controller: DirectokiBundle:ProjectDirectoryRecord:contacts }
+
+
+directoki_project_directory_record_note_new:
+    path:     /project/{projectId}/directory/{directoryId}/record/{recordId}/newNote
+    defaults: { _controller: DirectokiBundle:ProjectDirectoryRecordEdit:newNote }
+
+
+directoki_project_directory_record_moderate:
+    path:     /project/{projectId}/directory/{directoryId}/record/{recordId}/moderate
+    defaults: { _controller: DirectokiBundle:ProjectDirectoryRecordEdit:moderate }
+
+directoki_project_directory_record_report_resolve:
+    path:     /project/{projectId}/directory/{directoryId}/record/{recordId}/report/{reportId}/resolve
+    defaults: { _controller: DirectokiBundle:ProjectDirectoryRecordReportEdit:resolve }
+
+directoki_project_directory_record_state_edit:
+    path:     /project/{projectId}/directory/{directoryId}/record/{recordId}/editState
+    defaults: { _controller: DirectokiBundle:ProjectDirectoryRecordEdit:editState }
+
+directoki_project_directory_record_field_edit:
+    path:     /project/{projectId}/directory/{directoryId}/record/{recordId}/field/{fieldId}/edit
+    defaults: { _controller: DirectokiBundle:ProjectDirectoryRecordFieldEdit:edit }
+
+
+directoki_api1_project_list_json:
+    path:     /api1/projects.json
+    defaults: { _controller: DirectokiBundle:API1Default:projectsJSON }
+
+
+directoki_api1_project_show_json:
+    path:     /api1/project/{projectId}/index.json
+    defaults: { _controller: DirectokiBundle:API1Project:indexJSON }
+
+
+directoki_api1_project_directories_json:
+    path:     /api1/project/{projectId}/directories.json
+    defaults: { _controller: DirectokiBundle:API1Project:directoriesJSON }
+
+
+directoki_api1_project_directory_show_json:
+    path:     /api1/project/{projectId}/directory/{directoryId}/index.json
+    defaults: { _controller: DirectokiBundle:API1ProjectDirectory:indexJSON }
+
+directoki_api1_project_directory_field_list_json:
+    path:     /api1/project/{projectId}/directory/{directoryId}/fields.json
+    defaults: { _controller: DirectokiBundle:API1ProjectDirectory:fieldsJSON }
+
+directoki_api1_project_directory_field_list_jsonp:
+    path:     /api1/project/{projectId}/directory/{directoryId}/fields.jsonp
+    defaults: { _controller: DirectokiBundle:API1ProjectDirectory:fieldsJSONP }
+
+directoki_api1_project_directory_record_list_json:
+    path:     /api1/project/{projectId}/directory/{directoryId}/records.json
+    defaults: { _controller: DirectokiBundle:API1ProjectDirectory:recordsJSON }
+
+directoki_api1_project_directory_new_record_json:
+    path:     /api1/project/{projectId}/directory/{directoryId}/newRecord.json
+    defaults: { _controller: DirectokiBundle:API1ProjectDirectoryEdit:newRecordJSON }
+
+directoki_api1_project_directory_new_record_jsonp:
+    path:     /api1/project/{projectId}/directory/{directoryId}/newRecord.jsonp
+    defaults: { _controller: DirectokiBundle:API1ProjectDirectoryEdit:newRecordJSONP }
+
+directoki_api1_project_directory_record_show_json:
+    path:     /api1/project/{projectId}/directory/{directoryId}/record/{recordId}/index.json
+    defaults: { _controller: DirectokiBundle:API1ProjectDirectoryRecord:indexJSON }
+
+directoki_api1_project_directory_record_show_jsonp:
+    path:     /api1/project/{projectId}/directory/{directoryId}/record/{recordId}/index.jsonp
+    defaults: { _controller: DirectokiBundle:API1ProjectDirectoryRecord:indexJSONP }
+
+directoki_api1_project_directory_record_edit_json:
+    path:     /api1/project/{projectId}/directory/{directoryId}/record/{recordId}/edit.json
+    defaults: { _controller: DirectokiBundle:API1ProjectDirectoryRecordEdit:editJSON }
+
+directoki_api1_project_directory_record_edit_jsonp:
+    path:     /api1/project/{projectId}/directory/{directoryId}/record/{recordId}/edit.jsonp
+    defaults: { _controller: DirectokiBundle:API1ProjectDirectoryRecordEdit:editJSONP }
+
+directoki_api1_project_directory_record_new_report_jsonp:
+    path:     /api1/project/{projectId}/directory/{directoryId}/record/{recordId}/newReport.jsonp
+    defaults: { _controller: DirectokiBundle:API1ProjectDirectoryRecordEdit:newReportJSONP }

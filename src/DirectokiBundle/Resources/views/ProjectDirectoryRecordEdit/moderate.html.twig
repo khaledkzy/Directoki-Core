@@ -1,0 +1,128 @@
+{##
+#  @license 3-clause BSD
+#  @link https://github.com/Directoki/Directoki-Core/blob/master/LICENSE.txt
+##}
+
+
+{% extends 'DirectokiBundle::base.html.twig' %}
+
+{% block title %}Welcome{% endblock %}
+
+{% block main %}
+
+
+	<ol class="breadcrumb">
+		<li>Project: {{  project.title }}</li>
+		<li>Directory: {{  directory.title }}</li>
+		<li>Record: {{  record.publicId }}</li>
+		<li class="active">Moderate</li>
+	</ol>
+
+	<h1>Moderate Record: {{   record.publicId }}</h1>
+
+	<form method="post">
+
+		<h2>State</h2>
+
+		{% if recordHasStates %}
+			<table class="table table-striped">
+				<thead>
+				<tr>
+					<th>New Value</th>
+					<th>Comment</th>
+					<th>Details</th>
+					<th>&nbsp;</th>
+				</tr>
+				</thead>
+				<tbody>
+				{%  for recordHasState in recordHasStates %}
+					<tr>
+						<td>
+							{{  recordHasState.state }}
+						</td>
+						<td>
+							{{  recordHasState.creationEvent.comment | nl2br }}
+						</td>
+						<td>
+							<div>{{ recordHasState.creationEvent.createdAt | date('r') }}</div>
+							{%  if recordHasState.creationEvent.contact %}<div>{{  recordHasState.creationEvent.contact.email }}</div>{%  endif %}
+							<div>{{ recordHasState.creationEvent.IP }}</div>
+							<div>{{ recordHasState.creationEvent.userAgent }}</div>
+						</td>
+						<td>
+							<div>
+								<label><input type="radio" name="state_{{ recordHasState.id }}" value="" checked="checked">No change</label>
+							</div>
+							<div>
+								<label><input type="radio" name="state_{{ recordHasState.id }}" value="approve">Approve</label>
+							</div>
+							<div>
+								<label><input type="radio" name="state_{{ recordHasState.id }}" value="reject">Reject</label>
+							</div>
+						</td>
+					</tr>
+				{%  endfor %}
+				</tbody>
+			</table>
+		{%  else %}
+			<p>Nothing to Moderate</p>
+		{%  endif %}
+
+
+		{%  if  fields %}
+
+			{%  for field in fields %}
+				<h2>Field: {{  field.title }}</h2>
+
+				{% if  fieldValues[field.publicId] %}
+					<table class="table table-striped">
+						<thead>
+						<tr>
+							<th>New Value</th>
+							<th>Comment</th>
+							<th>Details</th>
+							<th>&nbsp;</th>
+						</tr>
+						</thead>
+						<tbody>
+						{%  for fieldValue in fieldValues[field.publicId] %}
+							<tr>
+								<td>
+									{% include fieldTypeService.getByField(field).viewTemplate with { value: fieldValue } %}
+								</td>
+								<td>
+									{{  fieldValue.creationEvent.comment | nl2br }}
+								</td>
+								<td>
+									<div>{{ fieldValue.creationEvent.createdAt | date('r') }}</div>
+									{%  if fieldValue.creationEvent.contact %}<div>{{  fieldValue.creationEvent.contact.email }}</div>{%  endif %}
+									<div>{{ fieldValue.creationEvent.IP }}</div>
+									<div>{{ fieldValue.creationEvent.userAgent }}</div>
+								</td>
+								<td>
+									<div>
+										<label><input type="radio" name="field_{{ field.publicId }}_{{ fieldValue.id }}" value="" checked="checked">No change</label>
+									</div>
+									<div>
+										<label><input type="radio" name="field_{{ field.publicId }}_{{ fieldValue.id }}" value="approve">Approve</label>
+									</div>
+									<div>
+										<label><input type="radio" name="field_{{ field.publicId }}_{{ fieldValue.id }}" value="reject">Reject</label>
+									</div>
+								</td>
+							</tr>
+						{%  endfor %}
+						</tbody>
+					</table>
+				{%  else %}
+					<p>Nothing to Moderate</p>
+				{%  endif %}
+			{%  endfor %}
+		{% else %}
+			<p>You have no fields</p>
+		{% endif %}
+
+		<input type="submit" value="Save" class="btn btn-warning">
+	</form>
+
+{%  endblock %}

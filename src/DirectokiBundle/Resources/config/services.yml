@@ -1,0 +1,16 @@
+services:
+    directoki.pre_persist.listener:
+        class: DirectokiBundle\EventListener\PrePersistEventListener
+        tags:
+            - { name: doctrine.event_listener, event: prePersist }
+    directoki_field_type_service:
+        class: DirectokiBundle\Service\FieldTypeService
+        arguments: ["@service_container"]
+    directoki_event_builder_service:
+        class: DirectokiBundle\Service\EventBuilderService
+    directoki.project_voter:
+        class: DirectokiBundle\Security\ProjectVoter
+        tags:
+            - { name: security.voter }
+        # small performance boost
+        public: false

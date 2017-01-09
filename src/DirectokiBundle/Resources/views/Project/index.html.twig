@@ -1,0 +1,48 @@
+{##
+#  @license 3-clause BSD
+#  @link https://github.com/Directoki/Directoki-Core/blob/master/LICENSE.txt
+##}
+
+
+{% extends 'DirectokiBundle::base.html.twig' %}
+
+{% block title %}Welcome{% endblock %}
+
+{% block main %}
+
+
+	<ol class="breadcrumb">
+		<li class="active">Project: {{  project.title }}</li>
+	</ol>
+
+	<h1>Project: {{  project.title }}</h1>
+
+
+	{%  if  directories %}
+		<table class="table table-striped">
+			<thead>
+			<tr>
+				<th>Type</th>
+				<th>&nbsp;</th>
+			</tr>
+			</thead>
+			<tbody>
+			{%  for directory in directories %}
+				<tr>
+					<td>
+						{{  directory.title }}
+					</td>
+					<td>
+						<a href="{{  path('directoki_project_directory_show', { 'projectId':project.publicId,'directoryId':directory.publicId }) }}" class="btn btn-default">View</a>
+					</td>
+				</tr>
+			{%  endfor %}
+			</tbody>
+		</table>
+	{% else %}
+		<p>You have no directories</p>
+	{% endif %}
+
+	<a href="{{  path('directoki_project_directory_new', { 'projectId':project.publicId  }) }}" class="btn btn-default">New Directory</a>
+
+{%  endblock %}

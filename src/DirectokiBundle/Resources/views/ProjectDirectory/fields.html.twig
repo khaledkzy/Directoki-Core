@@ -1,0 +1,60 @@
+{##
+#  @license 3-clause BSD
+#  @link https://github.com/Directoki/Directoki-Core/blob/master/LICENSE.txt
+##}
+
+
+{% extends 'DirectokiBundle::base.html.twig' %}
+
+{% block title %}Welcome{% endblock %}
+
+{% block main %}
+
+
+	<ol class="breadcrumb">
+		<li>Project: {{  project.title }}</li>
+		<li>Directory: {{  directory.title }}</li>
+		<li>Fields</li>
+	</ol>
+
+	<h1>Fields</h1>
+
+
+	{%  if  fields %}
+		<table class="table table-striped">
+			<thead>
+			<tr>
+				<th>Field</th>
+				<th>Type</th>
+				<th>Sort</th>
+				<th>&nbsp;</th>
+			</tr>
+			</thead>
+			<tbody>
+			{%  for field in fields %}
+				<tr>
+					<td>
+						{{  field.title }}
+					</td>
+					<td>
+						{{ fieldTypeService.getByField(field).label }}
+					</td>
+					<td>
+						{{ field.sort }}
+					</td>
+
+				</tr>
+			{%  endfor %}
+			</tbody>
+		</table>
+	{% else %}
+		<p>You have no fields</p>
+	{% endif %}
+
+	<a href="{{  path('directoki_project_directory_new_string_field', { 'projectId':project.publicId,'directoryId':directory.publicId }) }}" class="btn btn-default">New String Field (Single Line)</a>
+	<a href="{{  path('directoki_project_directory_new_text_field', { 'projectId':project.publicId,'directoryId':directory.publicId }) }}" class="btn btn-default">New Text Field (Multi-line)</a>
+	<a href="{{  path('directoki_project_directory_new_boolean_field', { 'projectId':project.publicId,'directoryId':directory.publicId }) }}" class="btn btn-default">New Boolean Field</a>
+	<a href="{{  path('directoki_project_directory_new_latlng_field', { 'projectId':project.publicId,'directoryId':directory.publicId }) }}" class="btn btn-default">New Lat/Lng Field</a>
+
+
+{%  endblock %}

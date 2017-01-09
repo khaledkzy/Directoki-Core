@@ -1,0 +1,103 @@
+{##
+#  @license 3-clause BSD
+#  @link https://github.com/Directoki/Directoki-Core/blob/master/LICENSE.txt
+##}
+
+
+{% extends 'DirectokiBundle::base.html.twig' %}
+
+{% block title %}Welcome{% endblock %}
+
+{% block main %}
+
+
+	<ol class="breadcrumb">
+		<li>Project: {{  project.title }}</li>
+		<li>Directory: {{  directory.title }}</li>
+		<li class="active">Record: {{  record.publicId }}</li>
+	</ol>
+
+	<h1>Record: {{   record.publicId }}</h1>
+
+	<p>
+		State:
+		{%  if state.stateDraft %}
+			Draft
+		{%  elseif state.statePublished %}
+			Published
+		{%  elseif state.stateDeleted %}
+			Deleted
+		{%  endif %}
+
+		<a href="{{  path('directoki_project_directory_record_state_edit', { 'projectId':project.publicId,'directoryId':directory.publicId, 'recordId':record.publicId }) }}" class="btn btn-default">Edit</a>
+	</p>
+
+	{%  if  fields %}
+		<table class="table table-striped">
+			<thead>
+			<tr>
+				<th>Field</th>
+				<th>Value</th>
+				<th>&nbsp;</th>
+			</tr>
+			</thead>
+			<tbody>
+			{%  for field in fields %}
+				<tr>
+					<td>
+						{{  field.title }}
+					</td>
+					<td>
+						{% include fieldTypeService.getByField(field).viewTemplate with { value: fieldValues[field.publicId] } %}
+					</td>
+					<td>
+						<a href="{{  path('directoki_project_directory_record_field_edit', { 'projectId':project.publicId,'directoryId':directory.publicId, 'recordId':record.publicId, 'fieldId':field.publicId }) }}">Edit</a>
+					</td>
+				</tr>
+			{%  endfor %}
+			</tbody>
+		</table>
+	{% else %}
+		<p>You have no fields</p>
+	{% endif %}
+
+	{%  if  reports %}
+		<ul>
+			{%  for report in reports %}
+				<li>
+					<div>
+						{{  report.description | nl2br }}
+					</div>
+					<div>
+						Reported on {{  report.createdAt|date("r") }}
+						{%  if report.resolvedAt %}
+						, resolved on {{  report.resolvedAt|date("r") }} by {{  report.resolvedBy.username }}
+						{%  else %}
+							<a href="{{  path('directoki_project_directory_record_report_resolve', {'projectId':project.publicId,'directoryId':directory.publicId, 'recordId':record.publicId, 'reportId':report.id}) }}">Resolve!</a>
+						{%  endif %}
+					</div>
+				</li>
+			{%  endfor %}
+		</ul>
+	{% endif %}
+
+	{%  if  notes %}
+		<ul>
+			{%  for note in notes %}
+				<li>
+					<div>
+						{{  note.note | nl2br }}
+					</div>
+					<div>
+						By {{  note.createdBy.username }} on {{  note.createdAt|date("r") }}
+					</div>
+				</li>
+			{%  endfor %}
+		</ul>
+	{% endif %}
+
+	<a href="{{  path('directoki_project_directory_record_note_new', { 'projectId':project.publicId,'directoryId':directory.publicId, 'recordId':record.publicId }) }}" class="btn btn-default">New Note</a>
+	<a href="{{  path('directoki_project_directory_record_contacts', { 'projectId':project.publicId,'directoryId':directory.publicId, 'recordId':record.publicId }) }}" class="btn btn-default">Contacts</a>
+	<a href="{{  path('directoki_project_directory_record_moderate', { 'projectId':project.publicId,'directoryId':directory.publicId, 'recordId':record.publicId }) }}" class="btn btn-default">Moderate</a>
+
+{%  endblock %}
