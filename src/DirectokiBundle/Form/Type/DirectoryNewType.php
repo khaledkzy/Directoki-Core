@@ -18,15 +18,20 @@ class DirectoryNewType extends AbstractType {
     public function buildForm(FormBuilderInterface $builder, array $options) {
 
 
-        $builder->add('title', 'text', array(
+        $builder->add('titleSingular', 'text', array(
             'required' => true,
-            'label'=>'Title',
+            'label'=>'Title (Singular)',
+        ));
+
+        $builder->add('titlePlural', 'text', array(
+            'required' => true,
+            'label'=>'Title (Plural)',
         ));
 
 
         $builder->add('publicId', 'text', array(
             'required' => true,
-            'label'=>'Public Id',
+            'label'=>'Public Id (Singular)',
         ));
 
 

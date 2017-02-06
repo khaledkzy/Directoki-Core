@@ -46,8 +46,9 @@ class RecordRepositoryWithDataBaseTest extends BaseTestWithDataBase
         $this->em->persist($event);
 
         $directory = new Directory();
-        $directory->setPublicId('directory1');
-        $directory->setTitle('Directory1');
+        $directory->setPublicId('resource');
+        $directory->setTitleSingular('Resource');
+        $directory->setTitlePlural('Resources');
         $directory->setProject($project);
         $directory->setCreationEvent($event);
         $this->em->persist($directory);
@@ -81,8 +82,9 @@ class RecordRepositoryWithDataBaseTest extends BaseTestWithDataBase
         $this->em->persist($event);
 
         $directory = new Directory();
-        $directory->setPublicId('directory1');
-        $directory->setTitle('Directory1');
+        $directory->setPublicId('resource');
+        $directory->setTitleSingular('Resource');
+        $directory->setTitlePlural('Resources');
         $directory->setProject($project);
         $directory->setCreationEvent($event);
         $this->em->persist($directory);
@@ -122,8 +124,9 @@ class RecordRepositoryWithDataBaseTest extends BaseTestWithDataBase
         $this->em->persist($event);
 
         $directory = new Directory();
-        $directory->setPublicId('directory1');
-        $directory->setTitle('Directory1');
+        $directory->setPublicId('resource');
+        $directory->setTitleSingular('Resource');
+        $directory->setTitlePlural('Resources');
         $directory->setProject($project);
         $directory->setCreationEvent($event);
         $this->em->persist($directory);
@@ -182,8 +185,9 @@ class RecordRepositoryWithDataBaseTest extends BaseTestWithDataBase
         $this->em->persist($event);
 
         $directory = new Directory();
-        $directory->setPublicId('directory1');
-        $directory->setTitle('Directory1');
+        $directory->setPublicId('resource');
+        $directory->setTitleSingular('Resource');
+        $directory->setTitlePlural('Resources');
         $directory->setProject($project);
         $directory->setCreationEvent($event);
         $this->em->persist($directory);
@@ -237,8 +241,9 @@ class RecordRepositoryWithDataBaseTest extends BaseTestWithDataBase
         $this->em->persist($event);
 
         $directory = new Directory();
-        $directory->setPublicId('directory1');
-        $directory->setTitle('Directory1');
+        $directory->setPublicId('resource');
+        $directory->setTitleSingular('Resource');
+        $directory->setTitlePlural('Resources');
         $directory->setProject($project);
         $directory->setCreationEvent($event);
         $this->em->persist($directory);
@@ -300,8 +305,9 @@ class RecordRepositoryWithDataBaseTest extends BaseTestWithDataBase
         $this->em->persist($event);
 
         $directory = new Directory();
-        $directory->setPublicId('directory1');
-        $directory->setTitle('Directory1');
+        $directory->setPublicId('resource');
+        $directory->setTitleSingular('Resource');
+        $directory->setTitlePlural('Resources');
         $directory->setProject($project);
         $directory->setCreationEvent($event);
         $this->em->persist($directory);
@@ -355,8 +361,9 @@ class RecordRepositoryWithDataBaseTest extends BaseTestWithDataBase
         $this->em->persist($event);
 
         $directory = new Directory();
-        $directory->setPublicId('directory1');
-        $directory->setTitle('Directory1');
+        $directory->setPublicId('resource');
+        $directory->setTitleSingular('Resource');
+        $directory->setTitlePlural('Resources');
         $directory->setProject($project);
         $directory->setCreationEvent($event);
         $this->em->persist($directory);
@@ -427,8 +434,9 @@ class RecordRepositoryWithDataBaseTest extends BaseTestWithDataBase
         $this->em->persist($event);
 
         $directory = new Directory();
-        $directory->setPublicId('directory1');
-        $directory->setTitle('Directory1');
+        $directory->setPublicId('resource');
+        $directory->setTitleSingular('Resource');
+        $directory->setTitlePlural('Resources');
         $directory->setProject($project);
         $directory->setCreationEvent($event);
         $this->em->persist($directory);

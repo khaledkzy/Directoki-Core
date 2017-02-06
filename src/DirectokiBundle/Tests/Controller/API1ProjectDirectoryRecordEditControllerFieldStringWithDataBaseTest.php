@@ -43,8 +43,9 @@ class API1ProjectDirectoryRecordEditControllerFieldStringWithDataBaseTest extend
         $this->em->persist($event);
 
         $directory = new Directory();
-        $directory->setPublicId('directory1');
-        $directory->setTitle('Directory1');
+        $directory->setPublicId('resource');
+        $directory->setTitleSingular('Resource');
+        $directory->setTitlePlural('Resources');
         $directory->setProject($project);
         $directory->setCreationEvent($event);
         $this->em->persist($directory);
@@ -83,7 +84,7 @@ class API1ProjectDirectoryRecordEditControllerFieldStringWithDataBaseTest extend
         # CALL API
         $client = $this->container->get('test.client');
 
-        $client->request('POST', '/api1/project/test1/directory/directory1/record/' . $record->getPublicId() . '/edit.json', array(
+        $client->request('POST', '/api1/project/test1/directory/resource/record/' . $record->getPublicId() . '/edit.json', array(
             'comment' => 'I send a comment but no fields with it.',
             'email' => 'user1@example.com',
         ));
@@ -118,8 +119,9 @@ class API1ProjectDirectoryRecordEditControllerFieldStringWithDataBaseTest extend
         $this->em->persist($event);
 
         $directory = new Directory();
-        $directory->setPublicId('directory1');
-        $directory->setTitle('Directory1');
+        $directory->setPublicId('resource');
+        $directory->setTitleSingular('Resource');
+        $directory->setTitlePlural('Resources');
         $directory->setProject($project);
         $directory->setCreationEvent($event);
         $this->em->persist($directory);
@@ -149,7 +151,7 @@ class API1ProjectDirectoryRecordEditControllerFieldStringWithDataBaseTest extend
         # CALL API
         $client = $this->container->get('test.client');
 
-        $client->request('POST', '/api1/project/test1/directory/directory1/record/' . $record->getPublicId() . '/edit.json', array(
+        $client->request('POST', '/api1/project/test1/directory/resource/record/' . $record->getPublicId() . '/edit.json', array(
             'field_title_value' => 'My Title brings all the moderators to the yard',
             'comment' => 'I make good change!',
             'email' => 'user1@example.com',
@@ -187,8 +189,9 @@ class API1ProjectDirectoryRecordEditControllerFieldStringWithDataBaseTest extend
         $this->em->persist($event);
 
         $directory = new Directory();
-        $directory->setPublicId('directory1');
-        $directory->setTitle('Directory1');
+        $directory->setPublicId('resource');
+        $directory->setTitleSingular('Resource');
+        $directory->setTitlePlural('Resources');
         $directory->setProject($project);
         $directory->setCreationEvent($event);
         $this->em->persist($directory);
@@ -218,7 +221,7 @@ class API1ProjectDirectoryRecordEditControllerFieldStringWithDataBaseTest extend
         # CALL API
         $client = $this->container->get('test.client');
 
-        $client->request('POST', '/api1/project/test1/directory/directory1/record/' . $record->getPublicId() . '/edit.json', array(
+        $client->request('POST', '/api1/project/test1/directory/resource/record/' . $record->getPublicId() . '/edit.json', array(
             'field_title_value' => '',
             'comment' => 'I have no idea what to say',
             'email' => 'user1@example.com',
@@ -255,8 +258,9 @@ class API1ProjectDirectoryRecordEditControllerFieldStringWithDataBaseTest extend
         $this->em->persist($event);
 
         $directory = new Directory();
-        $directory->setPublicId('directory1');
-        $directory->setTitle('Directory1');
+        $directory->setPublicId('resource');
+        $directory->setTitleSingular('Resource');
+        $directory->setTitlePlural('Resources');
         $directory->setProject($project);
         $directory->setCreationEvent($event);
         $this->em->persist($directory);
@@ -296,7 +300,7 @@ class API1ProjectDirectoryRecordEditControllerFieldStringWithDataBaseTest extend
         # CALL API
         $client = $this->container->get('test.client');
 
-        $client->request('POST', '/api1/project/test1/directory/directory1/record/' . $record->getPublicId() . '/edit.json', array(
+        $client->request('POST', '/api1/project/test1/directory/resource/record/' . $record->getPublicId() . '/edit.json', array(
             'field_title_value' => 'My Title Rocks!',
             'comment' => 'Rocks needs a !',
             'email' => 'user1@example.com',
@@ -339,8 +343,9 @@ class API1ProjectDirectoryRecordEditControllerFieldStringWithDataBaseTest extend
         $this->em->persist($event);
 
         $directory = new Directory();
-        $directory->setPublicId('directory1');
-        $directory->setTitle('Directory1');
+        $directory->setPublicId('resource');
+        $directory->setTitleSingular('Resource');
+        $directory->setTitlePlural('Resources');
         $directory->setProject($project);
         $directory->setCreationEvent($event);
         $this->em->persist($directory);
@@ -378,7 +383,7 @@ class API1ProjectDirectoryRecordEditControllerFieldStringWithDataBaseTest extend
         # CALL API
         $client = $this->container->get('test.client');
 
-        $client->request('POST', '/api1/project/test1/directory/directory1/record/' . $record->getPublicId() . '/edit.json', array(
+        $client->request('POST', '/api1/project/test1/directory/resource/record/' . $record->getPublicId() . '/edit.json', array(
             'field_title_value' => 'My Title Rocks',
             'comment' => 'I just want my name on this, but I made no change!',
             'email' => 'user1@example.com',

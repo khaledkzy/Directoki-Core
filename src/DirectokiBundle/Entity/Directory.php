@@ -42,9 +42,17 @@ class Directory
     /**
      * @var string
      *
-     * @ORM\Column(name="title", type="string", length=250, nullable=false)
+     * @ORM\Column(name="title_singular", type="string", length=250, nullable=false)
      */
-    private $title;
+    private $titleSingular;
+
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="title_plural", type="string", length=250, nullable=false)
+     */
+    private $titlePlural;
 
 
     /**
@@ -110,21 +118,6 @@ class Directory
         $this->publicId = $publicId;
     }
 
-    /**
-     * @return string
-     */
-    public function getTitle()
-    {
-        return $this->title;
-    }
-
-    /**
-     * @param string $title
-     */
-    public function setTitle($title)
-    {
-        $this->title = $title;
-    }
 
     /**
      * @return \DateTime
@@ -154,6 +147,34 @@ class Directory
      */
     public function setCreationEvent( $creationEvent ) {
         $this->creationEvent = $creationEvent;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTitlePlural() {
+        return $this->titlePlural;
+    }
+
+    /**
+     * @param string $titlePlural
+     */
+    public function setTitlePlural( $titlePlural ) {
+        $this->titlePlural = $titlePlural;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTitleSingular() {
+        return $this->titleSingular;
+    }
+
+    /**
+     * @param mixed $titleSingular
+     */
+    public function setTitleSingular( $titleSingular ) {
+        $this->titleSingular = $titleSingular;
     }
 
 

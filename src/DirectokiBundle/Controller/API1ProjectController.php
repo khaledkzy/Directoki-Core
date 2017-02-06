@@ -79,7 +79,8 @@ class API1ProjectController extends Controller
         foreach($repo->findByProject($this->project) as $directory) {
             $out['directories'][] = array(
                 'id' => $directory->getPublicId(),
-                'title' => $directory->getTitle(),
+                'title_singular' => $directory->getTitleSingular(),
+                'title_plural' => $directory->getTitlePlural(),
             );
         }
 

@@ -30,7 +30,7 @@
 			{%  for directory in directories %}
 				<tr>
 					<td>
-						{{  directory.title }}
+						{{  directory.titlePlural }}
 					</td>
 					<td>
 						<a href="{{  path('directoki_project_directory_show', { 'projectId':project.publicId,'directoryId':directory.publicId }) }}" class="btn btn-default">View</a>

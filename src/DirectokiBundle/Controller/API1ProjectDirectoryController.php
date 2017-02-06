@@ -54,7 +54,8 @@ class API1ProjectDirectoryController extends Controller
             ),
             'directory'=>array(
                 'id'=>$this->directory->getPublicId(),
-                'title'=>$this->directory->getTitle(),
+                'title_singular' => $this->directory->getTitleSingular(),
+                'title_plural' => $this->directory->getTitlePlural(),
             )
         );
 
@@ -82,7 +83,8 @@ class API1ProjectDirectoryController extends Controller
             ),
             'directory'=>array(
                 'id'=>$this->directory->getPublicId(),
-                'title'=>$this->directory->getTitle(),
+                'title_singular' => $this->directory->getTitleSingular(),
+                'title_plural' => $this->directory->getTitlePlural(),
             ),
             'fields'=>array()
         );
@@ -133,7 +135,8 @@ class API1ProjectDirectoryController extends Controller
             ),
             'directory'=>array(
                 'id'=>$this->directory->getPublicId(),
-                'title'=>$this->directory->getTitle(),
+                'title_singular' => $this->directory->getTitleSingular(),
+                'title_plural' => $this->directory->getTitlePlural(),
             ),
             'records'=>array()
         );

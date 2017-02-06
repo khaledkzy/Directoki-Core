@@ -42,8 +42,9 @@ class API1ProjectDirectoryEditControllerFieldStringWithDataBaseTest extends Base
         $this->em->persist($event);
 
         $directory = new Directory();
-        $directory->setPublicId('directory1');
-        $directory->setTitle('Directory1');
+        $directory->setPublicId('resource');
+        $directory->setTitleSingular('Resource');
+        $directory->setTitlePlural('Resources');
         $directory->setProject($project);
         $directory->setCreationEvent($event);
         $this->em->persist($directory);
@@ -63,7 +64,7 @@ class API1ProjectDirectoryEditControllerFieldStringWithDataBaseTest extends Base
         # CALL API
         $client = $this->container->get('test.client');
 
-        $client->request('POST', '/api1/project/test1/directory/directory1/newRecord.json', array(
+        $client->request('POST', '/api1/project/test1/directory/resource/newRecord.json', array(
             'comment' => 'I send a comment but no fields with it.',
             'email' => 'user1@example.com',
         ));
@@ -98,8 +99,9 @@ class API1ProjectDirectoryEditControllerFieldStringWithDataBaseTest extends Base
 
 
         $directory = new Directory();
-        $directory->setPublicId('directory1');
-        $directory->setTitle('Directory1');
+        $directory->setPublicId('resource');
+        $directory->setTitleSingular('Resource');
+        $directory->setTitlePlural('Resources');
         $directory->setCreationEvent($event);
         $directory->setProject($project);
         $this->em->persist($directory);
@@ -119,7 +121,7 @@ class API1ProjectDirectoryEditControllerFieldStringWithDataBaseTest extends Base
         # CALL API
         $client = $this->container->get('test.client');
 
-        $client->request('POST', '/api1/project/test1/directory/directory1/newRecord.json', array(
+        $client->request('POST', '/api1/project/test1/directory/resource/newRecord.json', array(
             'field_title_value' => 'TITLE MINE',
             'comment' => 'I send a comment but no fields with it.',
             'email' => 'user1@example.com',

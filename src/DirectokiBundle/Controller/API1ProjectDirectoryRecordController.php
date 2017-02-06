@@ -67,7 +67,8 @@ class API1ProjectDirectoryRecordController extends Controller
             ),
             'directory' => array(
                 'id'    => $this->directory->getPublicId(),
-                'title' => $this->directory->getTitle(),
+                'title_singular' => $this->directory->getTitleSingular(),
+                'title_plural' => $this->directory->getTitlePlural(),
             ),
             'record'    => array(
                 'id' => $this->record->getPublicId(),
