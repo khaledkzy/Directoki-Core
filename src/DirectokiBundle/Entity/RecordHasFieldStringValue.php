@@ -22,7 +22,7 @@ class RecordHasFieldStringValue extends BaseRecordHasFieldValueMultilingual
     /**
      * @var string
      *
-     * @ORM\Column(name="value", type="string", length=250, nullable=false)
+     * @ORM\Column(name="value", type="text", nullable=false)
      */
     protected $value;
 
