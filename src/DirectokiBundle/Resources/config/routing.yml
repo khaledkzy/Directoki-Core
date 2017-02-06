@@ -38,6 +38,14 @@ directoki_project_directory_new_latlng_field:
     path:     /project/{projectId}/directory/{directoryId}/newField/latlng
     defaults: { _controller: DirectokiBundle:ProjectDirectoryEdit:newLatLngField }
 
+directoki_project_directory_new_email_field:
+    path:     /project/{projectId}/directory/{directoryId}/newField/email
+    defaults: { _controller: DirectokiBundle:ProjectDirectoryEdit:newEmailField }
+
+directoki_project_directory_new_url_field:
+    path:     /project/{projectId}/directory/{directoryId}/newField/url
+    defaults: { _controller: DirectokiBundle:ProjectDirectoryEdit:newURLField }
+
 directoki_project_directory_fields:
     path:     /project/{projectId}/directory/{directoryId}/field
     defaults: { _controller: DirectokiBundle:ProjectDirectory:fields }

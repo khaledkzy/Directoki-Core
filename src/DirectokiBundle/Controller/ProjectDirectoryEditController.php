@@ -8,17 +8,21 @@ use DirectokiBundle\Entity\Record;
 use DirectokiBundle\Entity\RecordHasState;
 use DirectokiBundle\FieldType\BooleanFieldType;
 use DirectokiBundle\FieldType\FieldTypeBoolean;
+use DirectokiBundle\FieldType\FieldTypeEmail;
 use DirectokiBundle\FieldType\FieldTypeLatLng;
 use DirectokiBundle\FieldType\FieldTypeString;
 use DirectokiBundle\FieldType\FieldTypeText;
+use DirectokiBundle\FieldType\FieldTypeURL;
 use DirectokiBundle\FieldType\LatLngFieldType;
 use DirectokiBundle\FieldType\StringFieldType;
 use DirectokiBundle\FieldType\TextFieldType;
 use DirectokiBundle\Form\Type\BooleanFieldNewType;
 use DirectokiBundle\Form\Type\FieldNewBooleanType;
+use DirectokiBundle\Form\Type\FieldNewEmailType;
 use DirectokiBundle\Form\Type\FieldNewLatLngType;
 use DirectokiBundle\Form\Type\FieldNewStringType;
 use DirectokiBundle\Form\Type\FieldNewTextType;
+use DirectokiBundle\Form\Type\FieldNewURLType;
 use DirectokiBundle\Form\Type\RecordNewType;
 use DirectokiBundle\Form\Type\StringFieldNewType;
 use DirectokiBundle\Form\Type\TextFieldNewType;
@@ -53,6 +57,110 @@ class ProjectDirectoryEditController extends ProjectDirectoryController
         $field->setFieldType(FieldTypeString::FIELD_TYPE_INTERNAL);
 
         $form = $this->createForm(new FieldNewStringType(), $field);
+        $request = $this->getRequest();
+        if ($request->getMethod() == 'POST') {
+            $form->handleRequest($request);
+            if ($form->isValid()) {
+
+                $event = $this->get('directoki_event_builder_service')->build(
+                    $this->project,
+                    $this->getUser(),
+                    $this->getRequest(),
+                    null
+                );
+                $doctrine->persist($event);
+
+                $field->setSort($doctrine->getRepository('DirectokiBundle:Field')->getNextFieldSortValue($this->directory));
+                $field->setCreationEvent($event);
+                $doctrine->persist($field);
+
+                $doctrine->flush();
+
+                return $this->redirect($this->generateUrl('directoki_project_directory_fields', array(
+                    'projectId'=>$this->project->getPublicId(),
+                    'directoryId'=>$this->directory->getPublicId()
+                )));
+            }
+        }
+
+
+        return $this->render('DirectokiBundle:ProjectDirectoryEdit:newStringField.html.twig', array(
+            'project' => $this->project,
+            'directory' => $this->directory,
+            'form' => $form->createView(),
+        ));
+
+
+    }
+
+
+    public function newEmailFieldAction($projectId, $directoryId)
+    {
+
+        // build
+        $this->build($projectId, $directoryId);
+        //data
+
+        $doctrine = $this->getDoctrine()->getManager();
+
+
+        $field = new Field();
+        $field->setDirectory($this->directory);
+        $field->setFieldType(FieldTypeEmail::FIELD_TYPE_INTERNAL);
+
+        $form = $this->createForm(new FieldNewEmailType(), $field);
+        $request = $this->getRequest();
+        if ($request->getMethod() == 'POST') {
+            $form->handleRequest($request);
+            if ($form->isValid()) {
+
+                $event = $this->get('directoki_event_builder_service')->build(
+                    $this->project,
+                    $this->getUser(),
+                    $this->getRequest(),
+                    null
+                );
+                $doctrine->persist($event);
+
+                $field->setSort($doctrine->getRepository('DirectokiBundle:Field')->getNextFieldSortValue($this->directory));
+                $field->setCreationEvent($event);
+                $doctrine->persist($field);
+
+                $doctrine->flush();
+
+                return $this->redirect($this->generateUrl('directoki_project_directory_fields', array(
+                    'projectId'=>$this->project->getPublicId(),
+                    'directoryId'=>$this->directory->getPublicId()
+                )));
+            }
+        }
+
+
+        return $this->render('DirectokiBundle:ProjectDirectoryEdit:newStringField.html.twig', array(
+            'project' => $this->project,
+            'directory' => $this->directory,
+            'form' => $form->createView(),
+        ));
+
+
+    }
+
+
+    public function newURLFieldAction($projectId, $directoryId)
+    {
+
+        // build
+        $this->build($projectId, $directoryId);
+        //data
+
+        $doctrine = $this->getDoctrine()->getManager();
+
+
+        $field = new Field();
+        $field->setDirectory($this->directory);
+        $field->setFieldType(FieldTypeURL::FIELD_TYPE_INTERNAL);
+
+        $form = $this->createForm(new FieldNewURLType(), $field);
         $request = $this->getRequest();
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);

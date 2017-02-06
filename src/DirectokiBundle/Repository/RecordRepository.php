@@ -41,6 +41,8 @@ class RecordRepository extends EntityRepository {
                 ' LEFT JOIN r.recordHasFieldStringValues rhfsv WITH rhfsv.refusedAt IS NULL AND rhfsv.approvedAt IS NULL '.
                 ' LEFT JOIN r.recordHasFieldTextValues rhftv WITH rhftv.refusedAt IS NULL AND rhftv.approvedAt IS NULL '.
                 // TODO LatLng
+                // TODO Email
+                // TODO URL
                 ' LEFT JOIN r.recordHasFieldBooleanValues rhfbv WITH rhfbv.refusedAt IS NULL AND rhfbv.approvedAt IS NULL '.
                 // TODO State
                 // TODO Report
