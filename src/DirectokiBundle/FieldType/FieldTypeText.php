@@ -103,14 +103,4 @@ class FieldTypeText extends  BaseFieldType {
     }
 
 
-    public function getEmails( Field $field, Record $record ) {
-        $doctrine = $this->container->get('doctrine')->getManager();
-        $repo = $doctrine->getRepository('DirectokiBundle:RecordHasFieldTextValue');
-        $out = array();
-        foreach($repo->getApprovedFieldValuesWithEmail($field, $record) as $recordHasFieldValue) {
-            $out[$recordHasFieldValue->getCreatedEmail()] = $recordHasFieldValue->getCreatedEmail();
-        }
-        return $out;
-    }
-
 }

@@ -47,6 +47,4 @@ abstract class  BaseFieldType {
 
     public abstract function processAPI1Record(Field $field, Record $record, ParameterBag $parameterBag);
 
-    public abstract function getEmails(Field $field, Record $record);
-
 }

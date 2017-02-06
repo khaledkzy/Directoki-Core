@@ -46,20 +46,5 @@ class RecordHasFieldTextValueRepository extends EntityRepository {
 
     }
 
-    public function getApprovedFieldValuesWithEmail(Field $field, Record $record) {
-
-
-        return $this->getEntityManager()
-                   ->createQuery(
-                       ' SELECT fv FROM DirectokiBundle:RecordHasFieldTextValue fv '.
-                       ' WHERE fv.field = :field AND fv.record = :record AND fv.createdEmail IS NOT NULL AND fv.approvedAt IS NOT NULL  ' .
-                       ' ORDER BY fv.createdAt DESC '
-                   )
-                   ->setParameter('field', $field)
-                   ->setParameter('record', $record)
-                   ->getResult();
-
-
-    }
 
 }

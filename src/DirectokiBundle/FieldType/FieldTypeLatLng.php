@@ -90,9 +90,4 @@ class FieldTypeLatLng extends  BaseFieldType {
         return array();
     }
 
-    public function getEmails( Field $field, Record $record ) {
-        // TODO: Implement getEmails() method.
-        return array();
-    }
-
 }
