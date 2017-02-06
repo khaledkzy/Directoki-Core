@@ -3,24 +3,27 @@
 #  @link https://github.com/Directoki/Directoki-Core/blob/master/LICENSE.txt
 ##}
 
-{%  if value.lat != null and value.lng != null %}{{  value.lat }},{{  value.lng }}{%  endif %}
+{%  if value.lat != null and value.lng != null %}
 
+	{{  value.lat }},{{  value.lng }}
 
-{% if fieldLatLngViewMapID is defined %}
+	{% if fieldLatLngViewMapID is defined %}
 
-{%  else %}
-    {% set fieldLatLngViewMapID = 0 %}
+	{%  else %}
+		{% set fieldLatLngViewMapID = 0 %}
+	{%  endif %}
+
+	{%  set fieldLatLngViewMapID = fieldLatLngViewMapID + 1 %}
+	<div id="fieldLatLngViewMap{{ fieldLatLngViewMapID }}" style="width: 300px; height: 300px;"></div>
+	<script>
+		$(document).ready(function() {
+			var map =  L.map('fieldLatLngViewMap{{ fieldLatLngViewMapID }}').setView([{{ value.lat }}, {{ value.lng }}], 10);
+			L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+				attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+			}).addTo(map);
+		   L.marker([{{ value.lat }}, {{ value.lng }}]).addTo(map);
+		});
+	</script>
+
 {%  endif %}
-
-{%  set fieldLatLngViewMapID = fieldLatLngViewMapID + 1 %}
-<div id="fieldLatLngViewMap{{ fieldLatLngViewMapID }}" style="width: 300px; height: 300px;"></div>
-<script>
-    $(document).ready(function() {
-        var map =  L.map('fieldLatLngViewMap{{ fieldLatLngViewMapID }}').setView([{{ value.lat }}, {{ value.lng }}], 10);
-        L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(map);
-       L.marker([{{ value.lat }}, {{ value.lng }}]).addTo(map);
-    });
-</script>
 
