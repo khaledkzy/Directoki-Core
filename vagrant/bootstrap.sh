@@ -51,6 +51,8 @@ else
     php app/console doctrine:migrations:migrate --no-interaction
 fi
 
+php app/console assetic:dump --env=dev
+
 chown -R www-data:www-data /vagrant/app/cache/prod/
 chown -R www-data:www-data /vagrant/app/cache/dev/
 
