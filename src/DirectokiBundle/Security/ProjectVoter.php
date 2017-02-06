@@ -39,11 +39,21 @@ class ProjectVoter extends Voter {
 
         switch ($attribute) {
             case self::VIEW:
-                // For now, anyone can View
-                return true;
+                // Owner definitely can
+                if ($user instanceof User && $user == $subject->getOwner()) {
+                    return true;
+                }
+
+                // Others can not.
+                return false;
             case self::EDIT:
-                // For now, any registered user can edit!
-                return $user instanceof User;
+                // Owner definitely can
+                if ($user instanceof User && $user == $subject->getOwner()) {
+                    return true;
+                }
+
+                // Others can not.
+                return false;
         }
 
         throw new \LogicException('This code should not be reached!');
