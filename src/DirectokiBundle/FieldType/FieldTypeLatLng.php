@@ -83,10 +83,26 @@ class FieldTypeLatLng extends  BaseFieldType {
         return array('lat'=>$latest->getLat(), 'lng'=>$latest->getLng());
     }
 
-
-
     public function processAPI1Record(Field $field, Record $record = null, ParameterBag $parameterBag) {
-        // TODO
+        if ($parameterBag->has('field_'.$field->getPublicId().'_lat') && $parameterBag->has('field_'.$field->getPublicId().'_lng')) {
+            $currentValueLat = null;
+            $currentValueLng = null;
+            if ( $record !== null ) {
+                $latestValueObject = $this->getLatestFieldValue($field, $record);
+                $currentValueLat = $latestValueObject->getLat();
+                $currentValueLng = $latestValueObject->getLng();
+            }
+            $newValueLat = floatval($parameterBag->get('field_'.$field->getPublicId().'_lat'));
+            $newValueLng = floatval($parameterBag->get('field_'.$field->getPublicId().'_lng'));
+            if ($newValueLat != $currentValueLat || $newValueLng != $currentValueLng) {
+                $newRecordHasFieldValues = new RecordHasFieldLatLngValue();
+                $newRecordHasFieldValues->setRecord($record);
+                $newRecordHasFieldValues->setField($field);
+                $newRecordHasFieldValues->setLat($newValueLat);
+                $newRecordHasFieldValues->setLng($newValueLng);
+                return array($newRecordHasFieldValues);
+            }
+        }
         return array();
     }
 

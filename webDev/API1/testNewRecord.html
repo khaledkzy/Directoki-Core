@@ -66,12 +66,18 @@
 						if (data.responseJSON.fields[i].type == 'string') {
 
 							html += '<input type="text" name="field_'+escapeHTMLAttribute(i)+'_value" value="">';
+						} else if (data.responseJSON.fields[i].type == 'email') {
+
+							html += '<input type="email" name="field_'+escapeHTMLAttribute(i)+'_value" value="">';
+						} else if (data.responseJSON.fields[i].type == 'url') {
+
+							html += '<input type="url" name="field_'+escapeHTMLAttribute(i)+'_value" value="">';
 						} else if (data.responseJSON.fields[i].type == 'text') {
 
 							html += '<textarea name="field_'+escapeHTMLAttribute(i)+'_value"></textarea>';
 						} else if (data.responseJSON.fields[i].type == 'boolean') {
 
-							html += '<input type="checkbox" name="field_'+escapeHTMLAttribute(i)+'_value" >';
+							html += '<input type="checkbox" name="field_'+escapeHTMLAttribute(i)+'_value"  value="true" >';
 
 						} else if (data.responseJSON.fields[i].type == 'latlng') {
 

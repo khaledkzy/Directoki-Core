@@ -84,7 +84,21 @@ class FieldTypeBoolean extends  BaseFieldType {
 
 
     public function processAPI1Record(Field $field, Record $record = null, ParameterBag $parameterBag) {
-        // TODO
+        if ($parameterBag->has('field_'.$field->getPublicId().'_value')) {
+            $currentValue = '';
+            if ( $record !== null ) {
+                $latestValueObject = $this->getLatestFieldValue($field, $record);
+                $currentValue = $latestValueObject->getValue();
+            }
+            $newValue = in_array(trim(strtolower($parameterBag->get('field_'.$field->getPublicId().'_value'))), array('1','y','yes','t','true'));
+            if ($newValue != $currentValue) {
+                $newRecordHasFieldValues = new RecordHasFieldBooleanValue();
+                $newRecordHasFieldValues->setRecord($record);
+                $newRecordHasFieldValues->setField($field);
+                $newRecordHasFieldValues->setValue($newValue);
+                return array($newRecordHasFieldValues);
+            }
+        }
         return array();
     }
 

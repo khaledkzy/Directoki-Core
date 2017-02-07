@@ -74,12 +74,21 @@
 							if (data.responseJSON.fields[i].type == 'string') {
 
 								html += '<input type="text" name="field_' + escapeHTMLAttribute(i) + '_value" value="' + escapeHTMLAttribute(data.responseJSON.fields[i].value.value) + '">';
+
+
+							} else if (data.responseJSON.fields[i].type == 'email') {
+
+								html += '<input type="email" name="field_'+escapeHTMLAttribute(i)+'_value" value="' + escapeHTMLAttribute(data.responseJSON.fields[i].value.value) + '">';
+							} else if (data.responseJSON.fields[i].type == 'url') {
+
+								html += '<input type="url" name="field_'+escapeHTMLAttribute(i)+'_value" value="' + escapeHTMLAttribute(data.responseJSON.fields[i].value.value) + '">';
+
 							} else if (data.responseJSON.fields[i].type == 'text') {
 
 								html += '<textarea name="field_' + escapeHTMLAttribute(i) + '_value">' + escapeHTML(data.responseJSON.fields[i].value.value) + '</textarea>';
 							} else if (data.responseJSON.fields[i].type == 'boolean') {
 
-								html += '<input type="checkbox" name="field_' + escapeHTMLAttribute(i) + '_value" ' + (data.responseJSON.fields[i].value.value ? 'checked="checked" ' : '') + ' >';
+								html += '<input type="checkbox" name="field_' + escapeHTMLAttribute(i) + '_value" value="true" ' + (data.responseJSON.fields[i].value.value ? 'checked="checked" ' : '') + ' >';
 
 							} else if (data.responseJSON.fields[i].type == 'latlng') {
 

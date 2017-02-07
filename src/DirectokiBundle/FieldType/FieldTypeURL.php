@@ -85,7 +85,21 @@ class FieldTypeURL extends  BaseFieldType {
 
 
     public function processAPI1Record(Field $field, Record $record = null, ParameterBag $parameterBag) {
-        // TODO
+        if ($parameterBag->has('field_'.$field->getPublicId().'_value')) {
+            $currentValue = '';
+            if ( $record !== null ) {
+                $latestValueObject = $this->getLatestFieldValue($field, $record);
+                $currentValue = $latestValueObject->getValue();
+            }
+            $newValue = $parameterBag->get('field_'.$field->getPublicId().'_value');
+            if ($newValue != $currentValue) {
+                $newRecordHasFieldValues = new RecordHasFieldURLValue();
+                $newRecordHasFieldValues->setRecord($record);
+                $newRecordHasFieldValues->setField($field);
+                $newRecordHasFieldValues->setValue($newValue);
+                return array($newRecordHasFieldValues);
+            }
+        }
         return array();
     }
 
