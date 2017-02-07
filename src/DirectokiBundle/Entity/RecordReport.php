@@ -49,6 +49,11 @@ class RecordReport
     protected $createdAt;
 
 
+    /**
+     * @ORM\ManyToOne(targetEntity="DirectokiBundle\Entity\Event")
+     * @ORM\JoinColumn(name="creation_event_id", referencedColumnName="id", nullable=false)
+     */
+    protected $creationEvent;
 
     /**
      * @var \DateTime $resolvedAt
@@ -57,12 +62,11 @@ class RecordReport
      */
     protected $resolvedAt;
 
-
     /**
-     * @ORM\ManyToOne(targetEntity="DirectokiBundle\Entity\User")
-     * @ORM\JoinColumn(name="resolved_by", referencedColumnName="id", nullable=true)
+     * @ORM\ManyToOne(targetEntity="DirectokiBundle\Entity\Event")
+     * @ORM\JoinColumn(name="resolution_event_id", referencedColumnName="id", nullable=true)
      */
-    protected $resolvedBy;
+    protected $resolutionEvent;
 
     /**
      * @return mixed
@@ -99,16 +103,14 @@ class RecordReport
     /**
      * @return string
      */
-    public function getDescription()
-    {
+    public function getDescription() {
         return $this->description;
     }
 
     /**
      * @param string $description
      */
-    public function setDescription($description)
-    {
+    public function setDescription( $description ) {
         $this->description = $description;
     }
 
@@ -147,17 +149,29 @@ class RecordReport
     /**
      * @return mixed
      */
-    public function getResolvedBy()
-    {
-        return $this->resolvedBy;
+    public function getCreationEvent() {
+        return $this->creationEvent;
     }
 
     /**
-     * @param mixed $resolvedBy
+     * @param mixed $creationEvent
      */
-    public function setResolvedBy($resolvedBy)
-    {
-        $this->resolvedBy = $resolvedBy;
+    public function setCreationEvent( $creationEvent ) {
+        $this->creationEvent = $creationEvent;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getResolutionEvent() {
+        return $this->resolutionEvent;
+    }
+
+    /**
+     * @param mixed $resolutionEvent
+     */
+    public function setResolutionEvent( $resolutionEvent ) {
+        $this->resolutionEvent = $resolutionEvent;
     }
 
 

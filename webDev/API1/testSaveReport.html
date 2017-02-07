@@ -19,6 +19,9 @@
     <div>
         Report: <textarea name="description"></textarea>
     </div>
+	<div>
+		Email: <input type="email" name="email">
+	</div>
     <div>
         <input type="submit" value="SEND REPORT">
     </div>
@@ -43,7 +46,9 @@
                 '/record/' +
                 $('#ReportForm input[name="record"]').val() +
                 '/newReport.jsonp?q=?'+
-                '&description=' + encodeURIComponent( $('#ReportForm textarea[name="description"]').val() );
+                '&description=' + encodeURIComponent( $('#ReportForm textarea[name="description"]').val()) +
+                '&email=' + encodeURIComponent( $('#ReportForm input[name="email"]').val())
+				;
 
         $.ajax(url, {
             'dataType': 'jsonp',

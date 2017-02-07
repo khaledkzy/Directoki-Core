@@ -8,6 +8,7 @@ use DirectokiBundle\FieldType\StringFieldType;
 use DirectokiBundle\Form\Type\RecordReportResolveType;
 use DirectokiBundle\Security\ProjectVoter;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
@@ -22,7 +23,7 @@ class ProjectDirectoryRecordReportEditController extends ProjectDirectoryRecordR
         $this->denyAccessUnlessGranted(ProjectVoter::EDIT, $this->project);
     }
 
-    public function resolveAction($projectId, $directoryId, $recordId, $reportId) {
+    public function resolveAction($projectId, $directoryId, $recordId, $reportId, Request $request) {
 
 
 
@@ -35,14 +36,24 @@ class ProjectDirectoryRecordReportEditController extends ProjectDirectoryRecordR
 
 
         $form = $this->createForm(new RecordReportResolveType());
-        $request = $this->getRequest();
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
             if ($form->isValid()) {
+
+                $event = $this->get('directoki_event_builder_service')->build(
+                    $this->project,
+                    $this->getUser(),
+                    $request,
+                    $form->get('comment')->getData()
+                );
+                $doctrine->persist($event);
+
                 $this->report->setResolvedAt(new \DateTime());
-                $this->report->setResolvedBy($this->getUser());
+                $this->report->setResolutionEvent($event);
                 $doctrine->persist($this->report);
+
                 $doctrine->flush();
+
                 return $this->redirect($this->generateUrl('directoki_project_directory_record_show', array(
                     'projectId'=>$this->project->getPublicId(),
                     'directoryId'=>$this->directory->getPublicId(),

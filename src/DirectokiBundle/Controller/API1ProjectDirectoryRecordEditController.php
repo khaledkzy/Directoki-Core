@@ -95,7 +95,7 @@ class API1ProjectDirectoryRecordEditController extends API1ProjectDirectoryRecor
 
 
 
-    protected function newReportData($projectId, $directoryId, $recordId, ParameterBag $parameterBag) {
+    protected function newReportData($projectId, $directoryId, $recordId, ParameterBag $parameterBag, Request $request) {
 
         // build
         $this->build( $projectId, $directoryId, $recordId );
@@ -105,11 +105,25 @@ class API1ProjectDirectoryRecordEditController extends API1ProjectDirectoryRecor
         
         if ($parameterBag->get('description')) {
 
+            $event = $this->get('directoki_event_builder_service')->build(
+                $this->project,
+                $this->getUser(),
+                $request,
+                null
+            );
+            $event->setAPIVersion(1);
+            if ($parameterBag->get('email') && filter_var($parameterBag->get('email'), FILTER_VALIDATE_EMAIL)) {
+                $event->setContact( $doctrine->getRepository( 'DirectokiBundle:Contact' )->findOrCreateByEmail($this->project, $parameterBag->get('email')));
+            }
+            $doctrine->persist($event);
+
             $recordReport = new RecordReport();
+            $recordReport->setCreationEvent($event);
             $recordReport->setRecord($this->record);
             $recordReport->setDescription($parameterBag->get('description'));
             $doctrine->persist($recordReport);
-            $doctrine->flush($recordReport);
+
+            $doctrine->flush();
 
         }
 
@@ -120,7 +134,7 @@ class API1ProjectDirectoryRecordEditController extends API1ProjectDirectoryRecor
 
     public function newReportJSONPAction($projectId, $directoryId, $recordId, Request $request) {
         $callback = $request->get('q') ? $request->get('q') : 'callback';
-        $response = new Response($callback."(".json_encode($this->newReportData($projectId, $directoryId, $recordId, $request->query)).");");
+        $response = new Response($callback."(".json_encode($this->newReportData($projectId, $directoryId, $recordId, $request->query, $request)).");");
         $response->headers->set('Content-Type', 'application/javascript');
         return $response;
 

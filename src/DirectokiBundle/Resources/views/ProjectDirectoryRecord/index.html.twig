@@ -70,8 +70,11 @@
 					</div>
 					<div>
 						Reported on {{  report.createdAt|date("r") }}
+						{%  if report.creationEvent.contact %}
+							by {{ report.creationEvent.contact.email }}
+						{%  endif %}
 						{%  if report.resolvedAt %}
-						, resolved on {{  report.resolvedAt|date("r") }} by {{  report.resolvedBy.username }}
+						, resolved on {{  report.resolvedAt|date("r") }} by {{  report.resolutionEvent.user.username }}
 						{%  else %}
 							<a href="{{  path('directoki_project_directory_record_report_resolve', {'projectId':project.publicId,'directoryId':directory.publicId, 'recordId':record.publicId, 'reportId':report.id}) }}">Resolve!</a>
 						{%  endif %}

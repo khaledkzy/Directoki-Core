@@ -19,6 +19,10 @@ class RecordReportResolveType extends AbstractType {
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
 
+        $builder->add('comment', 'textarea', array(
+            'required' => false,
+            'label' => 'Comment'
+        ));
 
 
     }
