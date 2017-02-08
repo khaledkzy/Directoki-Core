@@ -2,7 +2,9 @@
 
 namespace DirectokiBundle\Controller;
 
+use DirectokiBundle\Entity\Directory;
 use DirectokiBundle\Entity\Project;
+use DirectokiBundle\Entity\Record;
 use DirectokiBundle\FieldType\StringFieldType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,7 +25,7 @@ class API1ProjectDirectoryRecordController extends Controller
     /** @var Directory */
     protected $directory;
 
-    /** @var Data */
+    /** @var Record */
     protected $record;
 
     protected function build($projectId, $directoryId, $recordId) {

@@ -3,8 +3,6 @@
 namespace DirectokiBundle\Repository;
 
 use DirectokiBundle\Entity\Contact;
-use DirectokiBundle\Entity\Data;
-use DirectokiBundle\Entity\Directory;
 use DirectokiBundle\Entity\Project;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Mapping as ORM;

@@ -2,7 +2,6 @@
 
 namespace DirectokiBundle\Repository;
 
-use DirectokiBundle\Entity\Data;
 use DirectokiBundle\Entity\Directory;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Mapping as ORM;
