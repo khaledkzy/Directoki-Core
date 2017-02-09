@@ -24,6 +24,7 @@
 		<table class="table table-striped">
 			<thead>
 			<tr>
+				<th>Id</th>
 				<th>Field</th>
 				<th>Type</th>
 				<th>Sort</th>
@@ -33,6 +34,9 @@
 			<tbody>
 			{%  for field in fields %}
 				<tr>
+					<td>
+						{{ field.publicId }}
+					</td>
 					<td>
 						{{  field.title }}
 					</td>
