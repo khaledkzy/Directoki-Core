@@ -76,6 +76,31 @@ class Record
      */
     private $recordHasFieldBooleanValues;
 
+    /**
+     * @ORM\OneToMany(targetEntity="DirectokiBundle\Entity\RecordHasFieldLatLngValue", mappedBy="record")
+     */
+    private $recordHasFieldLatLngValues;
+
+    /**
+     * @ORM\OneToMany(targetEntity="DirectokiBundle\Entity\RecordHasFieldEmailValue", mappedBy="record")
+     */
+    private $recordHasFieldEmailValues;
+
+    /**
+     * @ORM\OneToMany(targetEntity="DirectokiBundle\Entity\RecordHasFieldURLValue", mappedBy="record")
+     */
+    private $recordHasFieldURLValues;
+
+    /**
+     * @ORM\OneToMany(targetEntity="DirectokiBundle\Entity\RecordHasState", mappedBy="record")
+     */
+    private $recordHasStates;
+
+    /**
+     * @ORM\OneToMany(targetEntity="DirectokiBundle\Entity\RecordReport", mappedBy="record")
+     */
+    private $recordReports;
+
 
     /**
      * @return mixed

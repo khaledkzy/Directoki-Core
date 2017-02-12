@@ -9,12 +9,19 @@ use DirectokiBundle\Entity\Field;
 use DirectokiBundle\Entity\Project;
 use DirectokiBundle\Entity\Record;
 use DirectokiBundle\Entity\RecordHasFieldBooleanValue;
+use DirectokiBundle\Entity\RecordHasFieldEmailValue;
+use DirectokiBundle\Entity\RecordHasFieldLatLngValue;
 use DirectokiBundle\Entity\RecordHasFieldStringValue;
 use DirectokiBundle\Entity\RecordHasFieldTextValue;
+use DirectokiBundle\Entity\RecordHasState;
+use DirectokiBundle\Entity\RecordReport;
 use DirectokiBundle\Entity\User;
 use DirectokiBundle\FieldType\FieldTypeBoolean;
+use DirectokiBundle\FieldType\FieldTypeEmail;
+use DirectokiBundle\FieldType\FieldTypeLatLng;
 use DirectokiBundle\FieldType\FieldTypeString;
 use DirectokiBundle\FieldType\FieldTypeText;
+use DirectokiBundle\FieldType\FieldTypeURL;
 use DirectokiBundle\Tests\BaseTestWithDataBase;
 
 
@@ -460,6 +467,272 @@ class RecordRepositoryWithDataBaseTest extends BaseTestWithDataBase
         $fieldBooleanHasValue->setCreationEvent($event);
         $fieldBooleanHasValue->setValue(true);
         $this->em->persist($fieldBooleanHasValue);
+
+        $this->em->flush();
+
+        # TEST
+
+        $records = $this->em->getRepository('DirectokiBundle:Record')->getRecordsNeedingAttention($directory);
+        $this->assertEquals(1, count($records));
+
+    }
+
+
+    function testFieldLatLngModerationNeeded() {
+
+        $user = new User();
+        $user->setEmail('test1@example.com');
+        $user->setPassword('password');
+        $user->setUsername('test1');
+        $this->em->persist($user);
+
+        $project = new Project();
+        $project->setTitle('test1');
+        $project->setPublicId('test1');
+        $project->setOwner($user);
+        $this->em->persist($project);
+
+        $event = new Event();
+        $event->setProject($project);
+        $event->setUser($user);
+        $this->em->persist($event);
+
+        $directory = new Directory();
+        $directory->setPublicId('resource');
+        $directory->setTitleSingular('Resource');
+        $directory->setTitlePlural('Resources');
+        $directory->setProject($project);
+        $directory->setCreationEvent($event);
+        $this->em->persist($directory);
+
+        $field = new Field();
+        $field->setTitle('Map');
+        $field->setPublicId('map');
+        $field->setDirectory($directory);
+        $field->setFieldType(FieldTypeLatLng::FIELD_TYPE_INTERNAL);
+        $field->setCreationEvent($event);
+        $this->em->persist($field);
+
+        $record = new Record();
+        $record->setDirectory($directory);
+        $record->setCreationEvent($event);
+        $this->em->persist($record);
+
+        $fieldLatLngHasValue = new RecordHasFieldLatLngValue();
+        $fieldLatLngHasValue->setField($field);
+        $fieldLatLngHasValue->setRecord($record);
+        $fieldLatLngHasValue->setCreationEvent($event);
+        $fieldLatLngHasValue->setLat(2.3478);
+        $fieldLatLngHasValue->setLng(1.8478);
+        $this->em->persist($fieldLatLngHasValue);
+
+        $this->em->flush();
+
+        # TEST
+
+        $records = $this->em->getRepository('DirectokiBundle:Record')->getRecordsNeedingAttention($directory);
+        $this->assertEquals(1, count($records));
+
+    }
+
+    function testFieldEmailModerationNeeded() {
+
+        $user = new User();
+        $user->setEmail('test1@example.com');
+        $user->setPassword('password');
+        $user->setUsername('test1');
+        $this->em->persist($user);
+
+        $project = new Project();
+        $project->setTitle('test1');
+        $project->setPublicId('test1');
+        $project->setOwner($user);
+        $this->em->persist($project);
+
+        $event = new Event();
+        $event->setProject($project);
+        $event->setUser($user);
+        $this->em->persist($event);
+
+        $directory = new Directory();
+        $directory->setPublicId('resource');
+        $directory->setTitleSingular('Resource');
+        $directory->setTitlePlural('Resources');
+        $directory->setProject($project);
+        $directory->setCreationEvent($event);
+        $this->em->persist($directory);
+
+        $field = new Field();
+        $field->setTitle('Email');
+        $field->setPublicId('email');
+        $field->setDirectory($directory);
+        $field->setFieldType(FieldTypeEmail::FIELD_TYPE_INTERNAL);
+        $field->setCreationEvent($event);
+        $this->em->persist($field);
+
+        $record = new Record();
+        $record->setDirectory($directory);
+        $record->setCreationEvent($event);
+        $this->em->persist($record);
+
+        $fieldEmailHasValue = new RecordHasFieldEmailValue();
+        $fieldEmailHasValue->setField($field);
+        $fieldEmailHasValue->setRecord($record);
+        $fieldEmailHasValue->setCreationEvent($event);
+        $fieldEmailHasValue->setValue('test@example.com');
+        $this->em->persist($fieldEmailHasValue);
+
+        $this->em->flush();
+
+        # TEST
+
+        $records = $this->em->getRepository('DirectokiBundle:Record')->getRecordsNeedingAttention($directory);
+        $this->assertEquals(1, count($records));
+
+    }
+
+
+    function testFieldURLModerationNeeded() {
+
+        $user = new User();
+        $user->setEmail('test1@example.com');
+        $user->setPassword('password');
+        $user->setUsername('test1');
+        $this->em->persist($user);
+
+        $project = new Project();
+        $project->setTitle('test1');
+        $project->setPublicId('test1');
+        $project->setOwner($user);
+        $this->em->persist($project);
+
+        $event = new Event();
+        $event->setProject($project);
+        $event->setUser($user);
+        $this->em->persist($event);
+
+        $directory = new Directory();
+        $directory->setPublicId('resource');
+        $directory->setTitleSingular('Resource');
+        $directory->setTitlePlural('Resources');
+        $directory->setProject($project);
+        $directory->setCreationEvent($event);
+        $this->em->persist($directory);
+
+        $field = new Field();
+        $field->setTitle('Web Page');
+        $field->setPublicId('webpage');
+        $field->setDirectory($directory);
+        $field->setFieldType(FieldTypeURL::FIELD_TYPE_INTERNAL);
+        $field->setCreationEvent($event);
+        $this->em->persist($field);
+
+        $record = new Record();
+        $record->setDirectory($directory);
+        $record->setCreationEvent($event);
+        $this->em->persist($record);
+
+        $fieldURLHasValue = new RecordHasFieldEmailValue();
+        $fieldURLHasValue->setField($field);
+        $fieldURLHasValue->setRecord($record);
+        $fieldURLHasValue->setCreationEvent($event);
+        $fieldURLHasValue->setValue('directokiapp.jmbtechnology.co.uk/');
+        $this->em->persist($fieldURLHasValue);
+
+        $this->em->flush();
+
+        # TEST
+
+        $records = $this->em->getRepository('DirectokiBundle:Record')->getRecordsNeedingAttention($directory);
+        $this->assertEquals(1, count($records));
+
+    }
+
+    function testStateModerationNeeded() {
+
+        $user = new User();
+        $user->setEmail('test1@example.com');
+        $user->setPassword('password');
+        $user->setUsername('test1');
+        $this->em->persist($user);
+
+        $project = new Project();
+        $project->setTitle('test1');
+        $project->setPublicId('test1');
+        $project->setOwner($user);
+        $this->em->persist($project);
+
+        $event = new Event();
+        $event->setProject($project);
+        $event->setUser($user);
+        $this->em->persist($event);
+
+        $directory = new Directory();
+        $directory->setPublicId('resource');
+        $directory->setTitleSingular('Resource');
+        $directory->setTitlePlural('Resources');
+        $directory->setProject($project);
+        $directory->setCreationEvent($event);
+        $this->em->persist($directory);
+
+
+        $record = new Record();
+        $record->setDirectory($directory);
+        $record->setCreationEvent($event);
+        $this->em->persist($record);
+
+        $recordHasState = new RecordHasState();
+        $recordHasState->setCreationEvent($event);
+        $recordHasState->setRecord($record);
+        $recordHasState->setState(RecordHasState::STATE_PUBLISHED);
+        $this->em->persist($recordHasState);
+
+        $this->em->flush();
+
+        # TEST
+
+        $records = $this->em->getRepository('DirectokiBundle:Record')->getRecordsNeedingAttention($directory);
+        $this->assertEquals(1, count($records));
+
+    }
+
+    function testReportModerationNeeded() {
+
+        $user = new User();
+        $user->setEmail('test1@example.com');
+        $user->setPassword('password');
+        $user->setUsername('test1');
+        $this->em->persist($user);
+
+        $project = new Project();
+        $project->setTitle('test1');
+        $project->setPublicId('test1');
+        $project->setOwner($user);
+        $this->em->persist($project);
+
+        $event = new Event();
+        $event->setProject($project);
+        $event->setUser($user);
+        $this->em->persist($event);
+
+        $directory = new Directory();
+        $directory->setPublicId('resource');
+        $directory->setTitleSingular('Resource');
+        $directory->setTitlePlural('Resources');
+        $directory->setProject($project);
+        $directory->setCreationEvent($event);
+        $this->em->persist($directory);
+
+        $record = new Record();
+        $record->setDirectory($directory);
+        $record->setCreationEvent($event);
+        $this->em->persist($record);
+
+        $recordHasReport = new RecordReport();
+        $recordHasReport->setCreationEvent($event);
+        $recordHasReport->setRecord($record);
+        $recordHasReport->setDescription('Spam.');
+        $this->em->persist($recordHasReport);
 
         $this->em->flush();
 
