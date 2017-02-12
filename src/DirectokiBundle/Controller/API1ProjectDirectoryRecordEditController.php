@@ -56,8 +56,13 @@ class API1ProjectDirectoryRecordEditController extends API1ProjectDirectoryRecor
                 $parameterBag->get('comment')
             );
             $event->setAPIVersion(1);
-            if ($parameterBag->get('email') && filter_var($parameterBag->get('email'), FILTER_VALIDATE_EMAIL)) {
-                $event->setContact( $doctrine->getRepository( 'DirectokiBundle:Contact' )->findOrCreateByEmail($this->project, $parameterBag->get('email')));
+            $email = trim($parameterBag->get('email'));
+            if ($email) {
+                if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                    $event->setContact( $doctrine->getRepository( 'DirectokiBundle:Contact' )->findOrCreateByEmail($this->project, $email));
+                } else {
+                    $this->get('logger')->error('An edit on project '.$this->project->getPublicId().' directory '.$this->directory->getPublicId().' record '.$this->record->getPublicId().' had an email address we did not recognise: ' . $email);
+                }
             }
             $doctrine->persist($event);
 
@@ -112,8 +117,13 @@ class API1ProjectDirectoryRecordEditController extends API1ProjectDirectoryRecor
                 null
             );
             $event->setAPIVersion(1);
-            if ($parameterBag->get('email') && filter_var($parameterBag->get('email'), FILTER_VALIDATE_EMAIL)) {
-                $event->setContact( $doctrine->getRepository( 'DirectokiBundle:Contact' )->findOrCreateByEmail($this->project, $parameterBag->get('email')));
+            $email = trim($parameterBag->get('email'));
+            if ($email) {
+                if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                    $event->setContact( $doctrine->getRepository( 'DirectokiBundle:Contact' )->findOrCreateByEmail($this->project, $email));
+                } else {
+                    $this->get('logger')->error('A new report on project '.$this->project->getPublicId().' directory '.$this->directory->getPublicId().' record '.$this->record->getPublicId().' had an email address we did not recognise: ' . $email);
+                }
             }
             $doctrine->persist($event);
 

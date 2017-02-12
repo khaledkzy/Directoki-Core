@@ -297,6 +297,10 @@ class API1ProjectDirectoryRecordEditControllerFieldStringWithDataBaseTest extend
         $values = $this->em->getRepository('DirectokiBundle:RecordHasFieldStringValue')->findAll();
         $this->assertEquals(1, count($values));
 
+        $contacts = $this->em->getRepository('DirectokiBundle:Contact')->findAll();
+        $this->assertEquals(0, count($contacts));
+
+
         # CALL API
         $client = $this->container->get('test.client');
 
@@ -318,6 +322,11 @@ class API1ProjectDirectoryRecordEditControllerFieldStringWithDataBaseTest extend
 
         $value = $values[1];
         $this->assertEquals("My Title Rocks!", $value->getValue());
+
+        $contacts = $this->em->getRepository('DirectokiBundle:Contact')->findAll();
+        $this->assertEquals(1, count($contacts));
+        $this->assertEquals('user1@example.com', $contacts[0]->getEmail());
+
     }
 
 

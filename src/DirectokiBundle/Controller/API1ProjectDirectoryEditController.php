@@ -52,8 +52,13 @@ class API1ProjectDirectoryEditController extends API1ProjectDirectoryController
                 $parameterBag->get('comment')
             );
             $event->setAPIVersion(1);
-            if ($parameterBag->get('email') && filter_var($parameterBag->get('email'), FILTER_VALIDATE_EMAIL)) {
-                $event->setContact( $doctrine->getRepository( 'DirectokiBundle:Contact' )->findOrCreateByEmail($this->project, $parameterBag->get('email')));
+            $email = trim($parameterBag->get('email'));
+            if ($email) {
+                if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                    $event->setContact( $doctrine->getRepository( 'DirectokiBundle:Contact' )->findOrCreateByEmail($this->project, $email));
+                } else {
+                    $this->get('logger')->error('A new record on project '.$this->project->getPublicId().' directory '.$this->directory->getPublicId().' had an email address we did not recognise: ' . $email);
+                }
             }
             $doctrine->persist($event);
 

@@ -69,10 +69,13 @@ class API1ProjectDirectoryEditControllerFieldStringWithDataBaseTest extends Base
             'email' => 'user1@example.com',
         ));
 
-        # TEST AGAIN
+        # TEST
 
         $values = $this->em->getRepository('DirectokiBundle:RecordHasFieldStringValue')->findAll();
         $this->assertEquals(0, count($values));
+
+        $contacts = $this->em->getRepository('DirectokiBundle:Contact')->findAll();
+        $this->assertEquals(0, count($contacts));
 
     }
 
@@ -127,10 +130,14 @@ class API1ProjectDirectoryEditControllerFieldStringWithDataBaseTest extends Base
             'email' => 'user1@example.com',
         ));
 
-        # TEST AGAIN
+        # TEST
 
         $values = $this->em->getRepository('DirectokiBundle:RecordHasFieldStringValue')->findAll();
         $this->assertEquals(1, count($values));
+
+        $contacts = $this->em->getRepository('DirectokiBundle:Contact')->findAll();
+        $this->assertEquals(1, count($contacts));
+        $this->assertEquals('user1@example.com', $contacts[0]->getEmail());
 
     }
 
