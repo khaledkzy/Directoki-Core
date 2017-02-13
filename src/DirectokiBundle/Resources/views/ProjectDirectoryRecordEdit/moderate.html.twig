@@ -122,7 +122,28 @@
 			<p>You have no fields</p>
 		{% endif %}
 
+		<div style="padding: 40px 0;">
+			<a href="#" onclick="approveAll(); return false;">Approve all</a>
+			<a href="#" onclick="rejectAll(); return false;">Reject all</a>
+		</div>
+
 		<input type="submit" value="Save" class="btn btn-warning">
+
 	</form>
 
 {%  endblock %}
+
+
+{% block javascript %}
+	<script>
+		function approveAll() {
+			$('input[type="radio"][value="approve"]').prop('checked', true);
+		}
+		function rejectAll() {
+			$('input[type="radio"][value="reject"]').prop('checked', true);
+		}
+	</script>
+
+{% endblock %}
+
+
