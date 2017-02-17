@@ -130,7 +130,7 @@ class ProjectDirectoryEditController extends ProjectDirectoryController
         }
 
 
-        return $this->render('DirectokiBundle:ProjectDirectoryEdit:newStringField.html.twig', array(
+        return $this->render('DirectokiBundle:ProjectDirectoryEdit:newEmailField.html.twig', array(
             'project' => $this->project,
             'directory' => $this->directory,
             'form' => $form->createView(),
@@ -182,7 +182,7 @@ class ProjectDirectoryEditController extends ProjectDirectoryController
         }
 
 
-        return $this->render('DirectokiBundle:ProjectDirectoryEdit:newStringField.html.twig', array(
+        return $this->render('DirectokiBundle:ProjectDirectoryEdit:newURLField.html.twig', array(
             'project' => $this->project,
             'directory' => $this->directory,
             'form' => $form->createView(),
