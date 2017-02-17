@@ -12,7 +12,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  *  @license 3-clause BSD
  *  @link https://github.com/Directoki/Directoki-Core/blob/master/LICENSE.txt
  */
-class ProjectDirectoryRecordController extends Controller
+class AdminProjectDirectoryRecordController extends Controller
 {
 
 
@@ -72,7 +72,7 @@ class ProjectDirectoryRecordController extends Controller
         $notes = $doctrine->getRepository('DirectokiBundle:RecordNote')->findByRecord($this->record, array('createdAt'=>'ASC'));
         $reports = $doctrine->getRepository('DirectokiBundle:RecordReport')->findByRecord($this->record, array('createdAt'=>'ASC'));
 
-        return $this->render('DirectokiBundle:ProjectDirectoryRecord:index.html.twig', array(
+        return $this->render('DirectokiBundle:AdminProjectDirectoryRecord:index.html.twig', array(
             'project' => $this->project,
             'directory' => $this->directory,
             'record' => $this->record,
@@ -97,7 +97,7 @@ class ProjectDirectoryRecordController extends Controller
 
 
 
-        return $this->render('DirectokiBundle:ProjectDirectoryRecord:contacts.html.twig', array(
+        return $this->render('DirectokiBundle:AdminProjectDirectoryRecord:contacts.html.twig', array(
             'project' => $this->project,
             'directory' => $this->directory,
             'record' => $this->record,

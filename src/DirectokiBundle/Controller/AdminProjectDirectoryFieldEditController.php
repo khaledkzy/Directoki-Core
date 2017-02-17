@@ -15,7 +15,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  *  @license 3-clause BSD
  *  @link https://github.com/Directoki/Directoki-Core/blob/master/LICENSE.txt
  */
-class ProjectDirectoryFieldEditController extends ProjectDirectoryFieldController {
+class AdminProjectDirectoryFieldEditController extends AdminProjectDirectoryFieldController {
 
     protected function build( $projectId, $directoryId, $fieldId ) {
         parent::build( $projectId, $directoryId, $fieldId );
@@ -59,7 +59,7 @@ class ProjectDirectoryFieldEditController extends ProjectDirectoryFieldControlle
 
                 $doctrine->flush();
 
-                return $this->redirect($this->generateUrl('directoki_project_directory_field_select_values_list', array(
+                return $this->redirect($this->generateUrl('directoki_admin_project_directory_field_select_values_list', array(
                     'projectId'=>$this->project->getPublicId(),
                     'directoryId'=>$this->directory->getPublicId(),
                     'fieldId'=>$this->field->getPublicId(),
@@ -68,7 +68,7 @@ class ProjectDirectoryFieldEditController extends ProjectDirectoryFieldControlle
         }
 
 
-        return $this->render('DirectokiBundle:ProjectDirectoryFieldEdit:newSelectValue.html.twig', array(
+        return $this->render('DirectokiBundle:AdminProjectDirectoryFieldEdit:newSelectValue.html.twig', array(
             'project' => $this->project,
             'directory' => $this->directory,
             'field' => $this->field,

@@ -11,7 +11,7 @@ use DirectokiBundle\Security\ProjectVoter;
  *  @license 3-clause BSD
  *  @link https://github.com/Directoki/Directoki-Core/blob/master/LICENSE.txt
  */
-class ProjectEditController extends ProjectController
+class AdminProjectEditController extends AdminProjectController
 {
 
 
@@ -54,7 +54,7 @@ class ProjectEditController extends ProjectController
 
                 $doctrine->flush();
 
-                return $this->redirect($this->generateUrl('directoki_project_directory_show', array(
+                return $this->redirect($this->generateUrl('directoki_admin_project_directory_show', array(
                     'projectId'=>$this->project->getPublicId(),
                     'directoryId'=>$directory->getPublicId()
                 )));
@@ -62,7 +62,7 @@ class ProjectEditController extends ProjectController
         }
 
 
-        return $this->render('DirectokiBundle:ProjectEdit:newDirectory.html.twig', array(
+        return $this->render('DirectokiBundle:AdminProjectEdit:newDirectory.html.twig', array(
             'project' => $this->project,
             'form' => $form->createView(),
         ));

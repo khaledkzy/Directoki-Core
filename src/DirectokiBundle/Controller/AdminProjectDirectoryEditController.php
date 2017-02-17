@@ -28,7 +28,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  *  @license 3-clause BSD
  *  @link https://github.com/Directoki/Directoki-Core/blob/master/LICENSE.txt
  */
-class ProjectDirectoryEditController extends ProjectDirectoryController
+class AdminProjectDirectoryEditController extends AdminProjectDirectoryController
 {
 
     protected function build($projectId, $directoryId) {
@@ -70,7 +70,7 @@ class ProjectDirectoryEditController extends ProjectDirectoryController
 
                 $doctrine->flush();
 
-                return $this->redirect($this->generateUrl('directoki_project_directory_fields', array(
+                return $this->redirect($this->generateUrl('directoki_admin_project_directory_fields', array(
                     'projectId'=>$this->project->getPublicId(),
                     'directoryId'=>$this->directory->getPublicId()
                 )));
@@ -78,7 +78,7 @@ class ProjectDirectoryEditController extends ProjectDirectoryController
         }
 
 
-        return $this->render('DirectokiBundle:ProjectDirectoryEdit:newStringField.html.twig', array(
+        return $this->render('DirectokiBundle:AdminProjectDirectoryEdit:newStringField.html.twig', array(
             'project' => $this->project,
             'directory' => $this->directory,
             'form' => $form->createView(),
@@ -122,7 +122,7 @@ class ProjectDirectoryEditController extends ProjectDirectoryController
 
                 $doctrine->flush();
 
-                return $this->redirect($this->generateUrl('directoki_project_directory_fields', array(
+                return $this->redirect($this->generateUrl('directoki_admin_project_directory_fields', array(
                     'projectId'=>$this->project->getPublicId(),
                     'directoryId'=>$this->directory->getPublicId()
                 )));
@@ -130,7 +130,7 @@ class ProjectDirectoryEditController extends ProjectDirectoryController
         }
 
 
-        return $this->render('DirectokiBundle:ProjectDirectoryEdit:newEmailField.html.twig', array(
+        return $this->render('DirectokiBundle:AdminProjectDirectoryEdit:newEmailField.html.twig', array(
             'project' => $this->project,
             'directory' => $this->directory,
             'form' => $form->createView(),
@@ -174,7 +174,7 @@ class ProjectDirectoryEditController extends ProjectDirectoryController
 
                 $doctrine->flush();
 
-                return $this->redirect($this->generateUrl('directoki_project_directory_fields', array(
+                return $this->redirect($this->generateUrl('directoki_admin_project_directory_fields', array(
                     'projectId'=>$this->project->getPublicId(),
                     'directoryId'=>$this->directory->getPublicId()
                 )));
@@ -182,7 +182,7 @@ class ProjectDirectoryEditController extends ProjectDirectoryController
         }
 
 
-        return $this->render('DirectokiBundle:ProjectDirectoryEdit:newURLField.html.twig', array(
+        return $this->render('DirectokiBundle:AdminProjectDirectoryEdit:newURLField.html.twig', array(
             'project' => $this->project,
             'directory' => $this->directory,
             'form' => $form->createView(),
@@ -227,7 +227,7 @@ class ProjectDirectoryEditController extends ProjectDirectoryController
 
                 $doctrine->flush();
 
-                return $this->redirect($this->generateUrl('directoki_project_directory_fields', array(
+                return $this->redirect($this->generateUrl('directoki_admin_project_directory_fields', array(
                     'projectId'=>$this->project->getPublicId(),
                     'directoryId'=>$this->directory->getPublicId()
                 )));
@@ -235,7 +235,7 @@ class ProjectDirectoryEditController extends ProjectDirectoryController
         }
 
 
-        return $this->render('DirectokiBundle:ProjectDirectoryEdit:newTextField.html.twig', array(
+        return $this->render('DirectokiBundle:AdminProjectDirectoryEdit:newTextField.html.twig', array(
             'project' => $this->project,
             'directory' => $this->directory,
             'form' => $form->createView(),
@@ -278,7 +278,7 @@ class ProjectDirectoryEditController extends ProjectDirectoryController
 
                 $doctrine->flush();
 
-                return $this->redirect($this->generateUrl('directoki_project_directory_fields', array(
+                return $this->redirect($this->generateUrl('directoki_admin_project_directory_fields', array(
                     'projectId'=>$this->project->getPublicId(),
                     'directoryId'=>$this->directory->getPublicId()
                 )));
@@ -286,7 +286,7 @@ class ProjectDirectoryEditController extends ProjectDirectoryController
         }
 
 
-        return $this->render('DirectokiBundle:ProjectDirectoryEdit:newBooleanField.html.twig', array(
+        return $this->render('DirectokiBundle:AdminProjectDirectoryEdit:newBooleanField.html.twig', array(
             'project' => $this->project,
             'directory' => $this->directory,
             'form' => $form->createView(),
@@ -329,7 +329,7 @@ class ProjectDirectoryEditController extends ProjectDirectoryController
 
                 $doctrine->flush();
 
-                return $this->redirect($this->generateUrl('directoki_project_directory_fields', array(
+                return $this->redirect($this->generateUrl('directoki_admin_project_directory_fields', array(
                     'projectId'=>$this->project->getPublicId(),
                     'directoryId'=>$this->directory->getPublicId()
                 )));
@@ -337,7 +337,7 @@ class ProjectDirectoryEditController extends ProjectDirectoryController
         }
 
 
-        return $this->render('DirectokiBundle:ProjectDirectoryEdit:newLatLngField.html.twig', array(
+        return $this->render('DirectokiBundle:AdminProjectDirectoryEdit:newLatLngField.html.twig', array(
             'project' => $this->project,
             'directory' => $this->directory,
             'form' => $form->createView(),
@@ -380,7 +380,7 @@ class ProjectDirectoryEditController extends ProjectDirectoryController
 
                 $doctrine->flush();
 
-                return $this->redirect($this->generateUrl('directoki_project_directory_fields', array(
+                return $this->redirect($this->generateUrl('directoki_admin_project_directory_fields', array(
                     'projectId'=>$this->project->getPublicId(),
                     'directoryId'=>$this->directory->getPublicId()
                 )));
@@ -388,7 +388,7 @@ class ProjectDirectoryEditController extends ProjectDirectoryController
         }
 
 
-        return $this->render('DirectokiBundle:ProjectDirectoryEdit:newMultiSelectField.html.twig', array(
+        return $this->render('DirectokiBundle:AdminProjectDirectoryEdit:newMultiSelectField.html.twig', array(
             'project' => $this->project,
             'directory' => $this->directory,
             'form' => $form->createView(),
@@ -429,7 +429,7 @@ class ProjectDirectoryEditController extends ProjectDirectoryController
                 $doctrine->persist($event);
                 $doctrine->flush(array($event, $record));
 
-                return $this->redirect($this->generateUrl('directoki_project_directory_record_show', array(
+                return $this->redirect($this->generateUrl('directoki_admin_project_directory_record_show', array(
                     'projectId'=>$this->project->getPublicId(),
                     'directoryId'=>$this->directory->getPublicId(),
                     'recordId'=>$record->getPublicId(),
@@ -438,7 +438,7 @@ class ProjectDirectoryEditController extends ProjectDirectoryController
         }
 
 
-        return $this->render('DirectokiBundle:ProjectDirectoryEdit:newRecord.html.twig', array(
+        return $this->render('DirectokiBundle:AdminProjectDirectoryEdit:newRecord.html.twig', array(
             'project' => $this->project,
             'directory' => $this->directory,
             'form' => $form->createView(),

@@ -29,7 +29,7 @@
 			Deleted
 		{%  endif %}
 
-		<a href="{{  path('directoki_project_directory_record_state_edit', { 'projectId':project.publicId,'directoryId':directory.publicId, 'recordId':record.publicId }) }}" class="btn btn-default">Edit</a>
+		<a href="{{  path('directoki_admin_project_directory_record_state_edit', { 'projectId':project.publicId,'directoryId':directory.publicId, 'recordId':record.publicId }) }}" class="btn btn-default">Edit</a>
 	</p>
 
 	{%  if  fields %}
@@ -57,7 +57,7 @@
 						{%  endif %}
 					</td>
 					<td>
-						<a href="{{  path('directoki_project_directory_record_field_edit', { 'projectId':project.publicId,'directoryId':directory.publicId, 'recordId':record.publicId, 'fieldId':field.publicId }) }}">Edit</a>
+						<a href="{{  path('directoki_admin_project_directory_record_field_edit', { 'projectId':project.publicId,'directoryId':directory.publicId, 'recordId':record.publicId, 'fieldId':field.publicId }) }}">Edit</a>
 					</td>
 				</tr>
 			{%  endfor %}
@@ -82,7 +82,7 @@
 						{%  if report.resolvedAt %}
 						, resolved on {{  report.resolvedAt|date("r") }} by {{  report.resolutionEvent.user.username }}
 						{%  else %}
-							<a href="{{  path('directoki_project_directory_record_report_resolve', {'projectId':project.publicId,'directoryId':directory.publicId, 'recordId':record.publicId, 'reportId':report.id}) }}">Resolve!</a>
+							<a href="{{  path('directoki_admin_project_directory_record_report_resolve', {'projectId':project.publicId,'directoryId':directory.publicId, 'recordId':record.publicId, 'reportId':report.id}) }}">Resolve!</a>
 						{%  endif %}
 					</div>
 				</li>
@@ -105,8 +105,8 @@
 		</ul>
 	{% endif %}
 
-	<a href="{{  path('directoki_project_directory_record_note_new', { 'projectId':project.publicId,'directoryId':directory.publicId, 'recordId':record.publicId }) }}" class="btn btn-default">New Note</a>
-	<a href="{{  path('directoki_project_directory_record_contacts', { 'projectId':project.publicId,'directoryId':directory.publicId, 'recordId':record.publicId }) }}" class="btn btn-default">Contacts</a>
-	<a href="{{  path('directoki_project_directory_record_moderate', { 'projectId':project.publicId,'directoryId':directory.publicId, 'recordId':record.publicId }) }}" class="btn btn-default">Moderate</a>
+	<a href="{{  path('directoki_admin_project_directory_record_note_new', { 'projectId':project.publicId,'directoryId':directory.publicId, 'recordId':record.publicId }) }}" class="btn btn-default">New Note</a>
+	<a href="{{  path('directoki_admin_project_directory_record_contacts', { 'projectId':project.publicId,'directoryId':directory.publicId, 'recordId':record.publicId }) }}" class="btn btn-default">Contacts</a>
+	<a href="{{  path('directoki_admin_project_directory_record_moderate', { 'projectId':project.publicId,'directoryId':directory.publicId, 'recordId':record.publicId }) }}" class="btn btn-default">Moderate</a>
 
 {%  endblock %}

@@ -2,9 +2,9 @@
 
 namespace DirectokiBundle\Controller;
 
+use DirectokiBundle\Entity\DataHasStringField;
 use DirectokiBundle\Entity\Project;
-use DirectokiBundle\Entity\RecordReport;
-use DirectokiBundle\FieldType\StringFieldType;
+use DirectokiBundle\Form\Type\DataHasStringFieldType;
 use DirectokiBundle\Security\ProjectVoter;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -13,7 +13,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  *  @license 3-clause BSD
  *  @link https://github.com/Directoki/Directoki-Core/blob/master/LICENSE.txt
  */
-class ProjectDirectoryRecordReportController extends Controller
+class AdminProjectDirectoryRecordFieldController extends Controller
 {
 
 
@@ -26,11 +26,9 @@ class ProjectDirectoryRecordReportController extends Controller
     /** @var Record */
     protected $record;
 
-    /** @var RecordReport */
-    protected $report;
+    protected $field;
 
-    protected function build($projectId, $directoryId, $recordId, $reportId)
-    {
+    protected function build($projectId, $directoryId, $recordId, $fieldId) {
         $doctrine = $this->getDoctrine()->getManager();
         // load
         $repository = $doctrine->getRepository('DirectokiBundle:Project');
@@ -41,23 +39,26 @@ class ProjectDirectoryRecordReportController extends Controller
         $this->denyAccessUnlessGranted(ProjectVoter::VIEW, $this->project);
         // load
         $repository = $doctrine->getRepository('DirectokiBundle:Directory');
-        $this->directory = $repository->findOneBy(array('project' => $this->project, 'publicId' => $directoryId));
+        $this->directory = $repository->findOneBy(array('project'=>$this->project, 'publicId'=>$directoryId));
         if (!$this->directory) {
             throw new  NotFoundHttpException('Not found');
         }
         // load
         $repository = $doctrine->getRepository('DirectokiBundle:Record');
-        $this->record = $repository->findOneBy(array('directory' => $this->directory, 'publicId' => $recordId));
+        $this->record = $repository->findOneBy(array('directory'=>$this->directory, 'publicId'=>$recordId));
         if (!$this->record) {
             throw new  NotFoundHttpException('Not found');
         }
         // load
-        $repository = $doctrine->getRepository('DirectokiBundle:RecordReport');
-        $this->report = $repository->findOneBy(array('record' => $this->record, 'id' => $reportId));
-        if (!$this->report) {
+        $repository = $doctrine->getRepository('DirectokiBundle:Field');
+        $this->field = $repository->findOneBy(array('directory'=>$this->directory, 'publicId'=>$fieldId));
+        if (!$this->field) {
             throw new  NotFoundHttpException('Not found');
         }
     }
 
-}
+    
 
+
+
+}

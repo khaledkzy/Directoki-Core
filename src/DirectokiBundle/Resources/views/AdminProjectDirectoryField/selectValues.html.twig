@@ -49,6 +49,6 @@
 		<p>You have no select values</p>
 	{% endif %}
 
-	<a href="{{  path('directoki_project_directory_field_new_select_value', { 'projectId':project.publicId,'directoryId':directory.publicId, 'fieldId':field.publicId }) }}" class="btn btn-default">New Select Value</a>
+	<a href="{{  path('directoki_admin_project_directory_field_new_select_value', { 'projectId':project.publicId,'directoryId':directory.publicId, 'fieldId':field.publicId }) }}" class="btn btn-default">New Select Value</a>
 
 {%  endblock %}

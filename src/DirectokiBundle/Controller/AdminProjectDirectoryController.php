@@ -11,7 +11,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  *  @license 3-clause BSD
  *  @link https://github.com/Directoki/Directoki-Core/blob/master/LICENSE.txt
  */
-class ProjectDirectoryController extends Controller
+class AdminProjectDirectoryController extends Controller
 {
 
 
@@ -46,7 +46,7 @@ class ProjectDirectoryController extends Controller
         $this->build($projectId, $directoryId);
         //data
 
-        return $this->render('DirectokiBundle:ProjectDirectory:index.html.twig', array(
+        return $this->render('DirectokiBundle:AdminProjectDirectory:index.html.twig', array(
             'project' => $this->project,
             'directory' => $this->directory,
         ));
@@ -64,7 +64,7 @@ class ProjectDirectoryController extends Controller
         $repo = $doctrine->getRepository('DirectokiBundle:Record');
         $records = $repo->findByDirectory($this->directory);
 
-        return $this->render('DirectokiBundle:ProjectDirectory:records.html.twig', array(
+        return $this->render('DirectokiBundle:AdminProjectDirectory:records.html.twig', array(
             'project' => $this->project,
             'directory' => $this->directory,
             'records' => $records,
@@ -84,7 +84,7 @@ class ProjectDirectoryController extends Controller
         $repo = $doctrine->getRepository('DirectokiBundle:Record');
         $records = $repo->getRecordsNeedingAttention($this->directory);
 
-        return $this->render('DirectokiBundle:ProjectDirectory:recordsNeedingAttention.html.twig', array(
+        return $this->render('DirectokiBundle:AdminProjectDirectory:recordsNeedingAttention.html.twig', array(
             'project' => $this->project,
             'directory' => $this->directory,
             'records' => $records,
@@ -103,7 +103,7 @@ class ProjectDirectoryController extends Controller
         $repo = $doctrine->getRepository('DirectokiBundle:Field');
         $fields = $repo->findForDirectory($this->directory);
 
-        return $this->render('DirectokiBundle:ProjectDirectory:fields.html.twig', array(
+        return $this->render('DirectokiBundle:AdminProjectDirectory:fields.html.twig', array(
             'project' => $this->project,
             'directory' => $this->directory,
             'fields' => $fields,

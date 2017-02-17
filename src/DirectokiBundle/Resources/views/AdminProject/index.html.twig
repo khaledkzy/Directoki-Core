@@ -33,7 +33,7 @@
 						{{  directory.titlePlural }}
 					</td>
 					<td>
-						<a href="{{  path('directoki_project_directory_show', { 'projectId':project.publicId,'directoryId':directory.publicId }) }}" class="btn btn-default">View</a>
+						<a href="{{  path('directoki_admin_project_directory_show', { 'projectId':project.publicId,'directoryId':directory.publicId }) }}" class="btn btn-default">View</a>
 					</td>
 				</tr>
 			{%  endfor %}
@@ -43,6 +43,6 @@
 		<p>You have no directories</p>
 	{% endif %}
 
-	<a href="{{  path('directoki_project_directory_new', { 'projectId':project.publicId  }) }}" class="btn btn-default">New Directory</a>
+	<a href="{{  path('directoki_admin_project_directory_new', { 'projectId':project.publicId  }) }}" class="btn btn-default">New Directory</a>
 
 {%  endblock %}

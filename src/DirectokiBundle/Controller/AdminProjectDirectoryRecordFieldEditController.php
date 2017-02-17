@@ -7,7 +7,7 @@ use DirectokiBundle\Entity\Event;
  *  @license 3-clause BSD
  *  @link https://github.com/Directoki/Directoki-Core/blob/master/LICENSE.txt
  */
-class ProjectDirectoryRecordFieldEditController extends ProjectDirectoryRecordFieldController
+class AdminProjectDirectoryRecordFieldEditController extends AdminProjectDirectoryRecordFieldController
 {
 
     protected function build($projectId, $directoryId, $recordId, $fieldId) {
@@ -49,7 +49,7 @@ class ProjectDirectoryRecordFieldEditController extends ProjectDirectoryRecordFi
                     $doctrine->flush();
                 }
 
-                return $this->redirect($this->generateUrl('directoki_project_directory_record_show', array(
+                return $this->redirect($this->generateUrl('directoki_admin_project_directory_record_show', array(
                     'projectId'=>$this->project->getPublicId(),
                     'directoryId'=>$this->directory->getPublicId(),
                     'recordId'=>$this->record->getPublicId(),
@@ -58,7 +58,7 @@ class ProjectDirectoryRecordFieldEditController extends ProjectDirectoryRecordFi
         }
 
 
-        return $this->render('DirectokiBundle:ProjectDirectoryRecordFieldEdit:edit.html.twig', array(
+        return $this->render('DirectokiBundle:AdminProjectDirectoryRecordFieldEdit:edit.html.twig', array(
             'project' => $this->project,
             'directory' => $this->directory,
             'record' => $this->record,

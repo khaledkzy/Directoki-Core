@@ -15,7 +15,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  *  @license 3-clause BSD
  *  @link https://github.com/Directoki/Directoki-Core/blob/master/LICENSE.txt
  */
-class ProjectDirectoryRecordReportEditController extends ProjectDirectoryRecordReportController
+class AdminProjectDirectoryRecordReportEditController extends AdminProjectDirectoryRecordReportController
 {
     protected function build($projectId, $directoryId, $recordId, $reportId)
     {
@@ -54,7 +54,7 @@ class ProjectDirectoryRecordReportEditController extends ProjectDirectoryRecordR
 
                 $doctrine->flush();
 
-                return $this->redirect($this->generateUrl('directoki_project_directory_record_show', array(
+                return $this->redirect($this->generateUrl('directoki_admin_project_directory_record_show', array(
                     'projectId'=>$this->project->getPublicId(),
                     'directoryId'=>$this->directory->getPublicId(),
                     'recordId'=>$this->record->getPublicId(),
@@ -63,7 +63,7 @@ class ProjectDirectoryRecordReportEditController extends ProjectDirectoryRecordR
         }
 
 
-        return $this->render('DirectokiBundle:ProjectDirectoryRecordReportEdit:resolve.html.twig', array(
+        return $this->render('DirectokiBundle:AdminProjectDirectoryRecordReportEdit:resolve.html.twig', array(
             'project' => $this->project,
             'directory' => $this->directory,
             'record' => $this->record,

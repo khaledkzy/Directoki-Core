@@ -19,7 +19,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  *  @license 3-clause BSD
  *  @link https://github.com/Directoki/Directoki-Core/blob/master/LICENSE.txt
  */
-class ProjectDirectoryRecordEditController extends ProjectDirectoryRecordController
+class AdminProjectDirectoryRecordEditController extends AdminProjectDirectoryRecordController
 {
 
     protected function build($projectId, $directoryId, $recordId) {
@@ -99,7 +99,7 @@ class ProjectDirectoryRecordEditController extends ProjectDirectoryRecordControl
                 $doctrine->flush();
                 $updateRecordCacheAction = new UpdateRecordCache($this->container);
                 $updateRecordCacheAction->go($this->record);
-                return $this->redirect($this->generateUrl('directoki_project_directory_record_show', array(
+                return $this->redirect($this->generateUrl('directoki_admin_project_directory_record_show', array(
                     'projectId'=>$this->project->getPublicId(),
                     'directoryId'=>$this->directory->getPublicId(),
                     'recordId'=>$this->record->getPublicId(),
@@ -121,7 +121,7 @@ class ProjectDirectoryRecordEditController extends ProjectDirectoryRecordControl
         $recordHasStates = $doctrine->getRepository('DirectokiBundle:RecordHasState')->findUnmoderatedForRecord($this->record);
 
         // Render!
-        return $this->render('DirectokiBundle:ProjectDirectoryRecordEdit:moderate.html.twig', array(
+        return $this->render('DirectokiBundle:AdminProjectDirectoryRecordEdit:moderate.html.twig', array(
             'project' => $this->project,
             'directory' => $this->directory,
             'record' => $this->record,
@@ -152,7 +152,7 @@ class ProjectDirectoryRecordEditController extends ProjectDirectoryRecordControl
             if ($form->isValid()) {
                 $doctrine->persist($note);
                 $doctrine->flush();
-                return $this->redirect($this->generateUrl('directoki_project_directory_record_show', array(
+                return $this->redirect($this->generateUrl('directoki_admin_project_directory_record_show', array(
                     'projectId'=>$this->project->getPublicId(),
                     'directoryId'=>$this->directory->getPublicId(),
                     'recordId'=>$this->record->getPublicId(),
@@ -163,7 +163,7 @@ class ProjectDirectoryRecordEditController extends ProjectDirectoryRecordControl
 
 
 
-        return $this->render('DirectokiBundle:ProjectDirectoryRecordEdit:newNote.html.twig', array(
+        return $this->render('DirectokiBundle:AdminProjectDirectoryRecordEdit:newNote.html.twig', array(
             'project' => $this->project,
             'directory' => $this->directory,
             'record' => $this->record,
@@ -215,7 +215,7 @@ class ProjectDirectoryRecordEditController extends ProjectDirectoryRecordControl
                 }
 
 
-                return $this->redirect($this->generateUrl('directoki_project_directory_record_show', array(
+                return $this->redirect($this->generateUrl('directoki_admin_project_directory_record_show', array(
                     'projectId'=>$this->project->getPublicId(),
                     'directoryId'=>$this->directory->getPublicId(),
                     'recordId'=>$this->record->getPublicId(),
@@ -226,7 +226,7 @@ class ProjectDirectoryRecordEditController extends ProjectDirectoryRecordControl
 
 
 
-        return $this->render('DirectokiBundle:ProjectDirectoryRecordEdit:editState.html.twig', array(
+        return $this->render('DirectokiBundle:AdminProjectDirectoryRecordEdit:editState.html.twig', array(
             'project' => $this->project,
             'directory' => $this->directory,
             'record' => $this->record,

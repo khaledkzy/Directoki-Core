@@ -10,7 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
  *  @license 3-clause BSD
  *  @link https://github.com/Directoki/Directoki-Core/blob/master/LICENSE.txt
  */
-class ProjectController extends Controller
+class AdminProjectController extends Controller
 {
 
 
@@ -41,7 +41,7 @@ class ProjectController extends Controller
         $repo = $doctrine->getRepository('DirectokiBundle:Directory');
         $directories = $repo->findByProject($this->project);
 
-        return $this->render('DirectokiBundle:Project:index.html.twig', array(
+        return $this->render('DirectokiBundle:AdminProject:index.html.twig', array(
             'project' => $this->project,
             'directories' => $directories,
         ));

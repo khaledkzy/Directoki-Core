@@ -32,7 +32,7 @@
 						{{  project.title }}
 					</td>
 					<td>
-						<a href="{{  path('directoki_project_show', { 'projectId':project.publicId }) }}" class="btn btn-default">View</a>
+						<a href="{{  path('directoki_admin_project_show', { 'projectId':project.publicId }) }}" class="btn btn-default">View</a>
 					</td>
 				</tr>
 			{%  endfor %}
@@ -44,6 +44,6 @@
 
 
 
-	<a href="{{  path('directoki_project_new') }}" class="btn btn-default">New Project</a>
+	<a href="{{  path('directoki_admin_project_new') }}" class="btn btn-default">New Project</a>
 
 {%  endblock %}

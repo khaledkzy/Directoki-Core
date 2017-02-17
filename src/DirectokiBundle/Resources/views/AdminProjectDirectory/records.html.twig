@@ -40,7 +40,7 @@
 						{{ record.cachedState }}
 					</td>
 					<td>
-						<a href="{{  path('directoki_project_directory_record_show', { 'projectId':project.publicId,'directoryId':directory.publicId, 'recordId':record.publicId }) }}" class="btn btn-default">View</a>
+						<a href="{{  path('directoki_admin_project_directory_record_show', { 'projectId':project.publicId,'directoryId':directory.publicId, 'recordId':record.publicId }) }}" class="btn btn-default">View</a>
 					</td>
 				</tr>
 			{%  endfor %}
@@ -50,7 +50,7 @@
 		<p>You have no records</p>
 	{% endif %}
 
-	<a href="{{  path('directoki_project_directory_new_record', { 'projectId':project.publicId,'directoryId':directory.publicId }) }}" class="btn btn-default">New Record</a>
+	<a href="{{  path('directoki_admin_project_directory_new_record', { 'projectId':project.publicId,'directoryId':directory.publicId }) }}" class="btn btn-default">New Record</a>
 
 
 {%  endblock %}

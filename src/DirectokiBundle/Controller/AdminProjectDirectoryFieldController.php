@@ -12,7 +12,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  *  @license 3-clause BSD
  *  @link https://github.com/Directoki/Directoki-Core/blob/master/LICENSE.txt
  */
-class ProjectDirectoryFieldController extends Controller
+class AdminProjectDirectoryFieldController extends Controller
 {
 
 
@@ -59,7 +59,7 @@ class ProjectDirectoryFieldController extends Controller
         $repo = $doctrine->getRepository('DirectokiBundle:SelectValue');
         $selectValues = $repo->findByField($this->field);
 
-        return $this->render('DirectokiBundle:ProjectDirectoryField:selectValues.html.twig', array(
+        return $this->render('DirectokiBundle:AdminProjectDirectoryField:selectValues.html.twig', array(
             'project' => $this->project,
             'directory' => $this->directory,
             'field' => $this->field,

@@ -10,7 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
  *  @license 3-clause BSD
  *  @link https://github.com/Directoki/Directoki-Core/blob/master/LICENSE.txt
  */
-class DefaultEditController extends Controller
+class AdminDefaultEditController extends Controller
 {
 
 
@@ -32,7 +32,7 @@ class DefaultEditController extends Controller
             if ($form->isValid()) {
                 $doctrine->persist($project);
                 $doctrine->flush();
-                return $this->redirect($this->generateUrl('directoki_project_show', array(
+                return $this->redirect($this->generateUrl('directoki_admin_project_show', array(
                     'projectId'=>$project->getPublicId(),
                 )));
             }
@@ -41,7 +41,7 @@ class DefaultEditController extends Controller
 
 
 
-        return $this->render('DirectokiBundle:DefaultEdit:newProject.html.twig', array(
+        return $this->render('DirectokiBundle:AdminDefaultEdit:newProject.html.twig', array(
             'form' => $form->createView(),
         ));
     }
