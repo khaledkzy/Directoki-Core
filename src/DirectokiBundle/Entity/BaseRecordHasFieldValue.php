@@ -175,20 +175,6 @@ abstract class BaseRecordHasFieldValue
     /**
      * @return mixed
      */
-    public function getCreatedBy() {
-        return $this->createdBy;
-    }
-
-    /**
-     * @param mixed $createdBy
-     */
-    public function setCreatedBy( $createdBy ) {
-        $this->createdBy = $createdBy;
-    }
-
-    /**
-     * @return mixed
-     */
     public function getCreationEvent() {
         return $this->creationEvent;
     }

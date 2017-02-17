@@ -83,6 +83,17 @@
 
 							html += '<input type="text" name="field_'+escapeHTMLAttribute(i)+'_lat" value="">, ';
 							html += '<input type="text" name="field_'+escapeHTMLAttribute(i)+'_lng" value="">';
+
+
+						} else if (data.responseJSON.fields[i].type == 'multiselect') {
+
+							html += '<input type="text" name="field_'+escapeHTMLAttribute(i)+'_add_title[]" value=""><br> ';
+							html += '<input type="text" name="field_'+escapeHTMLAttribute(i)+'_add_title[]" value=""><br> ';
+							html += '<input type="text" name="field_'+escapeHTMLAttribute(i)+'_add_title[]" value=""><br> ';
+							html += '<input type="text" name="field_'+escapeHTMLAttribute(i)+'_add_title[]" value=""><br> ';
+							html += '<input type="text" name="field_'+escapeHTMLAttribute(i)+'_add_title[]" value=""><br> ';
+							html += '<input type="text" name="field_'+escapeHTMLAttribute(i)+'_add_title[]" value=""><br> ';
+
 						}
 
 						html += '</div>';

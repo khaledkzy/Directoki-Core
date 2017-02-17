@@ -30,12 +30,18 @@ abstract class  BaseFieldType {
         $this->container = $container;
     }
 
+    public abstract function isMultipleType();
 
     public abstract function getLabel();
 
-    public abstract function getLatestFieldValue(Field $field, Record $record);
+    public abstract function getLatestFieldValues(Field $field, Record $record);
 
+    /**
+     * @TODO The plan is, the results from this will in future move to getModerationsNeeded() and this method will be removed.
+     */
     public abstract function getFieldValuesToModerate(Field $field, Record $record);
+
+    public abstract function getModerationsNeeded(Field $field, Record $record);
 
     public abstract function getEditFieldForm(Field $field, Record $record);
 
@@ -45,6 +51,6 @@ abstract class  BaseFieldType {
 
     public abstract function getAPIJSON(Field $field, Record $record);
 
-    public abstract function processAPI1Record(Field $field, Record $record, ParameterBag $parameterBag);
+    public abstract function processAPI1Record(Field $field, Record $record, ParameterBag $parameterBag, Event $event);
 
 }

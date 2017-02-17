@@ -1,0 +1,54 @@
+{##
+#  @license 3-clause BSD
+#  @link https://github.com/Directoki/Directoki-Core/blob/master/LICENSE.txt
+##}
+
+
+{% extends 'DirectokiBundle::base.html.twig' %}
+
+{% block title %}Welcome{% endblock %}
+
+{% block main %}
+
+
+	<ol class="breadcrumb">
+		<li>Project: {{  project.title }}</li>
+		<li>Directory: {{  directory.titlePlural }}</li>
+		<li>Field: {{ field.title }}</li>
+	</ol>
+
+	<h1>Select Values</h1>
+
+
+	{%  if  selectValues %}
+		<table class="table table-striped">
+			<thead>
+			<tr>
+				<th>Id</th>
+				<th>Title</th>
+				<th>&nbsp;</th>
+			</tr>
+			</thead>
+			<tbody>
+			{%  for selectValue in selectValues %}
+				<tr>
+					<td>
+						{{ selectValue.publicId }}
+					</td>
+					<td>
+						{{  selectValue.title }}
+					</td>
+					<td>
+						&nbsp;
+					</td>
+				</tr>
+			{%  endfor %}
+			</tbody>
+		</table>
+	{% else %}
+		<p>You have no select values</p>
+	{% endif %}
+
+	<a href="{{  path('directoki_project_directory_field_new_select_value', { 'projectId':project.publicId,'directoryId':directory.publicId, 'fieldId':field.publicId }) }}" class="btn btn-default">New Select Value</a>
+
+{%  endblock %}

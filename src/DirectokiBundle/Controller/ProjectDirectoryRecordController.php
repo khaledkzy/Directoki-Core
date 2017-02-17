@@ -64,8 +64,8 @@ class ProjectDirectoryRecordController extends Controller
 
             $fieldType = $this->container->get('directoki_field_type_service')->getByField($field);
 
-            $fieldValues[$field->getPublicId()] = $fieldType->getLatestFieldValue($field, $this->record);
-
+            $tmp = $fieldType->getLatestFieldValues($field, $this->record);
+            $fieldValues[$field->getPublicId()] = $fieldType->isMultipleType() ? $tmp : (count($tmp) > 0 ? $tmp[0] : null);
 
         }
 

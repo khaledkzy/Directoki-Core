@@ -48,7 +48,13 @@
 						{{  field.title }}
 					</td>
 					<td>
-						{% include fieldTypeService.getByField(field).viewTemplate with { value: fieldValues[field.publicId] } %}
+						{%  if fieldTypeService.getByField(field).isMultipleType %}
+							{%  for fv in fieldValues[field.publicId] %}
+								<div>{% include fieldTypeService.getByField(field).viewTemplate with { value: fv } %}</div>
+							{%  endfor %}
+						{%  else %}
+							{% include fieldTypeService.getByField(field).viewTemplate with { value: fieldValues[field.publicId] } %}
+						{%  endif %}
 					</td>
 					<td>
 						<a href="{{  path('directoki_project_directory_record_field_edit', { 'projectId':project.publicId,'directoryId':directory.publicId, 'recordId':record.publicId, 'fieldId':field.publicId }) }}">Edit</a>

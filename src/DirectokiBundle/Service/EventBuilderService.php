@@ -21,8 +21,18 @@ class EventBuilderService
 {
 
 
-
-
+    /**
+     *
+     * This returns an unsaved entity only, no database writes should be done.
+     * This is because we aren't certain that the event will be used yet - it might not be.
+     *
+     * @param Project $project
+     * @param User $user
+     * @param Request $request
+     * @param null $comment
+     *
+     * @return Event
+     */
     public function build(Project $project, User $user = null, Request $request = null, $comment = null) {
         $event = new Event();
         $event->setProject($project);

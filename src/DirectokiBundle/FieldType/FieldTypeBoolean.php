@@ -25,7 +25,10 @@ class FieldTypeBoolean extends  BaseFieldType {
     const FIELD_TYPE_INTERNAL = 'boolean';
     const FIELD_TYPE_API1 = 'boolean';
 
-    public function getLatestFieldValue(Field $field, Record $record) {
+    public function getLatestFieldValues(Field $field, Record $record) {
+        return array($this->getLatestFieldValue($field, $record));
+    }
+    protected  function getLatestFieldValue(Field $field, Record $record) {
 
         $repo = $this->container->get('doctrine')->getManager()->getRepository('DirectokiBundle:RecordHasFieldBooleanValue');
 
@@ -46,8 +49,17 @@ class FieldTypeBoolean extends  BaseFieldType {
         return $repo->getFieldValuesToModerate($field, $record);
     }
 
+    public function getModerationsNeeded(Field $field, Record $record) {
+        return array();
+    }
+
+
     public function getLabel() {
         return "Boolean";
+    }
+
+    public function isMultipleType() {
+        return false;
     }
 
     public function getEditFieldForm( Field $field, Record $record ) {
@@ -59,12 +71,13 @@ class FieldTypeBoolean extends  BaseFieldType {
 
     public function getEditFieldFormNewRecords( Field $field, Record $record, Event $event, $form, User $user = null, $approve = false ) {
 
+        // TODO see if value has changed before saving!! Can return array() if not.
+
         $newRecordHasFieldValues = new RecordHasFieldBooleanValue();
         $newRecordHasFieldValues->setRecord($record);
         $newRecordHasFieldValues->setField($field);
         $newRecordHasFieldValues->setValue($form->get('value')->getData());
         $newRecordHasFieldValues->setCreationEvent($event);
-        $newRecordHasFieldValues->setCreatedBy($user);
         if ($approve) {
             $newRecordHasFieldValues->setApprovedAt(new \DateTime());
             $newRecordHasFieldValues->setApprovalEvent($event);
@@ -83,7 +96,7 @@ class FieldTypeBoolean extends  BaseFieldType {
     }
 
 
-    public function processAPI1Record(Field $field, Record $record = null, ParameterBag $parameterBag) {
+    public function processAPI1Record(Field $field, Record $record = null, ParameterBag $parameterBag, Event $event) {
         if ($parameterBag->has('field_'.$field->getPublicId().'_value')) {
             $currentValue = '';
             if ( $record !== null ) {
@@ -96,6 +109,7 @@ class FieldTypeBoolean extends  BaseFieldType {
                 $newRecordHasFieldValues->setRecord($record);
                 $newRecordHasFieldValues->setField($field);
                 $newRecordHasFieldValues->setValue($newValue);
+                $newRecordHasFieldValues->setCreationEvent($event);
                 return array($newRecordHasFieldValues);
             }
         }

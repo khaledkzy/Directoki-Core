@@ -46,6 +46,12 @@
 					<td>
 						{{ field.sort }}
 					</td>
+					<td>
+						{# TODO not great to hard code string here, can we get this from constant on class like everything else? #}
+						{%  if field.fieldType == 'multiselect' %}
+							<a href="{{  path('directoki_project_directory_field_select_values_list', { 'projectId':project.publicId,'directoryId':directory.publicId,'fieldId':field.publicId }) }}" class="btn btn-default">Select Values</a>
+						{%  endif %}
+					</td>
 
 				</tr>
 			{%  endfor %}
@@ -61,6 +67,7 @@
 	<a href="{{  path('directoki_project_directory_new_latlng_field', { 'projectId':project.publicId,'directoryId':directory.publicId }) }}" class="btn btn-default">New Lat/Lng Field</a>
 	<a href="{{  path('directoki_project_directory_new_email_field', { 'projectId':project.publicId,'directoryId':directory.publicId }) }}" class="btn btn-default">New Email Field</a>
 	<a href="{{  path('directoki_project_directory_new_url_field', { 'projectId':project.publicId,'directoryId':directory.publicId }) }}" class="btn btn-default">New URL Field</a>
+	<a href="{{  path('directoki_project_directory_new_multi_select_field', { 'projectId':project.publicId,'directoryId':directory.publicId }) }}" class="btn btn-default">New Multi Select Field</a>
 
 
 {%  endblock %}

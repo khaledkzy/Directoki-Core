@@ -25,7 +25,10 @@ class FieldTypeLatLng extends  BaseFieldType {
     const FIELD_TYPE_INTERNAL = 'latlng';
     const FIELD_TYPE_API1 = 'latlng';
 
-    public function getLatestFieldValue(Field $field, Record $record) {
+    public function getLatestFieldValues(Field $field, Record $record) {
+        return array($this->getLatestFieldValue($field, $record));
+    }
+    protected function getLatestFieldValue(Field $field, Record $record) {
 
         $repo = $this->container->get('doctrine')->getManager()->getRepository('DirectokiBundle:RecordHasFieldLatLngValue');
 
@@ -46,8 +49,16 @@ class FieldTypeLatLng extends  BaseFieldType {
         return $repo->getFieldValuesToModerate($field, $record);
     }
 
+    public function getModerationsNeeded(Field $field, Record $record) {
+        return array();
+    }
+
     public function getLabel() {
         return "LatLng";
+    }
+
+    public function isMultipleType() {
+        return false;
     }
 
     public function getEditFieldForm( Field $field, Record $record ) {
@@ -59,13 +70,15 @@ class FieldTypeLatLng extends  BaseFieldType {
 
     public function getEditFieldFormNewRecords( Field $field, Record $record, Event $event, $form, User $user = null, $approve = false ) {
 
+        // TODO see if value has changed before saving!! Can return array() if not.
+
+
         $newRecordHasFieldValues = new RecordHasFieldLatLngValue();
         $newRecordHasFieldValues->setRecord($record);
         $newRecordHasFieldValues->setField($field);
         $newRecordHasFieldValues->setLat($form->get('lat')->getData());
         $newRecordHasFieldValues->setLng($form->get('lng')->getData());
         $newRecordHasFieldValues->setCreationEvent($event);
-        $newRecordHasFieldValues->setCreatedBy($user);
         if ($approve) {
             $newRecordHasFieldValues->setApprovedAt(new \DateTime());
             $newRecordHasFieldValues->setApprovalEvent($event);
@@ -83,7 +96,7 @@ class FieldTypeLatLng extends  BaseFieldType {
         return array('lat'=>$latest->getLat(), 'lng'=>$latest->getLng());
     }
 
-    public function processAPI1Record(Field $field, Record $record = null, ParameterBag $parameterBag) {
+    public function processAPI1Record(Field $field, Record $record = null, ParameterBag $parameterBag, Event $event) {
         if ($parameterBag->has('field_'.$field->getPublicId().'_lat') && $parameterBag->has('field_'.$field->getPublicId().'_lng')) {
             $currentValueLat = null;
             $currentValueLng = null;
@@ -100,6 +113,7 @@ class FieldTypeLatLng extends  BaseFieldType {
                 $newRecordHasFieldValues->setField($field);
                 $newRecordHasFieldValues->setLat($newValueLat);
                 $newRecordHasFieldValues->setLng($newValueLng);
+                $newRecordHasFieldValues->setCreationEvent($event);
                 return array($newRecordHasFieldValues);
             }
         }

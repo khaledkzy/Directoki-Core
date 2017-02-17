@@ -42,6 +42,10 @@ directoki_project_directory_new_email_field:
     path:     /project/{projectId}/directory/{directoryId}/newField/email
     defaults: { _controller: DirectokiBundle:ProjectDirectoryEdit:newEmailField }
 
+directoki_project_directory_new_multi_select_field:
+    path:     /project/{projectId}/directory/{directoryId}/newField/multiSelect
+    defaults: { _controller: DirectokiBundle:ProjectDirectoryEdit:newMultiSelectField }
+
 directoki_project_directory_new_url_field:
     path:     /project/{projectId}/directory/{directoryId}/newField/url
     defaults: { _controller: DirectokiBundle:ProjectDirectoryEdit:newURLField }
@@ -49,6 +53,16 @@ directoki_project_directory_new_url_field:
 directoki_project_directory_fields:
     path:     /project/{projectId}/directory/{directoryId}/field
     defaults: { _controller: DirectokiBundle:ProjectDirectory:fields }
+
+
+directoki_project_directory_field_select_values_list:
+    path:     /project/{projectId}/directory/{directoryId}/field/{fieldId}/selectValues
+    defaults: { _controller: DirectokiBundle:ProjectDirectoryField:selectValues }
+
+directoki_project_directory_field_new_select_value:
+    path:     /project/{projectId}/directory/{directoryId}/field/{fieldId}/newSelectValue
+    defaults: { _controller: DirectokiBundle:ProjectDirectoryFieldEdit:newSelectValue }
+
 
 directoki_project_directory_record_list:
     path:     /project/{projectId}/directory/{directoryId}/record

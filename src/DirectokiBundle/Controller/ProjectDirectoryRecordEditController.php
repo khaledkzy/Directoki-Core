@@ -66,6 +66,16 @@ class ProjectDirectoryRecordEditController extends ProjectDirectoryRecordControl
                         $anythingToSave = true;
                     }
                 }
+                foreach($fieldType->getModerationsNeeded($field, $this->record) as $moderationNeeded) {
+                    $key = "field_". $field->getPublicId(). "_". $moderationNeeded->getFieldValue()->getId();
+                    if ($request->request->get($key) == 'approve') {
+                        $doctrine->persist($moderationNeeded->approve($event));
+                        $anythingToSave = true;
+                    } else if ($request->request->get($key) == 'reject') {
+                        $doctrine->persist($moderationNeeded->reject($event));
+                        $anythingToSave = true;
+                    }
+                }
             }
 
             foreach($doctrine->getRepository('DirectokiBundle:RecordHasState')->findUnmoderatedForRecord($this->record) as $recordHasState) {
@@ -101,9 +111,11 @@ class ProjectDirectoryRecordEditController extends ProjectDirectoryRecordControl
 
         // Load
         $fieldValues = array();
+        $fieldModerationsNeeded = array();
         foreach($fields as $field) {
             $fieldType = $this->container->get('directoki_field_type_service')->getByField($field);
             $fieldValues[$field->getPublicId()] = $fieldType->getFieldValuesToModerate($field, $this->record);
+            $fieldModerationsNeeded[$field->getPublicId()] = $fieldType->getModerationsNeeded($field, $this->record);
         }
 
         $recordHasStates = $doctrine->getRepository('DirectokiBundle:RecordHasState')->findUnmoderatedForRecord($this->record);
@@ -115,6 +127,7 @@ class ProjectDirectoryRecordEditController extends ProjectDirectoryRecordControl
             'record' => $this->record,
             'fields' => $fields,
             'fieldValues' => $fieldValues,
+            'fieldModerationsNeeded' => $fieldModerationsNeeded,
             'fieldTypeService' => $this->container->get('directoki_field_type_service'),
             'recordHasStates' => $recordHasStates,
         ));

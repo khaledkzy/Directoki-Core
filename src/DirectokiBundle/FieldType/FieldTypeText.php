@@ -25,7 +25,10 @@ class FieldTypeText extends  BaseFieldType {
     const FIELD_TYPE_INTERNAL = 'text';
     const FIELD_TYPE_API1 = 'text';
 
-    public function getLatestFieldValue(Field $field, Record $record) {
+    public function getLatestFieldValues(Field $field, Record $record) {
+        return array($this->getLatestFieldValue($field, $record));
+    }
+    protected function getLatestFieldValue(Field $field, Record $record) {
 
         $repo = $this->container->get('doctrine')->getManager()->getRepository('DirectokiBundle:RecordHasFieldTextValue');
 
@@ -46,10 +49,18 @@ class FieldTypeText extends  BaseFieldType {
         return $repo->getFieldValuesToModerate($field, $record);
     }
 
+    public function getModerationsNeeded(Field $field, Record $record) {
+        return array();
+    }
+
     public function getLabel() {
         return "Text";
     }
 
+
+    public function isMultipleType() {
+        return false;
+    }
 
     public function getEditFieldForm( Field $field, Record $record ) {
 
@@ -60,12 +71,14 @@ class FieldTypeText extends  BaseFieldType {
 
     public function getEditFieldFormNewRecords( Field $field, Record $record, Event $event, $form, User $user = null, $approve = false ) {
 
+        // TODO see if value has changed before saving!! Can return array() if not.
+
+
         $newRecordHasFieldValues = new RecordHasFieldTextValue();
         $newRecordHasFieldValues->setRecord($record);
         $newRecordHasFieldValues->setField($field);
         $newRecordHasFieldValues->setValue($form->get('value')->getData());
         $newRecordHasFieldValues->setCreationEvent($event);
-        $newRecordHasFieldValues->setCreatedBy($user);
         if ($approve) {
             $newRecordHasFieldValues->setApprovedAt(new \DateTime());
             $newRecordHasFieldValues->setApprovalEvent($event);
@@ -83,7 +96,7 @@ class FieldTypeText extends  BaseFieldType {
         return array('value'=>$latest->getValue());
     }
 
-    public function processAPI1Record(Field $field, Record $record = null, ParameterBag $parameterBag) {
+    public function processAPI1Record(Field $field, Record $record = null, ParameterBag $parameterBag, Event $event) {
         if ($parameterBag->has('field_'.$field->getPublicId().'_value')) {
             $currentValue = '';
             if ( $record !== null ) {
@@ -96,6 +109,7 @@ class FieldTypeText extends  BaseFieldType {
                 $newRecordHasFieldValues->setRecord($record);
                 $newRecordHasFieldValues->setField($field);
                 $newRecordHasFieldValues->setValue($newValue);
+                $newRecordHasFieldValues->setCreationEvent($event);
                 return array($newRecordHasFieldValues);
             }
         }

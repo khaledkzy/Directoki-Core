@@ -32,22 +32,23 @@ class ProjectDirectoryRecordFieldEditController extends ProjectDirectoryRecordFi
             $form->handleRequest($request);
             if ($form->isValid()) {
 
-                // TODO see if value has changed before saving!!
-
                 $event = $this->get('directoki_event_builder_service')->build(
                     $this->project,
                     $this->getUser(),
                     $this->getRequest(),
                     $form->get('createdComment')->getData()
                 );
-                $doctrine->persist($event);
 
-                $newRecordHasFieldValues = $fieldType->getEditFieldFormNewRecords($this->field, $this->record, $event, $form, $this->getUser(), $form->get('approve')->getData());
-                foreach($newRecordHasFieldValues as $newRecordHasFieldValue) {
-                    $doctrine->persist( $newRecordHasFieldValue );
+                $recordHasFieldValuesToSave = $fieldType->getEditFieldFormNewRecords($this->field, $this->record, $event, $form, $this->getUser(), $form->get('approve')->getData());
+                // There might be nothing to save!
+                if ($recordHasFieldValuesToSave) {
+                    $doctrine->persist($event);
+                    foreach($recordHasFieldValuesToSave as $recordHasFieldValueToSave) {
+                        $doctrine->persist( $recordHasFieldValueToSave );
+                    }
+                    $doctrine->flush();
                 }
 
-                $doctrine->flush();
                 return $this->redirect($this->generateUrl('directoki_project_directory_record_show', array(
                     'projectId'=>$this->project->getPublicId(),
                     'directoryId'=>$this->directory->getPublicId(),

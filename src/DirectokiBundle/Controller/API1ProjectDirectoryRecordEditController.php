@@ -36,6 +36,13 @@ class API1ProjectDirectoryRecordEditController extends API1ProjectDirectoryRecor
         $doctrine = $this->getDoctrine()->getManager();
 
 
+        $event = $this->get('directoki_event_builder_service')->build(
+            $this->project,
+            $this->getUser(),
+            $request,
+            $parameterBag->get('comment')
+        );
+
         $fields = $doctrine->getRepository( 'DirectokiBundle:Field' )->findForDirectory( $this->directory );
 
         $fieldDataToSave = array();
@@ -43,18 +50,12 @@ class API1ProjectDirectoryRecordEditController extends API1ProjectDirectoryRecor
 
             $fieldType = $this->container->get( 'directoki_field_type_service' )->getByField( $field );
 
-            $fieldDataToSave = array_merge($fieldDataToSave, $fieldType->processAPI1Record($field, $this->record, $parameterBag));
+            $fieldDataToSave = array_merge($fieldDataToSave, $fieldType->processAPI1Record($field, $this->record, $parameterBag, $event));
 
         }
 
         if ($fieldDataToSave) {
 
-            $event = $this->get('directoki_event_builder_service')->build(
-                $this->project,
-                $this->getUser(),
-                $request,
-                $parameterBag->get('comment')
-            );
             $event->setAPIVersion(1);
             $email = trim($parameterBag->get('email'));
             if ($email) {
@@ -67,7 +68,6 @@ class API1ProjectDirectoryRecordEditController extends API1ProjectDirectoryRecor
             $doctrine->persist($event);
 
             foreach($fieldDataToSave as $entityToSave) {
-                $entityToSave->setCreationEvent($event);
                 $doctrine->persist($entityToSave);
             }
 

@@ -25,7 +25,10 @@ class FieldTypeURL extends  BaseFieldType {
     const FIELD_TYPE_INTERNAL = 'url';
     const FIELD_TYPE_API1 = 'url';
 
-    public function getLatestFieldValue(Field $field, Record $record) {
+    public function getLatestFieldValues(Field $field, Record $record) {
+        return array($this->getLatestFieldValue($field, $record));
+    }
+    protected function getLatestFieldValue(Field $field, Record $record) {
 
         $repo = $this->container->get('doctrine')->getManager()->getRepository('DirectokiBundle:RecordHasFieldURLValue');
 
@@ -46,8 +49,16 @@ class FieldTypeURL extends  BaseFieldType {
         return $repo->getFieldValuesToModerate($field, $record);
     }
 
+    public function getModerationsNeeded(Field $field, Record $record) {
+        return array();
+    }
+
     public function getLabel() {
         return "URL";
+    }
+
+    public function isMultipleType() {
+        return false;
     }
 
     public function getEditFieldForm( Field $field, Record $record ) {
@@ -59,12 +70,14 @@ class FieldTypeURL extends  BaseFieldType {
 
     public function getEditFieldFormNewRecords( Field $field, Record $record, Event $event, $form, User $user = null, $approve = false ) {
 
+        // TODO see if value has changed before saving!! Can return array() if not.
+
+
         $newRecordHasFieldValues = new RecordHasFieldURLValue();
         $newRecordHasFieldValues->setRecord($record);
         $newRecordHasFieldValues->setField($field);
         $newRecordHasFieldValues->setValue($form->get('value')->getData());
         $newRecordHasFieldValues->setCreationEvent($event);
-        $newRecordHasFieldValues->setCreatedBy($user);
         if ($approve) {
             $newRecordHasFieldValues->setApprovedAt(new \DateTime());
             $newRecordHasFieldValues->setApprovalEvent($event);
@@ -84,7 +97,7 @@ class FieldTypeURL extends  BaseFieldType {
 
 
 
-    public function processAPI1Record(Field $field, Record $record = null, ParameterBag $parameterBag) {
+    public function processAPI1Record(Field $field, Record $record = null, ParameterBag $parameterBag, Event $event) {
         if ($parameterBag->has('field_'.$field->getPublicId().'_value')) {
             $currentValue = '';
             if ( $record !== null ) {
@@ -97,6 +110,7 @@ class FieldTypeURL extends  BaseFieldType {
                 $newRecordHasFieldValues->setRecord($record);
                 $newRecordHasFieldValues->setField($field);
                 $newRecordHasFieldValues->setValue($newValue);
+                $newRecordHasFieldValues->setCreationEvent($event);
                 return array($newRecordHasFieldValues);
             }
         }

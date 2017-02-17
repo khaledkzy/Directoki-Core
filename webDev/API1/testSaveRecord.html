@@ -94,6 +94,24 @@
 
 								html += '<input type="text" name="field_' + escapeHTMLAttribute(i) + '_lat" value="' + escapeHTMLAttribute(data.responseJSON.fields[i].value.lat) + '">, ';
 								html += '<input type="text" name="field_' + escapeHTMLAttribute(i) + '_lng" value="' + escapeHTMLAttribute(data.responseJSON.fields[i].value.lng) + '">';
+
+
+							} else if (data.responseJSON.fields[i].type == 'multiselect') {
+
+								for(j in data.responseJSON.fields[i].value.values) {
+									var selectValue = data.responseJSON.fields[i].value.values[j].value;
+									html += '<input type="checkbox" name="field_'+escapeHTMLAttribute(i)+'_remove_id[]" value="'+escapeHTMLAttribute(selectValue.id)+'">Remove value: '+ escapeHTML(selectValue.title) +'<br> ';
+
+								}
+
+								html += '<input type="text" name="field_'+escapeHTMLAttribute(i)+'_add_title[]" value=""><br> ';
+								html += '<input type="text" name="field_'+escapeHTMLAttribute(i)+'_add_title[]" value=""><br> ';
+								html += '<input type="text" name="field_'+escapeHTMLAttribute(i)+'_add_title[]" value=""><br> ';
+								html += '<input type="text" name="field_'+escapeHTMLAttribute(i)+'_add_title[]" value=""><br> ';
+								html += '<input type="text" name="field_'+escapeHTMLAttribute(i)+'_add_title[]" value=""><br> ';
+								html += '<input type="text" name="field_'+escapeHTMLAttribute(i)+'_add_title[]" value=""><br> ';
+
+
 							}
 
 							html += '</div>';
