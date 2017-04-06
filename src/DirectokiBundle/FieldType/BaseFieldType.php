@@ -53,4 +53,9 @@ abstract class  BaseFieldType {
 
     public abstract function processAPI1Record(Field $field, Record $record, ParameterBag $parameterBag, Event $event);
 
+    /**
+     * @return ImportCSVLineResult|null
+     */
+    public abstract function parseCSVLineData(Field $field, $fieldConfig, $lineData);
+
 }

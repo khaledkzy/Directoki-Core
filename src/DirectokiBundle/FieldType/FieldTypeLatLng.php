@@ -120,4 +120,8 @@ class FieldTypeLatLng extends  BaseFieldType {
         return array();
     }
 
+    public function parseCSVLineData( Field $field, $fieldConfig, $lineData ) {
+        // TODO: Implement parseCSVLineData() method.
+    }
+
 }

@@ -233,5 +233,9 @@ class FieldTypeMultiSelect extends  BaseFieldType
 
     }
 
+    public function parseCSVLineData( Field $field, $fieldConfig, $lineData ) {
+        // TODO: Implement parseCSVLineData() method.
+    }
+
 }
 

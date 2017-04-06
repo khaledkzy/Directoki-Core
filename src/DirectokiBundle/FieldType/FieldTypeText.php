@@ -11,6 +11,7 @@ use DirectokiBundle\Entity\Field;
 use DirectokiBundle\Entity\User;
 use DirectokiBundle\Form\Type\RecordHasFieldTextValueType;
 use DirectokiBundle\Form\Type\RecordHasTextFieldValueType;
+use DirectokiBundle\ImportCSVLineResult;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -114,6 +115,19 @@ class FieldTypeText extends  BaseFieldType {
             }
         }
         return array();
+    }
+
+    public function parseCSVLineData( Field $field, $fieldConfig, $lineData ) {
+
+        $column = intval($fieldConfig['column']);
+        $data  = $lineData[$column];
+
+        if ($data) {
+            return new ImportCSVLineResult(
+                $data
+            );
+        }
+
     }
 
 
