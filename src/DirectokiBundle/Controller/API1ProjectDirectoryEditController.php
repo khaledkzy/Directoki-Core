@@ -70,6 +70,7 @@ class API1ProjectDirectoryEditController extends API1ProjectDirectoryController
             $record->setCachedState(RecordHasState::STATE_DRAFT);
             $doctrine->persist($record);
 
+            // Also record a request to publish this record but don't approve it - moderator will do that.
             $recordHasState = new RecordHasState();
             $recordHasState->setRecord($record);
             $recordHasState->setState(RecordHasState::STATE_PUBLISHED);
