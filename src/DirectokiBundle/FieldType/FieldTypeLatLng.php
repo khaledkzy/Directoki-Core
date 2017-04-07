@@ -6,11 +6,9 @@ namespace DirectokiBundle\FieldType;
 use DirectokiBundle\Entity\Event;
 use DirectokiBundle\Entity\Record;
 use DirectokiBundle\Entity\RecordHasFieldLatLngValue;
-use DirectokiBundle\Entity\RecordHasLatLngFieldValue;
 use DirectokiBundle\Entity\Field;
 use DirectokiBundle\Entity\User;
 use DirectokiBundle\Form\Type\RecordHasFieldLatLngValueType;
-use DirectokiBundle\Form\Type\RecordHasLatLngFieldValueType;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -120,7 +118,7 @@ class FieldTypeLatLng extends  BaseFieldType {
         return array();
     }
 
-    public function parseCSVLineData( Field $field, $fieldConfig, $lineData ) {
+    public function parseCSVLineData( Field $field, $fieldConfig, $lineData,  Record $record, Event $creationEvent, $published=false ) {
         // TODO: Implement parseCSVLineData() method.
     }
 

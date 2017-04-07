@@ -6,13 +6,9 @@ namespace DirectokiBundle\FieldType;
 use DirectokiBundle\Entity\Event;
 use DirectokiBundle\Entity\Record;
 use DirectokiBundle\Entity\RecordHasFieldMultiSelectValue;
-use DirectokiBundle\Entity\RecordHasFieldStringValue;
-use DirectokiBundle\Entity\RecordHasStringFieldValue;
 use DirectokiBundle\Entity\Field;
 use DirectokiBundle\Entity\User;
 use DirectokiBundle\Form\Type\RecordHasFieldMultiSelectValueType;
-use DirectokiBundle\Form\Type\RecordHasFieldStringValueType;
-use DirectokiBundle\Form\Type\RecordHasStringFieldValueType;
 use DirectokiBundle\ModerationNeeded\ModerationNeededRecordHasFieldMultiValueAddition;
 use DirectokiBundle\ModerationNeeded\ModerationNeededRecordHasFieldMultiValueRemoval;
 use Symfony\Component\HttpFoundation\ParameterBag;
@@ -233,7 +229,7 @@ class FieldTypeMultiSelect extends  BaseFieldType
 
     }
 
-    public function parseCSVLineData( Field $field, $fieldConfig, $lineData ) {
+    public function parseCSVLineData( Field $field, $fieldConfig, $lineData,  Record $record, Event $creationEvent, $published=false ) {
         // TODO: Implement parseCSVLineData() method.
     }
 

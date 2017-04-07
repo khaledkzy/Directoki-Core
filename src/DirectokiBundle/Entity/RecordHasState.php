@@ -93,6 +93,9 @@ class RecordHasState
      */
     public function setApprovalEvent( $approvalEvent ) {
         $this->approvalEvent = $approvalEvent;
+        if ($approvalEvent && !$this->approvedAt) {
+            $this->approvedAt = new \DateTime();
+        }
     }
 
     /**
@@ -177,6 +180,9 @@ class RecordHasState
      */
     public function setRefusalEvent( $refusalEvent ) {
         $this->refusalEvent = $refusalEvent;
+        if ($refusalEvent && !$this->refusedAt) {
+            $this->refusedAt = new \DateTime();
+        }
     }
 
     /**

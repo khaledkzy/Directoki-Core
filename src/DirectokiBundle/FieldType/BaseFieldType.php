@@ -56,6 +56,6 @@ abstract class  BaseFieldType {
     /**
      * @return ImportCSVLineResult|null
      */
-    public abstract function parseCSVLineData(Field $field, $fieldConfig, $lineData);
+    public abstract function parseCSVLineData(Field $field, $fieldConfig, $lineData,  Record $record, Event $creationEvent, $published=false);
 
 }

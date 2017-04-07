@@ -6,11 +6,9 @@ namespace DirectokiBundle\FieldType;
 use DirectokiBundle\Entity\Event;
 use DirectokiBundle\Entity\Record;
 use DirectokiBundle\Entity\RecordHasFieldTextValue;
-use DirectokiBundle\Entity\RecordHasTextFieldValue;
 use DirectokiBundle\Entity\Field;
 use DirectokiBundle\Entity\User;
 use DirectokiBundle\Form\Type\RecordHasFieldTextValueType;
-use DirectokiBundle\Form\Type\RecordHasTextFieldValueType;
 use DirectokiBundle\ImportCSVLineResult;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
@@ -117,14 +115,24 @@ class FieldTypeText extends  BaseFieldType {
         return array();
     }
 
-    public function parseCSVLineData( Field $field, $fieldConfig, $lineData ) {
+    public function parseCSVLineData( Field $field, $fieldConfig, $lineData ,  Record $record, Event $creationEvent, $published=false) {
 
         $column = intval($fieldConfig['column']);
         $data  = $lineData[$column];
 
         if ($data) {
+            $newRecordHasFieldValues = new RecordHasFieldTextValue();
+            $newRecordHasFieldValues->setRecord($record);
+            $newRecordHasFieldValues->setField($field);
+            $newRecordHasFieldValues->setValue($data);
+            $newRecordHasFieldValues->setCreationEvent($creationEvent);
+            if ($published) {
+                $newRecordHasFieldValues->setApprovalEvent($creationEvent);
+            }
+
             return new ImportCSVLineResult(
-                $data
+                $data,
+                array($newRecordHasFieldValues)
             );
         }
 

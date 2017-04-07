@@ -6,11 +6,9 @@ namespace DirectokiBundle\FieldType;
 use DirectokiBundle\Entity\Event;
 use DirectokiBundle\Entity\Record;
 use DirectokiBundle\Entity\RecordHasFieldURLValue;
-use DirectokiBundle\Entity\RecordHasURLFieldValue;
 use DirectokiBundle\Entity\Field;
 use DirectokiBundle\Entity\User;
 use DirectokiBundle\Form\Type\RecordHasFieldURLValueType;
-use DirectokiBundle\Form\Type\RecordHasURLFieldValueType;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -117,7 +115,7 @@ class FieldTypeURL extends  BaseFieldType {
         return array();
     }
 
-    public function parseCSVLineData( Field $field, $fieldConfig, $lineData ) {
+    public function parseCSVLineData( Field $field, $fieldConfig, $lineData,  Record $record, Event $creationEvent, $published=false ) {
         // TODO: Implement parseCSVLineData() method.
     }
 

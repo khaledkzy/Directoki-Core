@@ -131,10 +131,13 @@ abstract class BaseRecordHasFieldMultiValue
     }
 
     /**
-     * @param mixed $additionApprovalEvent
+     * @param Event $additionApprovalEvent
      */
-    public function setAdditionApprovalEvent( $additionApprovalEvent ) {
+    public function setAdditionApprovalEvent( Event $additionApprovalEvent = null ) {
         $this->additionApprovalEvent = $additionApprovalEvent;
+        if ($additionApprovalEvent && !$this->additionApprovedAt) {
+            $this->additionApprovedAt = new \DateTime();
+        }
     }
 
     /**
@@ -173,10 +176,13 @@ abstract class BaseRecordHasFieldMultiValue
     }
 
     /**
-     * @param mixed $additionCreationEvent
+     * @param Event $additionCreationEvent
      */
-    public function setAdditionCreationEvent( $additionCreationEvent ) {
+    public function setAdditionCreationEvent(Event $additionCreationEvent = null ) {
         $this->additionCreationEvent = $additionCreationEvent;
+        if ($additionCreationEvent && !$this->additionCreatedAt) {
+            $this->additionCreatedAt = new \DateTime();
+        }
     }
 
     /**
@@ -187,10 +193,13 @@ abstract class BaseRecordHasFieldMultiValue
     }
 
     /**
-     * @param mixed $additionRefusalEvent
+     * @param Event $additionRefusalEvent
      */
-    public function setAdditionRefusalEvent( $additionRefusalEvent ) {
+    public function setAdditionRefusalEvent( Event $additionRefusalEvent = null ) {
         $this->additionRefusalEvent = $additionRefusalEvent;
+        if ($additionRefusalEvent && !$this->additionRefusedAt) {
+            $this->additionRefusedAt = new \DateTime();
+        }
     }
 
     /**
@@ -257,10 +266,13 @@ abstract class BaseRecordHasFieldMultiValue
     }
 
     /**
-     * @param mixed $removalApprovalEvent
+     * @param Event $removalApprovalEvent
      */
-    public function setRemovalApprovalEvent( $removalApprovalEvent ) {
+    public function setRemovalApprovalEvent(Event $removalApprovalEvent = null ) {
         $this->removalApprovalEvent = $removalApprovalEvent;
+        if ($removalApprovalEvent && !$this->removalApprovedAt) {
+            $this->removalApprovedAt = new \DateTime();
+        }
     }
 
     /**
@@ -299,10 +311,13 @@ abstract class BaseRecordHasFieldMultiValue
     }
 
     /**
-     * @param mixed $removalCreationEvent
+     * @param Event $removalCreationEvent
      */
-    public function setRemovalCreationEvent( $removalCreationEvent ) {
+    public function setRemovalCreationEvent(Event $removalCreationEvent  = null) {
         $this->removalCreationEvent = $removalCreationEvent;
+        if ($removalCreationEvent && !$this->removalCreatedAt) {
+            $this->removalCreatedAt = new \DateTime();
+        }
     }
 
     /**
@@ -313,10 +328,13 @@ abstract class BaseRecordHasFieldMultiValue
     }
 
     /**
-     * @param mixed $removalRefusalEvent
+     * @param Event $removalRefusalEvent
      */
-    public function setRemovalRefusalEvent( $removalRefusalEvent ) {
+    public function setRemovalRefusalEvent(Event $removalRefusalEvent = null ) {
         $this->removalRefusalEvent = $removalRefusalEvent;
+        if ($removalRefusalEvent && !$this->removalRefusedAt) {
+            $this->removalRefusedAt = new \DateTime();
+        }
     }
 
     /**

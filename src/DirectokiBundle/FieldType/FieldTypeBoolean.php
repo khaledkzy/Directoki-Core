@@ -116,7 +116,7 @@ class FieldTypeBoolean extends  BaseFieldType {
         return array();
     }
 
-    public function parseCSVLineData( Field $field, $fieldConfig, $lineData ) {
+    public function parseCSVLineData( Field $field, $fieldConfig, $lineData,  Record $record, Event $creationEvent, $published=false ) {
         // TODO: Implement parseCSVLineData() method.
     }
 }

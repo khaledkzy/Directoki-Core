@@ -14,16 +14,29 @@ class ImportCSVLineResult
 
     protected $debugOutput;
 
-    function __construct( $debugOutput ) {
+    protected $fieldValuesToSave;
+
+    function __construct( $debugOutput, $fieldValuesToSave ) {
         $this->debugOutput = $debugOutput;
+        $this->fieldValuesToSave = $fieldValuesToSave;
     }
 
+
     /**
-     * @return mixed
+     * @return string
      */
     public function getDebugOutput() {
         return $this->debugOutput;
     }
+
+    /**
+     * @return array
+     */
+    public function getFieldValuesToSave() {
+        return $this->fieldValuesToSave;
+    }
+
+
 
 }
 

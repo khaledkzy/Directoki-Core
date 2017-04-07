@@ -194,10 +194,13 @@ abstract class BaseRecordHasFieldValue
     }
 
     /**
-     * @param mixed $approvalEvent
+     * @param Event $approvalEvent
      */
-    public function setApprovalEvent( $approvalEvent ) {
+    public function setApprovalEvent( Event $approvalEvent = null ) {
         $this->approvalEvent = $approvalEvent;
+        if ($approvalEvent && !$this->approvedAt) {
+            $this->approvedAt = new \DateTime();
+        }
     }
 
     /**
@@ -208,10 +211,13 @@ abstract class BaseRecordHasFieldValue
     }
 
     /**
-     * @param mixed $refusalEvent
+     * @param Event $refusalEvent
      */
-    public function setRefusalEvent( $refusalEvent ) {
+    public function setRefusalEvent( Event $refusalEvent = null ) {
         $this->refusalEvent = $refusalEvent;
+        if ($refusalEvent && !$this->refusedAt) {
+            $this->refusedAt = new \DateTime();
+        }
     }
 
 

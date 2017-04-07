@@ -6,11 +6,9 @@ namespace DirectokiBundle\FieldType;
 use DirectokiBundle\Entity\Event;
 use DirectokiBundle\Entity\Record;
 use DirectokiBundle\Entity\RecordHasFieldEmailValue;
-use DirectokiBundle\Entity\RecordHasEmailFieldValue;
 use DirectokiBundle\Entity\Field;
 use DirectokiBundle\Entity\User;
 use DirectokiBundle\Form\Type\RecordHasFieldEmailValueType;
-use DirectokiBundle\Form\Type\RecordHasEmailFieldValueType;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -117,7 +115,7 @@ class FieldTypeEmail extends  BaseFieldType {
         return array();
     }
 
-    public function parseCSVLineData( Field $field, $fieldConfig, $lineData ) {
+    public function parseCSVLineData( Field $field, $fieldConfig, $lineData,  Record $record, Event $creationEvent, $published=false ) {
         // TODO: Implement parseCSVLineData() method.
     }
 
