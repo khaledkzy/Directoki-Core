@@ -75,6 +75,19 @@
 				<h2>Field: {{  field.title }}</h2>
 
 				{% if  fieldValues[field.publicId] or fieldModerationsNeeded[field.publicId] %}
+
+					<div>
+						Current Value:
+					</div>
+					<div class="well">
+						{%  if fieldTypeService.getByField(field).isMultipleType %}
+							{%  for fv in fieldValuesCurrent[field.publicId] %}
+								<div>{% include fieldTypeService.getByField(field).viewTemplate with { value: fv } %}</div>
+							{%  endfor %}
+						{%  else %}
+							{% include fieldTypeService.getByField(field).viewTemplate with { value: fieldValuesCurrent[field.publicId] } %}
+						{%  endif %}
+					</div>
 					<table class="table table-striped">
 						<thead>
 						<tr>

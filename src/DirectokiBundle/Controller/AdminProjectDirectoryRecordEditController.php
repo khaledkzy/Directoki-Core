@@ -111,9 +111,12 @@ class AdminProjectDirectoryRecordEditController extends AdminProjectDirectoryRec
 
         // Load
         $fieldValues = array();
+        $fieldValuesCurrent = array();
         $fieldModerationsNeeded = array();
         foreach($fields as $field) {
             $fieldType = $this->container->get('directoki_field_type_service')->getByField($field);
+            $tmp = $fieldType->getLatestFieldValues($field, $this->record);
+            $fieldValuesCurrent[$field->getPublicId()] = $fieldType->isMultipleType() ? $tmp : (count($tmp) > 0 ? $tmp[0] : null);
             $fieldValues[$field->getPublicId()] = $fieldType->getFieldValuesToModerate($field, $this->record);
             $fieldModerationsNeeded[$field->getPublicId()] = $fieldType->getModerationsNeeded($field, $this->record);
         }
@@ -126,6 +129,7 @@ class AdminProjectDirectoryRecordEditController extends AdminProjectDirectoryRec
             'directory' => $this->directory,
             'record' => $this->record,
             'fields' => $fields,
+            'fieldValuesCurrent' => $fieldValuesCurrent,
             'fieldValues' => $fieldValues,
             'fieldModerationsNeeded' => $fieldModerationsNeeded,
             'fieldTypeService' => $this->container->get('directoki_field_type_service'),
