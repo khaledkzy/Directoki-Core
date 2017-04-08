@@ -2,6 +2,27 @@ directoki_homepage:
     path:     /
     defaults: { _controller: DirectokiBundle:Default:index }
 
+
+directoki_project_list:
+    path:     /project
+    defaults: { _controller: DirectokiBundle:Default:projects }
+
+directoki_project_show:
+    path:     /project/{projectId}
+    defaults: { _controller: DirectokiBundle:Project:index }
+
+directoki_project_directory_show:
+    path:     /project/{projectId}/directory/{directoryId}
+    defaults: { _controller: DirectokiBundle:ProjectDirectory:index }
+
+directoki_project_directory_record_list:
+    path:     /project/{projectId}/directory/{directoryId}/record
+    defaults: { _controller: DirectokiBundle:ProjectDirectory:records }
+
+directoki_project_directory_record_show:
+    path:     /project/{projectId}/directory/{directoryId}/record/{recordId}
+    defaults: { _controller: DirectokiBundle:ProjectDirectoryRecord:index }
+
 directoki_admin_project_new:
     path:     /admin/newProject
     defaults: { _controller: DirectokiBundle:AdminDefaultEdit:newProject }

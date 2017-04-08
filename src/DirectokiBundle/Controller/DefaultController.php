@@ -18,5 +18,19 @@ class DefaultController extends Controller
         return $this->render('DirectokiBundle:Default:index.html.twig');
     }
 
+    public function projectsAction()
+    {
+
+        $doctrine = $this->getDoctrine()->getManager();
+        $repo = $doctrine->getRepository('DirectokiBundle:Project');
+        $projects = $repo->findAll();
+
+
+
+        return $this->render('DirectokiBundle:Default:projects.html.twig', array(
+            'projects' => $projects,
+        ));
+    }
+
 
 }

@@ -1,0 +1,55 @@
+{##
+#  @license 3-clause BSD
+#  @link https://github.com/Directoki/Directoki-Core/blob/master/LICENSE.txt
+##}
+
+
+{% extends 'DirectokiBundle::base.html.twig' %}
+
+{% block title %}Welcome{% endblock %}
+
+{% block main %}
+
+
+	<ol class="breadcrumb">
+		<li>Project: {{  project.title }}</li>
+		<li>Directory: {{  directory.titlePlural }}</li>
+		<li class="active">Record: {{  record.publicId }}</li>
+	</ol>
+
+	<h1>Record: {{   record.publicId }}</h1>
+
+	{%  if  fields %}
+		<table class="table table-striped">
+			<thead>
+			<tr>
+				<th>Field</th>
+				<th>Value</th>
+			</tr>
+			</thead>
+			<tbody>
+			{%  for field in fields %}
+				<tr>
+					<td>
+						{{  field.title }}
+					</td>
+					<td>
+						{%  if fieldTypeService.getByField(field).isMultipleType %}
+							{%  for fv in fieldValues[field.publicId] %}
+								<div>{% include fieldTypeService.getByField(field).viewTemplate with { value: fv } %}</div>
+							{%  endfor %}
+						{%  else %}
+							{% include fieldTypeService.getByField(field).viewTemplate with { value: fieldValues[field.publicId] } %}
+						{%  endif %}
+					</td>
+				</tr>
+			{%  endfor %}
+			</tbody>
+		</table>
+	{% else %}
+		<p>You have no fields</p>
+	{% endif %}
+
+
+
+{%  endblock %}
