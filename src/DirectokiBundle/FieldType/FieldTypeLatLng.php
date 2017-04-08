@@ -9,6 +9,7 @@ use DirectokiBundle\Entity\RecordHasFieldLatLngValue;
 use DirectokiBundle\Entity\Field;
 use DirectokiBundle\Entity\User;
 use DirectokiBundle\Form\Type\RecordHasFieldLatLngValueType;
+use DirectokiBundle\ImportCSVLineResult;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -119,7 +120,31 @@ class FieldTypeLatLng extends  BaseFieldType {
     }
 
     public function parseCSVLineData( Field $field, $fieldConfig, $lineData,  Record $record, Event $creationEvent, $published=false ) {
-        // TODO: Implement parseCSVLineData() method.
+
+
+        if (isset($fieldConfig['column_lat']) && isset($fieldConfig['column_lng'])) {
+
+            $columnLat = intval($fieldConfig['column_lat']);
+            $columnLng = intval($fieldConfig['column_lng']);
+            $dataLat  = $lineData[$columnLat];
+            $dataLng = $lineData[$columnLng];
+
+            $newRecordHasFieldValues = new RecordHasFieldLatLngValue();
+            $newRecordHasFieldValues->setRecord($record);
+            $newRecordHasFieldValues->setField($field);
+            $newRecordHasFieldValues->setLat($dataLat);
+            $newRecordHasFieldValues->setLng($dataLng);
+            $newRecordHasFieldValues->setCreationEvent($creationEvent);
+            if ($published) {
+                $newRecordHasFieldValues->setApprovalEvent($creationEvent);
+            }
+
+            return new ImportCSVLineResult(
+                $dataLat. ", ". $dataLng,
+                array($newRecordHasFieldValues)
+            );
+        }
+
     }
 
 }

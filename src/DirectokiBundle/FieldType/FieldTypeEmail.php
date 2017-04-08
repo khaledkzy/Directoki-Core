@@ -9,6 +9,7 @@ use DirectokiBundle\Entity\RecordHasFieldEmailValue;
 use DirectokiBundle\Entity\Field;
 use DirectokiBundle\Entity\User;
 use DirectokiBundle\Form\Type\RecordHasFieldEmailValueType;
+use DirectokiBundle\ImportCSVLineResult;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -116,7 +117,24 @@ class FieldTypeEmail extends  BaseFieldType {
     }
 
     public function parseCSVLineData( Field $field, $fieldConfig, $lineData,  Record $record, Event $creationEvent, $published=false ) {
-        // TODO: Implement parseCSVLineData() method.
-    }
+
+        $column = intval($fieldConfig['column']);
+        $data  = $lineData[$column];
+
+        if ($data) {
+            $newRecordHasFieldValues = new RecordHasFieldEmailValue();
+            $newRecordHasFieldValues->setRecord($record);
+            $newRecordHasFieldValues->setField($field);
+            $newRecordHasFieldValues->setValue($data);
+            $newRecordHasFieldValues->setCreationEvent($creationEvent);
+            if ($published) {
+                $newRecordHasFieldValues->setApprovalEvent($creationEvent);
+            }
+
+            return new ImportCSVLineResult(
+                $data,
+                array($newRecordHasFieldValues)
+            );
+        }    }
 
 }
