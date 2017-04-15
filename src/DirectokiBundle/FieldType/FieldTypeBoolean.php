@@ -8,7 +8,7 @@ use DirectokiBundle\Entity\Record;
 use DirectokiBundle\Entity\RecordHasBooleanFieldValue;
 use DirectokiBundle\Entity\Field;
 use DirectokiBundle\Entity\RecordHasFieldBooleanValue;
-use DirectokiBundle\Entity\User;
+use JMBTechnology\UserAccountsBundle\Entity\User;
 use DirectokiBundle\Form\Type\RecordHasBooleanFieldValueType;
 use DirectokiBundle\Form\Type\RecordHasFieldBooleanValueType;
 use Symfony\Component\HttpFoundation\ParameterBag;

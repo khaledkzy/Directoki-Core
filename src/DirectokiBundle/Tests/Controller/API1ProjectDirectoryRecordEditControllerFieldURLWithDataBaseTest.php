@@ -9,7 +9,7 @@ use DirectokiBundle\Entity\Field;
 use DirectokiBundle\Entity\Project;
 use DirectokiBundle\Entity\Record;
 use DirectokiBundle\Entity\RecordHasFieldURLValue;
-use DirectokiBundle\Entity\User;
+use JMBTechnology\UserAccountsBundle\Entity\User;
 use DirectokiBundle\FieldType\FieldTypeURL;
 use DirectokiBundle\Tests\BaseTestWithDataBase;
 

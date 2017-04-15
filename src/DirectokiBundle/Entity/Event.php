@@ -47,7 +47,7 @@ class Event {
     protected $apiVersion;
 
     /**
-     * @ORM\ManyToOne(targetEntity="DirectokiBundle\Entity\User")
+     * @ORM\ManyToOne(targetEntity="JMBTechnology\UserAccountsBundle\Entity\User")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=true)
      */
     protected $user;

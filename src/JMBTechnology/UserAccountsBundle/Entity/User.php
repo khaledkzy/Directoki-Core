@@ -1,16 +1,15 @@
 <?php
 
-namespace DirectokiBundle\Entity;
+namespace JMBTechnology\UserAccountsBundle\Entity;
 
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- *  @license 3-clause BSD
- *  @link https://github.com/Directoki/Directoki-Core/blob/master/LICENSE.txt
+ * @license 3-clause BSD
+ * @link https://github.com/Directoki/Directoki-Core/blob/master/LICENSE.txt
  * @ORM\Entity()
  * @ORM\Table(name="user_account")
- *  @license 3-clause BSD
  */
 class User extends BaseUser
 {

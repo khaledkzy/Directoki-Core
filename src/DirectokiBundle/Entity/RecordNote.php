@@ -42,7 +42,7 @@ class RecordNote
 
 
     /**
-     * @ORM\ManyToOne(targetEntity="DirectokiBundle\Entity\User")
+     * @ORM\ManyToOne(targetEntity="JMBTechnology\UserAccountsBundle\Entity\User")
      * @ORM\JoinColumn(name="created_by", referencedColumnName="id", nullable=false)
      */
     protected $createdBy;

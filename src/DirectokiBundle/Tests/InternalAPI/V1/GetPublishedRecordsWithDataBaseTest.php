@@ -9,7 +9,7 @@ use DirectokiBundle\Entity\Event;
 use DirectokiBundle\Entity\Project;
 use DirectokiBundle\Entity\Record;
 use DirectokiBundle\Entity\RecordHasState;
-use DirectokiBundle\Entity\User;
+use JMBTechnology\UserAccountsBundle\Entity\User;
 use DirectokiBundle\InternalAPI\V1\InternalAPI;
 use DirectokiBundle\Tests\BaseTestWithDataBase;
 

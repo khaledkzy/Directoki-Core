@@ -7,7 +7,7 @@ use DirectokiBundle\Entity\Event;
 use DirectokiBundle\Entity\Record;
 use DirectokiBundle\Entity\RecordHasFieldMultiSelectValue;
 use DirectokiBundle\Entity\Field;
-use DirectokiBundle\Entity\User;
+use JMBTechnology\UserAccountsBundle\Entity\User;
 use DirectokiBundle\Form\Type\RecordHasFieldMultiSelectValueType;
 use DirectokiBundle\ModerationNeeded\ModerationNeededRecordHasFieldMultiValueAddition;
 use DirectokiBundle\ModerationNeeded\ModerationNeededRecordHasFieldMultiValueRemoval;

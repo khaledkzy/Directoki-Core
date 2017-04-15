@@ -1,3 +1,7 @@
+jmb_technology_user_accounts:
+    resource: "@JMBTechnologyUserAccountsBundle/Resources/config/routing.yml"
+    prefix:   /
+
 directoki:
     resource: "@DirectokiBundle/Resources/config/routing.yml"
     prefix:   /

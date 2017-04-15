@@ -7,7 +7,7 @@ use DirectokiBundle\Entity\Event;
 use DirectokiBundle\Entity\Record;
 use DirectokiBundle\Entity\RecordHasStringField;
 use DirectokiBundle\Entity\Field;
-use DirectokiBundle\Entity\User;
+use JMBTechnology\UserAccountsBundle\Entity\User;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
 

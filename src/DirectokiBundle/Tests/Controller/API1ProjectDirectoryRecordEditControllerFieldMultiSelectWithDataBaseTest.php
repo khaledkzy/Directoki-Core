@@ -11,7 +11,7 @@ use DirectokiBundle\Entity\Record;
 use DirectokiBundle\Entity\RecordHasFieldMultiSelectValue;
 use DirectokiBundle\Entity\RecordHasFieldURLValue;
 use DirectokiBundle\Entity\SelectValue;
-use DirectokiBundle\Entity\User;
+use JMBTechnology\UserAccountsBundle\Entity\User;
 use DirectokiBundle\FieldType\FieldTypeMultiSelect;
 use DirectokiBundle\FieldType\FieldTypeURL;
 use DirectokiBundle\Tests\BaseTestWithDataBase;

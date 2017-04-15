@@ -3,7 +3,7 @@
 namespace DirectokiBundle\Security;
 
 use DirectokiBundle\Entity\Project;
-use DirectokiBundle\Entity\User;
+use JMBTechnology\UserAccountsBundle\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;

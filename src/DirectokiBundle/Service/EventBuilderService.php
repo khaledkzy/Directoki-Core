@@ -5,7 +5,7 @@ namespace DirectokiBundle\Service;
 use DirectokiBundle\Entity\Event;
 use DirectokiBundle\Entity\Field;
 use DirectokiBundle\Entity\Project;
-use DirectokiBundle\Entity\User;
+use JMBTechnology\UserAccountsBundle\Entity\User;
 use DirectokiBundle\FieldType\FieldTypeBoolean;
 use DirectokiBundle\FieldType\FieldTypeLatLng;
 use DirectokiBundle\FieldType\FieldTypeString;

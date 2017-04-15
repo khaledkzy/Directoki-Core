@@ -7,7 +7,7 @@ use DirectokiBundle\Entity\Event;
 use DirectokiBundle\Entity\Record;
 use DirectokiBundle\Entity\RecordHasFieldStringValue;
 use DirectokiBundle\Entity\Field;
-use DirectokiBundle\Entity\User;
+use JMBTechnology\UserAccountsBundle\Entity\User;
 use DirectokiBundle\Form\Type\RecordHasFieldStringValueType;
 use DirectokiBundle\ImportCSVLineResult;
 use Symfony\Component\HttpFoundation\ParameterBag;

@@ -15,7 +15,7 @@ use DirectokiBundle\Entity\RecordHasFieldStringValue;
 use DirectokiBundle\Entity\RecordHasFieldTextValue;
 use DirectokiBundle\Entity\RecordHasState;
 use DirectokiBundle\Entity\RecordReport;
-use DirectokiBundle\Entity\User;
+use JMBTechnology\UserAccountsBundle\Entity\User;
 use DirectokiBundle\FieldType\FieldTypeBoolean;
 use DirectokiBundle\FieldType\FieldTypeEmail;
 use DirectokiBundle\FieldType\FieldTypeLatLng;

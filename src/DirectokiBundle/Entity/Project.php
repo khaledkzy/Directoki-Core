@@ -30,7 +30,7 @@ class Project
     protected $publicId;
 
     /**
-     * @ORM\ManyToOne(targetEntity="DirectokiBundle\Entity\User")
+     * @ORM\ManyToOne(targetEntity="JMBTechnology\UserAccountsBundle\Entity\User")
      * @ORM\JoinColumn(name="owner_id", referencedColumnName="id", nullable=false)
      */
     protected $owner;
