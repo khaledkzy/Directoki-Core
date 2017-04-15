@@ -8,16 +8,11 @@ namespace DirectokiBundle\InternalAPI\V1\Model;
  *  @license 3-clause BSD
  *  @link https://github.com/Directoki/Directoki-Core/blob/master/LICENSE.txt
  */
-class Record {
+abstract class BaseFieldValue {
 
     protected $publicID;
 
-    protected $fields;
-
-    function __construct( $publicID, $fields = array() ) {
-        $this->publicID = $publicID;
-        $this->fields = $fields;
-    }
+    protected $title;
 
     /**
      * @return mixed
@@ -26,8 +21,13 @@ class Record {
         return $this->publicID;
     }
 
-    public function getFieldValue($pubicId) {
-        return $this->fields[$pubicId];
+    /**
+     * @return mixed
+     */
+    public function getTitle() {
+        return $this->title;
     }
+
+
 
 }
