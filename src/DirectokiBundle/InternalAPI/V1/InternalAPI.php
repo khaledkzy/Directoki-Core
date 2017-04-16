@@ -36,9 +36,24 @@ class InternalAPI {
             throw new \Exception("Not Found Directory");
         }
 
+        // Get data, return
         $out = array();
+        $fields = $doctrine->getRepository('DirectokiBundle:Field')->findForDirectory($directory);
+
         foreach($doctrine->getRepository('DirectokiBundle:Record')->findBy(array('directory'=>$directory,'cachedState'=>RecordHasState::STATE_PUBLISHED)) as $record) {
-            $out[] = new Record($record->getPublicId());
+
+            $fieldValues = array();
+            foreach($fields as $field) {
+                $fieldType = $this->container->get( 'directoki_field_type_service' )->getByField( $field );
+                $tmp       = $fieldType->getLatestFieldValuesFromCache( $field, $record );
+                
+                if ( $field->getFieldType() == FieldTypeString::FIELD_TYPE_INTERNAL && $tmp[0] ) {
+                    $fieldValues[ $field->getPublicId() ] = new FieldValueString( $field->getPublicId(), $field->getTitle(), $tmp[0]->getValue() );
+                } else if ( $field->getFieldType() == FieldTypeText::FIELD_TYPE_INTERNAL && $tmp[0] ) {
+                    $fieldValues[ $field->getPublicId() ] = new FieldValueText( $field->getPublicId(), $field->getTitle(), $tmp[0]->getValue() );
+                }
+            }
+            $out[] = new Record($record->getPublicId(), $fieldValues);
         }
 
         return $out;

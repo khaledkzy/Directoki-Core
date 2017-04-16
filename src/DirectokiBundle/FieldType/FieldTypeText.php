@@ -41,6 +41,21 @@ class FieldTypeText extends  BaseFieldType {
 
     }
 
+    public function getLatestFieldValuesFromCache(Field $field, Record $record) {
+        return array($this->getLatestFieldValueFromCache($field, $record));
+    }
+
+    protected  function getLatestFieldValueFromCache(Field $field, Record $record) {
+
+        if ($record->getCachedFields() && isset($record->getCachedFields()[$field->getId()])  && isset($record->getCachedFields()[$field->getId()]['value'])) {
+            $r = new RecordHasFieldTextValue();
+            $r->setValue($record->getCachedFields()[$field->getId()]['value']);
+            return $r;
+        }
+
+    }
+
+
     public function getFieldValuesToModerate(Field $field, Record $record) {
 
         $repo = $this->container->get('doctrine')->getManager()->getRepository('DirectokiBundle:RecordHasFieldTextValue');
@@ -138,5 +153,9 @@ class FieldTypeText extends  BaseFieldType {
 
     }
 
+    public function getDataForCache( Field $field, Record $record ) {
+        $val = $this->getLatestFieldValue($field, $record);
+        return $val ? array('value'=>$val->getValue()) : array();
+    }
 
 }

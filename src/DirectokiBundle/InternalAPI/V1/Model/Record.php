@@ -27,7 +27,7 @@ class Record {
     }
 
     public function getFieldValue($pubicId) {
-        return $this->fields[$pubicId];
+        return isset($this->fields[$pubicId]) ? $this->fields[$pubicId] : null;
     }
 
 }

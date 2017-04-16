@@ -37,6 +37,11 @@ class FieldTypeMultiSelect extends  BaseFieldType
 
     }
 
+
+    public function getLatestFieldValuesFromCache( Field $field, Record $record ) {
+        // TODO: Implement getLatestFieldValuesFromCache() method.
+    }
+
     public function getFieldValuesToModerate(Field $field, Record $record)
     {
         return array();
@@ -233,5 +238,9 @@ class FieldTypeMultiSelect extends  BaseFieldType
         // TODO: Implement parseCSVLineData() method.
     }
 
+    public function getDataForCache( Field $field, Record $record ) {
+        // TODO: Implement getDataForCache() method.
+        return array();
+    }
 }
 

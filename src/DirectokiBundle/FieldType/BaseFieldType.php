@@ -36,6 +36,8 @@ abstract class  BaseFieldType {
 
     public abstract function getLatestFieldValues(Field $field, Record $record);
 
+    public abstract function getLatestFieldValuesFromCache(Field $field, Record $record);
+
     /**
      * @TODO The plan is, the results from this will in future move to getModerationsNeeded() and this method will be removed.
      */
@@ -57,5 +59,7 @@ abstract class  BaseFieldType {
      * @return ImportCSVLineResult|null
      */
     public abstract function parseCSVLineData(Field $field, $fieldConfig, $lineData,  Record $record, Event $creationEvent, $published=false);
+
+    public abstract function getDataForCache(Field $field, Record $record);
 
 }

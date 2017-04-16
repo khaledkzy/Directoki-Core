@@ -1,6 +1,7 @@
 <?php
 
 namespace DirectokiBundle\Controller;
+use DirectokiBundle\Action\UpdateRecordCache;
 use DirectokiBundle\Entity\Event;
 
 /**
@@ -47,6 +48,9 @@ class AdminProjectDirectoryRecordFieldEditController extends AdminProjectDirecto
                         $doctrine->persist( $recordHasFieldValueToSave );
                     }
                     $doctrine->flush();
+
+                    $updateRecordCacheAction = new UpdateRecordCache($this->container);
+                    $updateRecordCacheAction->go($this->record);
                 }
 
                 return $this->redirect($this->generateUrl('directoki_admin_project_directory_record_show', array(

@@ -48,6 +48,11 @@ class FieldTypeEmail extends  BaseFieldType {
         return $repo->getFieldValuesToModerate($field, $record);
     }
 
+
+    public function getLatestFieldValuesFromCache( Field $field, Record $record ) {
+        // TODO: Implement getLatestFieldValuesFromCache() method.
+    }
+
     public function getModerationsNeeded(Field $field, Record $record) {
         return array();
     }
@@ -135,6 +140,13 @@ class FieldTypeEmail extends  BaseFieldType {
                 $data,
                 array($newRecordHasFieldValues)
             );
-        }    }
+        }
+    }
+
+
+    public function getDataForCache( Field $field, Record $record ) {
+        $val = $this->getLatestFieldValue($field, $record);
+        return $val ? array('value'=>$val->getValue()) : array();
+    }
 
 }

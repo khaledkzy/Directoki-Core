@@ -62,6 +62,13 @@ class Record
 
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="cached_fields", type="json_array", nullable=true)
+     */
+    protected $cachedFields;
+
+    /**
      * @ORM\OneToMany(targetEntity="DirectokiBundle\Entity\RecordHasFieldStringValue", mappedBy="record")
      */
     private $recordHasFieldStringValues;
@@ -193,6 +200,20 @@ class Record
     public function setCachedState($cachedState)
     {
         $this->cachedState = $cachedState;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCachedFields() {
+        return $this->cachedFields;
+    }
+
+    /**
+     * @param string $cachedFields
+     */
+    public function setCachedFields( $cachedFields ) {
+        $this->cachedFields = $cachedFields;
     }
 
 

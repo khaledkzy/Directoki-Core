@@ -30,6 +30,14 @@ class UpdateRecordCache
 
         $record->setCachedState($doctrine->getRepository('DirectokiBundle:RecordHasState')->getLatestStateForRecord($record)->getState());
 
+        $fieldsCache = array();
+        $fields = $doctrine->getRepository('DirectokiBundle:Field')->findForDirectory($record->getDirectory());
+        foreach($fields as $field) {
+            $fieldType = $this->container->get('directoki_field_type_service')->getByField($field);
+            $fieldsCache[$field->getId()] = $fieldType->getDataForCache($field, $record);
+        }
+        $record->setCachedFields($fieldsCache);
+
         $doctrine->persist($record);
         $doctrine->flush($record);
 

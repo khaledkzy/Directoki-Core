@@ -41,6 +41,11 @@ class FieldTypeURL extends  BaseFieldType {
 
     }
 
+
+    public function getLatestFieldValuesFromCache( Field $field, Record $record ) {
+        // TODO: Implement getLatestFieldValuesFromCache() method.
+    }
+
     public function getFieldValuesToModerate(Field $field, Record $record) {
 
         $repo = $this->container->get('doctrine')->getManager()->getRepository('DirectokiBundle:RecordHasFieldURLValue');
@@ -136,6 +141,11 @@ class FieldTypeURL extends  BaseFieldType {
                 array($newRecordHasFieldValues)
             );
         }
+    }
+
+    public function getDataForCache( Field $field, Record $record ) {
+        $val = $this->getLatestFieldValue($field, $record);
+        return $val ? array('value'=>$val->getValue()) : array();
     }
 
 }
