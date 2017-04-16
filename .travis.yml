@@ -3,8 +3,8 @@ php:
   - 7.0
   - 7.1
 
-
-services: PostgreSQL
+addons:
+  postgresql: "9.2"
 
 before_script:
   - psql -c 'create database test;' -U postgres
