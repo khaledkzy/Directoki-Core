@@ -3,10 +3,12 @@
 namespace DirectokiBundle\FieldType;
 
 
+use DirectokiBundle\Entity\Directory;
 use DirectokiBundle\Entity\Event;
 use DirectokiBundle\Entity\Record;
 use DirectokiBundle\Entity\RecordHasFieldURLValue;
 use DirectokiBundle\Entity\Field;
+use DirectokiBundle\InternalAPI\V1\Model\BaseFieldValue;
 use JMBTechnology\UserAccountsBundle\Entity\User;
 use DirectokiBundle\Form\Type\RecordHasFieldURLValueType;
 use DirectokiBundle\ImportCSVLineResult;
@@ -119,6 +121,12 @@ class FieldTypeURL extends  BaseFieldType {
             }
         }
         return array();
+    }
+
+    public function processInternalAPI1Record(BaseFieldValue $fieldValueEdit, Directory $directory, Record $record = null, Event $event) {
+        // TODO
+        return array();
+
     }
 
     public function parseCSVLineData( Field $field, $fieldConfig, $lineData,  Record $record, Event $creationEvent, $published=false ) {

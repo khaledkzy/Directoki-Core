@@ -10,13 +10,33 @@ namespace DirectokiBundle\InternalAPI\V1\Model;
  */
 class Record {
 
+    protected $projectPublicId;
+
+    protected $directoryPublicId;
+
     protected $publicID;
 
     protected $fields;
 
-    function __construct( $publicID, $fields = array() ) {
+    function __construct( $projectPublicId, $directoryPublicId, $publicID, $fields = array() ) {
+        $this->projectPublicId = $projectPublicId;
+        $this->directoryPublicId = $directoryPublicId;
         $this->publicID = $publicID;
         $this->fields = $fields;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getProjectPublicId() {
+        return $this->projectPublicId;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDirectoryPublicId() {
+        return $this->directoryPublicId;
     }
 
     /**

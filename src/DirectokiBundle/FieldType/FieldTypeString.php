@@ -3,10 +3,12 @@
 namespace DirectokiBundle\FieldType;
 
 
+use DirectokiBundle\Entity\Directory;
 use DirectokiBundle\Entity\Event;
 use DirectokiBundle\Entity\Record;
 use DirectokiBundle\Entity\RecordHasFieldStringValue;
 use DirectokiBundle\Entity\Field;
+use DirectokiBundle\InternalAPI\V1\Model\BaseFieldValue;
 use JMBTechnology\UserAccountsBundle\Entity\User;
 use DirectokiBundle\Form\Type\RecordHasFieldStringValueType;
 use DirectokiBundle\ImportCSVLineResult;
@@ -116,6 +118,28 @@ class FieldTypeString extends  BaseFieldType {
                 $currentValue = $latestValueObject->getValue();
             }
             $newValue = $parameterBag->get('field_'.$field->getPublicId().'_value');
+            if ($newValue != $currentValue) {
+                $newRecordHasFieldValues = new RecordHasFieldStringValue();
+                $newRecordHasFieldValues->setRecord($record);
+                $newRecordHasFieldValues->setField($field);
+                $newRecordHasFieldValues->setValue($newValue);
+                $newRecordHasFieldValues->setCreationEvent($event);
+                return array($newRecordHasFieldValues);
+            }
+        }
+        return array();
+    }
+
+    public function processInternalAPI1Record(BaseFieldValue $fieldValueEdit, Directory $directory, Record $record = null, Event $event) {
+        if ($fieldValueEdit->getNewValue()) {
+            $repo = $this->container->get('doctrine')->getManager()->getRepository('DirectokiBundle:Field');
+            $field = $repo->findOneBy(array('directory'=>$directory, 'publicId'=>$fieldValueEdit->getPublicID()));
+            $currentValue = '';
+            if ( $record !== null ) {
+                $latestValueObject = $this->getLatestFieldValue($field, $record);
+                $currentValue = $latestValueObject->getValue();
+            }
+            $newValue = $fieldValueEdit->getNewValue();
             if ($newValue != $currentValue) {
                 $newRecordHasFieldValues = new RecordHasFieldStringValue();
                 $newRecordHasFieldValues->setRecord($record);

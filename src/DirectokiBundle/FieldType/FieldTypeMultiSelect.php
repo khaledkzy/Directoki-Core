@@ -3,10 +3,12 @@
 namespace DirectokiBundle\FieldType;
 
 
+use DirectokiBundle\Entity\Directory;
 use DirectokiBundle\Entity\Event;
 use DirectokiBundle\Entity\Record;
 use DirectokiBundle\Entity\RecordHasFieldMultiSelectValue;
 use DirectokiBundle\Entity\Field;
+use DirectokiBundle\InternalAPI\V1\Model\BaseFieldValue;
 use JMBTechnology\UserAccountsBundle\Entity\User;
 use DirectokiBundle\Form\Type\RecordHasFieldMultiSelectValueType;
 use DirectokiBundle\ModerationNeeded\ModerationNeededRecordHasFieldMultiValueAddition;
@@ -174,6 +176,11 @@ class FieldTypeMultiSelect extends  BaseFieldType
             }
         }
         return $out;
+    }
+
+    public function processInternalAPI1Record(BaseFieldValue $fieldValueEdit, Directory $directory, Record $record = null, Event $event) {
+        // TODO
+        return array();
     }
 
     protected function processAPI1RecordAddStringValue($value, Field $field, Record $record = null, ParameterBag $parameterBag, Event $event)
