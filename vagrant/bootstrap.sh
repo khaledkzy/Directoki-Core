@@ -43,13 +43,19 @@ a2enmod rewrite
 /etc/init.d/apache2 restart
 
 
+
+if [ -f /vagrant/import.dump ]
+then
+    pg_restore -f /vagrant/import.sql /vagrant/import.dump
+fi
+
 if [ -f /vagrant/import.sql ]
 then
     export PGPASSWORD=password
     psql -U app -hlocalhost  app -f /vagrant/import.sql
-else
-    php app/console doctrine:migrations:migrate --no-interaction
 fi
+
+php app/console doctrine:migrations:migrate --no-interaction
 
 php app/console assetic:dump --env=dev
 
