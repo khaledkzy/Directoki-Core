@@ -11,7 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *  @license 3-clause BSD
  *  @link https://github.com/Directoki/Directoki-Core/blob/master/LICENSE.txt
  * @ORM\Entity()
- * @ORM\Table(name="project")
+ * @ORM\Table(name="directoki_project")
  * @ORM\HasLifecycleCallbacks
  */
 class Project

@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *  @license 3-clause BSD
  *  @link https://github.com/Directoki/Directoki-Core/blob/master/LICENSE.txt
  * @ORM\Entity(repositoryClass="DirectokiBundle\Repository\ContactRepository")
- * @ORM\Table(name="contact", uniqueConstraints={@ORM\UniqueConstraint(name="contact_public_id", columns={"project_id", "public_id"})})
+ * @ORM\Table(name="directoki_contact", uniqueConstraints={@ORM\UniqueConstraint(name="contact_public_id", columns={"project_id", "public_id"})})
  * @ORM\HasLifecycleCallbacks
  */
 

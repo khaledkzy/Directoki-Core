@@ -11,7 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *  @license 3-clause BSD
  *  @link https://github.com/Directoki/Directoki-Core/blob/master/LICENSE.txt
  * @ORM\Entity(repositoryClass="DirectokiBundle\Repository\SelectValueRepository")
- * @ORM\Table(name="select_value", uniqueConstraints={@ORM\UniqueConstraint(name="select_value_public_id", columns={"field_id", "public_id"})})
+ * @ORM\Table(name="directoki_select_value", uniqueConstraints={@ORM\UniqueConstraint(name="select_value_public_id", columns={"field_id", "public_id"})})
  * @ORM\HasLifecycleCallbacks
  */
 class SelectValue

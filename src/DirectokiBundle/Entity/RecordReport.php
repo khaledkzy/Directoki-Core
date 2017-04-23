@@ -11,7 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *  @license 3-clause BSD
  *  @link https://github.com/Directoki/Directoki-Core/blob/master/LICENSE.txt
  * @ORM\Entity()
- * @ORM\Table(name="record_report")
+ * @ORM\Table(name="directoki_record_report")
  * @ORM\HasLifecycleCallbacks
  */
 class RecordReport

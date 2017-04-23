@@ -11,7 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *  @license 3-clause BSD
  *  @link https://github.com/Directoki/Directoki-Core/blob/master/LICENSE.txt
  * @ORM\Entity()
- * @ORM\Table(name="directory", uniqueConstraints={@ORM\UniqueConstraint(name="directory_public_id", columns={"project_id", "public_id"})})
+ * @ORM\Table(name="directoki_directory", uniqueConstraints={@ORM\UniqueConstraint(name="directory_public_id", columns={"project_id", "public_id"})})
  * @ORM\HasLifecycleCallbacks
  */
 class Directory

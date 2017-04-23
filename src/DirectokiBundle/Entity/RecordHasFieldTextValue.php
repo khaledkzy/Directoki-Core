@@ -11,7 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *  @license 3-clause BSD
  *  @link https://github.com/Directoki/Directoki-Core/blob/master/LICENSE.txt
  * @ORM\Entity(repositoryClass="DirectokiBundle\Repository\RecordHasFieldTextValueRepository")
- * @ORM\Table(name="record_has_field_text_value")
+ * @ORM\Table(name="directoki_record_has_field_text_value")
  * @ORM\HasLifecycleCallbacks
  */
 class RecordHasFieldTextValue extends BaseRecordHasFieldValueMultilingual
