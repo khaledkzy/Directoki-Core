@@ -30,6 +30,8 @@ class RecordEdit extends Record {
                 $this->fieldsEdit[$field->getPublicID()] = new FieldValueStringEdit($field);
             } else if ($field instanceof FieldValueText) {
                 $this->fieldsEdit[$field->getPublicID()] = new FieldValueTextEdit($field);
+            } else if ($field instanceof FieldValueLatLng) {
+                $this->fieldsEdit[$field->getPublicID()] = new FieldValueLatLngEdit($field);
             }
         }
     }

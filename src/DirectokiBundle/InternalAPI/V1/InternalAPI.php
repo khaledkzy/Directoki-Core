@@ -2,8 +2,11 @@
 
 namespace DirectokiBundle\InternalAPI\V1;
 use DirectokiBundle\Entity\RecordHasState;
+use DirectokiBundle\FieldType\FieldTypeLatLng;
 use DirectokiBundle\FieldType\FieldTypeString;
 use DirectokiBundle\FieldType\FieldTypeText;
+use DirectokiBundle\InternalAPI\V1\Model\FieldValueLatLng;
+use DirectokiBundle\InternalAPI\V1\Model\FieldValueLatLngEdit;
 use DirectokiBundle\InternalAPI\V1\Model\FieldValueString;
 use DirectokiBundle\InternalAPI\V1\Model\FieldValueStringEdit;
 use DirectokiBundle\InternalAPI\V1\Model\FieldValueText;
@@ -57,6 +60,8 @@ class InternalAPI {
                     $fieldValues[ $field->getPublicId() ] = new FieldValueString( $field->getPublicId(), $field->getTitle(), $tmp[0]->getValue() );
                 } else if ( $field->getFieldType() == FieldTypeText::FIELD_TYPE_INTERNAL && $tmp[0] ) {
                     $fieldValues[ $field->getPublicId() ] = new FieldValueText( $field->getPublicId(), $field->getTitle(), $tmp[0]->getValue() );
+                } else if ( $field->getFieldType() == FieldTypeLatLng::FIELD_TYPE_INTERNAL && $tmp[0] ) {
+                    $fieldValues[ $field->getPublicId() ] = new FieldValueLatLng( $field->getPublicId(), $field->getTitle(), $tmp[0]->getLat(), $tmp[0]->getLng()  );
                 }
             }
             $out[] = new Record($project->getPublicId(), $directory->getPublicId(), $record->getPublicId(), $fieldValues);
@@ -105,6 +110,8 @@ class InternalAPI {
                 $fieldValues[$field->getPublicId()] = new FieldValueString($field->getPublicId(), $field->getTitle(), $tmp[0]->getValue());
             } else if ($field->getFieldType() == FieldTypeText::FIELD_TYPE_INTERNAL) {
                 $fieldValues[$field->getPublicId()] = new FieldValueText($field->getPublicId(), $field->getTitle(), $tmp[0]->getValue());
+            } else if ($field->getFieldType() == FieldTypeLatLng::FIELD_TYPE_INTERNAL) {
+                $fieldValues[$field->getPublicId()] = new FieldValueLatLng($field->getPublicId(), $field->getTitle(), $tmp[0]->getLat(), $tmp[0]->getLng());
             }
 
         }
@@ -202,6 +209,8 @@ class InternalAPI {
                 $fields[$field->getPublicId()] = new FieldValueStringEdit(null, $field);
             } else if ($field->getFieldType() == FieldTypeText::FIELD_TYPE_INTERNAL) {
                 $fields[$field->getPublicId()] = new FieldValueTextEdit(null, $field);
+            } else if ($field->getFieldType() == FieldTypeLatLng::FIELD_TYPE_INTERNAL) {
+                $fields[$field->getPublicId()] = new FieldValueLatLngEdit(null, $field);
             }
         }
 

@@ -44,8 +44,17 @@ class FieldTypeLatLng extends  BaseFieldType {
     }
 
 
-    public function getLatestFieldValuesFromCache( Field $field, Record $record ) {
-        // TODO: Implement getLatestFieldValuesFromCache() method.
+    public function getLatestFieldValuesFromCache(Field $field, Record $record) {
+        return array($this->getLatestFieldValueFromCache($field, $record));
+    }
+
+    protected  function getLatestFieldValueFromCache(Field $field, Record $record) {
+        if ($record->getCachedFields() && isset($record->getCachedFields()[$field->getId()])  && isset($record->getCachedFields()[$field->getId()]['lat'])  && isset($record->getCachedFields()[$field->getId()]['lng'])) {
+            $r = new RecordHasFieldLatLngValue();
+            $r->setLat($record->getCachedFields()[$field->getId()]['lat']);
+            $r->setLng($record->getCachedFields()[$field->getId()]['lng']);
+            return $r;
+        }
     }
 
     public function getFieldValuesToModerate(Field $field, Record $record) {
@@ -129,9 +138,29 @@ class FieldTypeLatLng extends  BaseFieldType {
 
 
     public function processInternalAPI1Record(BaseFieldValue $fieldValueEdit, Directory $directory, Record $record = null, Event $event) {
-        // TODO
+        if ($fieldValueEdit->getNewLat() && $fieldValueEdit->getNewLat()) {
+            $repo = $this->container->get('doctrine')->getManager()->getRepository('DirectokiBundle:Field');
+            $field = $repo->findOneBy(array('directory'=>$directory, 'publicId'=>$fieldValueEdit->getPublicID()));
+            $currentValueLat = null;
+            $currentValueLng = null;
+            if ( $record !== null ) {
+                $latestValueObject = $this->getLatestFieldValue($field, $record);
+                $currentValueLat = $latestValueObject->getLat();
+                $currentValueLng = $latestValueObject->getLng();
+            }
+            $newValueLat = $fieldValueEdit->getNewLat();
+            $newValueLng = $fieldValueEdit->getNewLng();
+            if ($newValueLat != $currentValueLat || $newValueLng != $currentValueLng) {
+                $newRecordHasFieldValues = new RecordHasFieldLatLngValue();
+                $newRecordHasFieldValues->setRecord($record);
+                $newRecordHasFieldValues->setField($field);
+                $newRecordHasFieldValues->setLat($newValueLat);
+                $newRecordHasFieldValues->setLng($newValueLng);
+                $newRecordHasFieldValues->setCreationEvent($event);
+                return array($newRecordHasFieldValues);
+            }
+        }
         return array();
-
     }
 
     public function parseCSVLineData( Field $field, $fieldConfig, $lineData,  Record $record, Event $creationEvent, $published=false ) {
