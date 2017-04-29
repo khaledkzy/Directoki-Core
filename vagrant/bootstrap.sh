@@ -62,3 +62,7 @@ php app/console assetic:dump --env=dev
 chown -R www-data:www-data /vagrant/app/cache/prod/
 chown -R www-data:www-data /vagrant/app/cache/dev/
 
+echo "alias db='psql -U app app -hlocalhost'" >> /home/vagrant/.bashrc
+echo "localhost:5432:app:app:password" > /home/vagrant/.pgpass
+chown vagrant:vagrant /home/vagrant/.pgpass
+chmod 0600 /home/vagrant/.pgpass
