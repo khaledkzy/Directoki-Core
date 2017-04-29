@@ -18,7 +18,7 @@ class AdminProjectEditController extends AdminProjectController
 
     protected function build($projectId) {
         parent::build($projectId);
-        $this->denyAccessUnlessGranted(ProjectVoter::EDIT, $this->project);
+        $this->denyAccessUnlessGranted(ProjectVoter::ADMIN, $this->project);
     }
 
 

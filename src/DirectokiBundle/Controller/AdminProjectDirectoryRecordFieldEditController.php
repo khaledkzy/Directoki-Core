@@ -13,7 +13,7 @@ class AdminProjectDirectoryRecordFieldEditController extends AdminProjectDirecto
 
     protected function build($projectId, $directoryId, $recordId, $fieldId) {
         parent::build($projectId, $directoryId, $recordId, $fieldId);
-        //$this->denyAccessUnlessGranted(ProjectVoter::EDIT, $this->project);
+        // parent function will do security
     }
 
 

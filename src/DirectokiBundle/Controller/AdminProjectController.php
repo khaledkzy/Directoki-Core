@@ -26,7 +26,7 @@ class AdminProjectController extends Controller
         if (!$this->project) {
             throw new  NotFoundHttpException('Not found');
         }
-        $this->denyAccessUnlessGranted(ProjectVoter::VIEW, $this->project);
+        $this->denyAccessUnlessGranted(ProjectVoter::ADMIN, $this->project);
     }
 
 
@@ -44,6 +44,24 @@ class AdminProjectController extends Controller
         return $this->render('DirectokiBundle:AdminProject:index.html.twig', array(
             'project' => $this->project,
             'directories' => $directories,
+        ));
+
+    }
+
+    public function userAction($projectId)
+    {
+
+        // build
+        $this->build($projectId);
+        //data
+
+        $doctrine = $this->getDoctrine()->getManager();
+        $repo = $doctrine->getRepository('DirectokiBundle:ProjectAdmin');
+        $projectAdmins = $repo->findByProject($this->project);
+
+        return $this->render('DirectokiBundle:AdminProject:user.html.twig', array(
+            'project' => $this->project,
+            'projectAdmins' => $projectAdmins,
         ));
 
     }

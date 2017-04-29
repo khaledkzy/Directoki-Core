@@ -20,7 +20,7 @@ class AdminProjectDirectoryRecordReportEditController extends AdminProjectDirect
     protected function build($projectId, $directoryId, $recordId, $reportId)
     {
         parent::build($projectId, $directoryId, $recordId, $reportId);
-        $this->denyAccessUnlessGranted(ProjectVoter::EDIT, $this->project);
+        $this->denyAccessUnlessGranted(ProjectVoter::ADMIN, $this->project);
     }
 
     public function resolveAction($projectId, $directoryId, $recordId, $reportId, Request $request) {

@@ -33,7 +33,7 @@ class AdminProjectDirectoryEditController extends AdminProjectDirectoryControlle
 
     protected function build($projectId, $directoryId) {
         parent::build($projectId, $directoryId);
-        $this->denyAccessUnlessGranted(ProjectVoter::EDIT, $this->project);
+        $this->denyAccessUnlessGranted(ProjectVoter::ADMIN, $this->project);
     }
 
     public function newStringFieldAction($projectId, $directoryId)

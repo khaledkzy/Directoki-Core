@@ -35,6 +35,10 @@ directoki_admin_project_show:
     path:     /admin/project/{projectId}
     defaults: { _controller: DirectokiBundle:AdminProject:index }
 
+directoki_admin_project_user_list:
+    path:     /admin/project/{projectId}/user
+    defaults: { _controller: DirectokiBundle:AdminProject:user }
+
 directoki_admin_project_directory_new:
     path:     /admin/project/{projectId}/newDirectory
     defaults: { _controller: DirectokiBundle:AdminProjectEdit:newDirectory }

@@ -24,7 +24,7 @@ class AdminProjectDirectoryRecordEditController extends AdminProjectDirectoryRec
 
     protected function build($projectId, $directoryId, $recordId) {
         parent::build($projectId, $directoryId, $recordId);
-        $this->denyAccessUnlessGranted(ProjectVoter::EDIT, $this->project);
+        $this->denyAccessUnlessGranted(ProjectVoter::ADMIN, $this->project);
     }
 
     public function moderateAction($projectId, $directoryId, $recordId, Request $request)

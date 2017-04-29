@@ -44,5 +44,6 @@
 	{% endif %}
 
 	<a href="{{  path('directoki_admin_project_directory_new', { 'projectId':project.publicId  }) }}" class="btn btn-default">New Directory</a>
+	<a href="{{  path('directoki_admin_project_user_list', { 'projectId':project.publicId  }) }}" class="btn btn-default">Project Users</a>
 
 {%  endblock %}

@@ -38,7 +38,7 @@ class AdminProjectDirectoryRecordReportController extends Controller
         if (!$this->project) {
             throw new  NotFoundHttpException('Not found');
         }
-        $this->denyAccessUnlessGranted(ProjectVoter::VIEW, $this->project);
+        $this->denyAccessUnlessGranted(ProjectVoter::ADMIN, $this->project);
         // load
         $repository = $doctrine->getRepository('DirectokiBundle:Directory');
         $this->directory = $repository->findOneBy(array('project' => $this->project, 'publicId' => $directoryId));

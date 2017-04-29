@@ -5,6 +5,7 @@ namespace DirectokiBundle\Security;
 use DirectokiBundle\Entity\Project;
 use JMBTechnology\UserAccountsBundle\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
@@ -13,15 +14,21 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
  *  @link https://github.com/Directoki/Directoki-Core/blob/master/LICENSE.txt
  */
 class ProjectVoter extends Voter {
-    // these strings are just invented: you can use anything
-    const VIEW = 'view';
-    const EDIT = 'edit';
+    const ADMIN = 'admin';
+
+
+    protected $container;
+
+    public function __construct(ContainerInterface $container)
+    {
+        $this->container = $container;
+    }
 
 
     protected function supports($attribute, $subject)
     {
         // if the attribute isn't one we support, return false
-        if (!in_array($attribute, array(self::VIEW, self::EDIT))) {
+        if (!in_array($attribute, array(self::ADMIN))) {
             return false;
         }
 
@@ -36,19 +43,17 @@ class ProjectVoter extends Voter {
     protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
     {
         $user = $token->getUser();
+        $doctrine = $this->container->get('doctrine')->getManager();
 
         switch ($attribute) {
-            case self::VIEW:
+            case self::ADMIN:
                 // Owner definitely can
                 if ($user instanceof User && $user == $subject->getOwner()) {
                     return true;
                 }
 
-                // Others can not.
-                return false;
-            case self::EDIT:
-                // Owner definitely can
-                if ($user instanceof User && $user == $subject->getOwner()) {
+                // ProjectHasAdmin
+                if($doctrine->getRepository('DirectokiBundle:ProjectAdmin')->findOneBy(array('project'=>$subject, 'user'=>$user))) {
                     return true;
                 }
 

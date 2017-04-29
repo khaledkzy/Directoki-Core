@@ -14,3 +14,5 @@ services:
             - { name: security.voter }
         # small performance boost
         public: false
+        arguments: ["@service_container"]
+
