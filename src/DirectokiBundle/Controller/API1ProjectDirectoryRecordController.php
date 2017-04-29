@@ -91,7 +91,7 @@ class API1ProjectDirectoryRecordController extends Controller
                     'id'    => $field->getPublicId(),
                     'type'  => $fieldType::FIELD_TYPE_API1,
                     'title' => $field->getTitle(),
-                    'value' => $fieldType->getAPIJSON( $field, $this->record ),
+                    'value' => $fieldType->getAPIJSON( $field, $this->record , false),
                 );
 
             }

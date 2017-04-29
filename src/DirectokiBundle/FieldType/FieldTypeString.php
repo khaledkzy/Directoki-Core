@@ -105,9 +105,9 @@ class FieldTypeString extends  BaseFieldType {
         return '@Directoki/FieldType/String/view.html.twig';
     }
 
-    public function getAPIJSON( Field $field, Record $record ) {
-        $latest = $this->getLatestFieldValue($field, $record);
-        return array('value'=>$latest->getValue());
+    public function getAPIJSON( Field $field, Record $record, $useCachedData = false ) {
+        $latest = $useCachedData ? $this->getLatestFieldValueFromCache($field, $record) : $this->getLatestFieldValue($field, $record);
+        return $latest ? array('value'=>$latest->getValue()) : null;
     }
 
     public function processAPI1Record(Field $field, Record $record = null, ParameterBag $parameterBag, Event $event) {

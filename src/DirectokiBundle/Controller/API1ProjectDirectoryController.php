@@ -3,6 +3,7 @@
 namespace DirectokiBundle\Controller;
 
 use DirectokiBundle\Entity\Project;
+use DirectokiBundle\Entity\RecordHasState;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -141,10 +142,36 @@ class API1ProjectDirectoryController extends Controller
             'records'=>array()
         );
 
+        $fields = $doctrine->getRepository('DirectokiBundle:Field')->findForDirectory($this->directory);
+
         foreach($repo->findByDirectory($this->directory) as $record) {
-            $out['records'][] = array(
-                'id'=>$record->getPublicId(),
-            );
+            if ($record->getCachedState() == RecordHasState::STATE_PUBLISHED) {
+
+                $fieldData = array();
+
+                foreach($fields as $field) {
+                    $fieldType = $this->container->get( 'directoki_field_type_service' )->getByField( $field );
+
+                    $fieldData[ $field->getPublicId() ] = array(
+                        'id'    => $field->getPublicId(),
+                        'type'  => $fieldType::FIELD_TYPE_API1,
+                        'title' => $field->getTitle(),
+                        'value' => $fieldType->getAPIJSON( $field, $record, true ),
+                    );
+
+                }
+
+                $out['records'][] = array(
+                    'id' => $record->getPublicId(),
+                    'published' => true,
+                    'fields' => $fieldData
+                );
+            } else {
+                $out['records'][] = array(
+                    'id'=>$record->getPublicId(),
+                    'published' => false,
+                );
+            }
         }
 
         $response = new Response(json_encode($out));

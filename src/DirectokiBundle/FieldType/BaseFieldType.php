@@ -53,7 +53,7 @@ abstract class  BaseFieldType {
 
     public abstract function getViewTemplate();
 
-    public abstract function getAPIJSON(Field $field, Record $record);
+    public abstract function getAPIJSON(Field $field, Record $record, $useCachedData = false);
 
     public abstract function processAPI1Record(Field $field, Record $record, ParameterBag $parameterBag, Event $event);
 

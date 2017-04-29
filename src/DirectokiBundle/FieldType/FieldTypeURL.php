@@ -96,7 +96,8 @@ class FieldTypeURL extends  BaseFieldType {
         return '@Directoki/FieldType/URL/view.html.twig';
     }
 
-    public function getAPIJSON( Field $field, Record $record ) {
+    public function getAPIJSON( Field $field, Record $record , $useCachedData = true) {
+        // TODO respect $useCachedData! (Must actually implement  getLatestFieldValuesFromCache first!)
         $latest = $this->getLatestFieldValue($field, $record);
         return array('value'=>$latest->getValue());
     }

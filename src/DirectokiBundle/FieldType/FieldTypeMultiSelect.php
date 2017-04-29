@@ -138,8 +138,9 @@ class FieldTypeMultiSelect extends  BaseFieldType
         return '@Directoki/FieldType/MultiSelect/view.html.twig';
     }
 
-    public function getAPIJSON(Field $field, Record $record)
+    public function getAPIJSON(Field $field, Record $record, $useCachedData = false)
     {
+        // TODO respect $useCachedData! (Must actually implement  getLatestFieldValuesFromCache first!)
         $out = array();
         foreach ($this->getLatestFieldValues($field, $record) as $value) {
             $out[] = array(
