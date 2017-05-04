@@ -119,7 +119,7 @@ class FieldTypeText extends  BaseFieldType {
                 $latestValueObject = $this->getLatestFieldValue($field, $record);
                 $currentValue = $latestValueObject->getValue();
             }
-            $newValue = $parameterBag->get('field_'.$field->getPublicId().'_value');
+            $newValue = FieldTypeText::filterValue($parameterBag->get('field_'.$field->getPublicId().'_value'));
             if ($newValue != $currentValue) {
                 $newRecordHasFieldValues = new RecordHasFieldTextValue();
                 $newRecordHasFieldValues->setRecord($record);
@@ -141,7 +141,7 @@ class FieldTypeText extends  BaseFieldType {
                 $latestValueObject = $this->getLatestFieldValue($field, $record);
                 $currentValue = $latestValueObject->getValue();
             }
-            $newValue = $fieldValueEdit->getNewValue();
+            $newValue = FieldTypeText::filterValue($fieldValueEdit->getNewValue());
             if ($newValue != $currentValue) {
                 $newRecordHasFieldValues = new RecordHasFieldTextValue();
                 $newRecordHasFieldValues->setRecord($record);
@@ -180,6 +180,10 @@ class FieldTypeText extends  BaseFieldType {
     public function getDataForCache( Field $field, Record $record ) {
         $val = $this->getLatestFieldValue($field, $record);
         return $val ? array('value'=>$val->getValue()) : array();
+    }
+
+    public static function filterValue($value) {
+        return trim(str_replace("\r","", $value));
     }
 
 }

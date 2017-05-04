@@ -4,6 +4,7 @@ namespace DirectokiBundle\Entity;
 
 
 
+use DirectokiBundle\FieldType\FieldTypeText;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -39,7 +40,7 @@ class RecordHasFieldTextValue extends BaseRecordHasFieldValueMultilingual
      */
     public function setValue($value)
     {
-        $this->value = $value;
+        $this->value = FieldTypeText::filterValue($value);
     }
 
 }
