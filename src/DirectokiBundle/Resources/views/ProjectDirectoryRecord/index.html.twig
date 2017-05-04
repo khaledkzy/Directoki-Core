@@ -36,10 +36,10 @@
 					<td>
 						{%  if fieldTypeService.getByField(field).isMultipleType %}
 							{%  for fv in fieldValues[field.publicId] %}
-								<div>{% include fieldTypeService.getByField(field).viewTemplate with { value: fv } %}</div>
+								<div>{% include fieldTypeService.getByField(field).viewTemplate with { value: fv, viewTemplateID: field.publicID ~ fv.id } %}</div>
 							{%  endfor %}
 						{%  else %}
-							{% include fieldTypeService.getByField(field).viewTemplate with { value: fieldValues[field.publicId] } %}
+							{% include fieldTypeService.getByField(field).viewTemplate with { value: fieldValues[field.publicId], viewTemplateID: field.publicID  } %}
 						{%  endif %}
 					</td>
 				</tr>

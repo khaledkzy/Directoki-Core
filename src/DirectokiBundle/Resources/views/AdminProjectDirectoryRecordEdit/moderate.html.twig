@@ -82,10 +82,10 @@
 					<div class="well">
 						{%  if fieldTypeService.getByField(field).isMultipleType %}
 							{%  for fv in fieldValuesCurrent[field.publicId] %}
-								<div>{% include fieldTypeService.getByField(field).viewTemplate with { value: fv } %}</div>
+								<div>{% include fieldTypeService.getByField(field).viewTemplate with { value: fv , viewTemplateID: field.publicID ~ 'Current' ~ fv.id } %}</div>
 							{%  endfor %}
 						{%  else %}
-							{% include fieldTypeService.getByField(field).viewTemplate with { value: fieldValuesCurrent[field.publicId] } %}
+							{% include fieldTypeService.getByField(field).viewTemplate with { value: fieldValuesCurrent[field.publicId], viewTemplateID: field.publicID ~ 'Current' } %}
 						{%  endif %}
 					</div>
 					<table class="table table-striped">
@@ -103,7 +103,7 @@
 							<tr>
 								<td>Set</td>
 								<td>
-									{% include fieldTypeService.getByField(field).viewTemplate with { value: fieldValue } %}
+									{% include fieldTypeService.getByField(field).viewTemplate with { value: fieldValue, viewTemplateID: field.publicID ~ 'New' ~ fieldValue.id } %}
 								</td>
 								<td>
 									{{  fieldValue.creationEvent.comment | nl2br }}
@@ -131,7 +131,7 @@
 							<tr>
 								<td>{{  moderationNeeded.actionLabel }}</td>
 								<td>
-									{% include fieldTypeService.getByField(field).viewTemplate with { value: moderationNeeded.fieldValue } %}
+									{% include fieldTypeService.getByField(field).viewTemplate with { value: moderationNeeded.fieldValue, viewTemplateID: field.publicID ~ 'Moderate' ~ moderationNeeded.fieldValue.id  } %}
 								</td>
 								<td>
 									{{  moderationNeeded.event.comment | nl2br }}
