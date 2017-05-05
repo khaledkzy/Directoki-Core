@@ -28,6 +28,78 @@ class PublishedCreateWithDataBaseTest extends BaseTestWithDataBase {
 
 
 
+    public function testBlankCreate() {
+
+        $user = new User();
+        $user->setEmail('test1@example.com');
+        $user->setPassword('password');
+        $user->setUsername('test1');
+        $this->em->persist($user);
+
+        $project = new Project();
+        $project->setTitle('test1');
+        $project->setPublicId('test1');
+        $project->setOwner($user);
+        $this->em->persist($project);
+
+        $event = new Event();
+        $event->setProject($project);
+        $event->setUser($user);
+        $this->em->persist($event);
+
+        $directory = new Directory();
+        $directory->setPublicId('resource');
+        $directory->setTitleSingular('Resource');
+        $directory->setTitlePlural('Resources');
+        $directory->setProject($project);
+        $directory->setCreationEvent($event);
+        $this->em->persist($directory);
+
+        $field = new Field();
+        $field->setTitle('Title');
+        $field->setPublicId('title');
+        $field->setDirectory($directory);
+        $field->setFieldType(FieldTypeString::FIELD_TYPE_INTERNAL);
+        $field->setCreationEvent($event);
+        $this->em->persist($field);
+
+        $field = new Field();
+        $field->setTitle('Description');
+        $field->setPublicId('description');
+        $field->setDirectory($directory);
+        $field->setFieldType(FieldTypeText::FIELD_TYPE_INTERNAL);
+        $field->setCreationEvent($event);
+        $this->em->persist($field);
+
+
+        // TODO add one of each field type here
+
+        $this->em->flush();
+
+
+
+        # CREATE
+        $internalAPI = new InternalAPI($this->container);
+
+        $recordCreate = $internalAPI->getRecordCreate('test1','resource');
+        // Don't set any field values! We should be smart enough not to save.
+        $recordCreate->setComment('Test');
+        $recordCreate->setEmail('test@example.com');
+
+        $this->assertFalse($internalAPI->saveRecordCreate($recordCreate));
+
+
+
+
+        # TEST
+
+        $records = $this->em->getRepository('DirectokiBundle:Record')->getRecordsNeedingAttention($directory);
+        $this->assertEquals(0, count($records));
+
+
+    }
+
+
     public function testStringField() {
 
         $user = new User();
