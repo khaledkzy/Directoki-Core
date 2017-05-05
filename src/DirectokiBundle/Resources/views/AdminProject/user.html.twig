@@ -12,7 +12,8 @@
 
 
 	<ol class="breadcrumb">
-		<li>Project: {{  project.title }}</li>
+		<li><a href="{{ path('directoki_admin_project_list') }}">Admin</a></li>
+		<li><a href="{{  path('directoki_admin_project_show', { 'projectId':project.publicId }) }}">Project: {{  project.title }}</a></li>
 		<li class="active">Users</li>
 	</ol>
 

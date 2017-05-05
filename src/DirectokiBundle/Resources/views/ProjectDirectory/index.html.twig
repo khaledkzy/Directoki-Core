@@ -12,7 +12,7 @@
 
 
 	<ol class="breadcrumb">
-		<li>Project: {{  project.title }}</li>
+		<li><a href="{{  path('directoki_project_show', { 'projectId':project.publicId }) }}">Project: {{  project.title }}</a></li>
 		<li class="active">Directory: {{  directory.titlePlural }}</li>
 	</ol>
 

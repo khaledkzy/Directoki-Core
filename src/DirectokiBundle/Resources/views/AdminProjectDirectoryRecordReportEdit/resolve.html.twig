@@ -12,9 +12,10 @@
 
 
 	<ol class="breadcrumb">
-		<li>Project: {{  project.title }}</li>
-		<li>Directory: {{  directory.titlePlural }}</li>
-		<li>Record: {{  record.publicId }}</li>
+		<li><a href="{{ path('directoki_admin_project_list') }}">Admin</a></li>
+		<li><a href="{{  path('directoki_admin_project_show', { 'projectId':project.publicId }) }}">Project: {{  project.title }}</a></li>
+		<li><a href="{{  path('directoki_admin_project_directory_show', { 'projectId':project.publicId,'directoryId':directory.publicId }) }}">Directory: {{  directory.titlePlural }}</a></li>
+		<li><a href="{{  path('directoki_admin_project_directory_record_show', { 'projectId':project.publicId,'directoryId':directory.publicId, 'recordId':record.publicId }) }}">Record: {{  record.publicId }}</a></li>
 		<li>Report: {{  report.id }}</li>
 		<li class="active">Resolve</li>
 	</ol>

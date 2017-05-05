@@ -12,8 +12,8 @@
 
 
 	<ol class="breadcrumb">
-		<li>Project: {{  project.title }}</li>
-		<li>Directory: {{  directory.titlePlural }}</li>
+		<li><a href="{{  path('directoki_project_show', { 'projectId':project.publicId }) }}">Project: {{  project.title }}</a></li>
+		<li><a href="{{  path('directoki_project_directory_show', { 'projectId':project.publicId,'directoryId':directory.publicId }) }}">Directory: {{  directory.titlePlural }}</a></li>
 		<li>Records</li>
 	</ol>
 
