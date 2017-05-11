@@ -8,6 +8,8 @@ use DirectokiBundle\Entity\Event;
 use DirectokiBundle\Entity\Record;
 use DirectokiBundle\Entity\RecordHasFieldMultiSelectValue;
 use DirectokiBundle\Entity\Field;
+use DirectokiBundle\Entity\SelectValue;
+use DirectokiBundle\ImportCSVLineResult;
 use DirectokiBundle\InternalAPI\V1\Model\BaseFieldValue;
 use JMBTechnology\UserAccountsBundle\Entity\User;
 use DirectokiBundle\Form\Type\RecordHasFieldMultiSelectValueType;
@@ -243,7 +245,40 @@ class FieldTypeMultiSelect extends  BaseFieldType
     }
 
     public function parseCSVLineData( Field $field, $fieldConfig, $lineData,  Record $record, Event $creationEvent, $published=false ) {
-        // TODO: Implement parseCSVLineData() method.
+
+        $records = array();
+        $repoSelectValue = $this->container->get('doctrine')->getManager()->getRepository('DirectokiBundle:SelectValue');
+
+        if (isset($fieldConfig['add_value_id'])) {
+            foreach(explode(",", $fieldConfig['add_value_id']) as $fieldPublicId) {
+                if (trim($fieldPublicId)) {
+                    $valueObject = $repoSelectValue->findOneBy(array('field' => $field, 'publicId' => trim($fieldPublicId)));
+                    if ($valueObject) {
+                        $newRecordHasFieldValues = new RecordHasFieldMultiSelectValue();
+                        $newRecordHasFieldValues->setRecord($record);
+                        $newRecordHasFieldValues->setField($field);
+                        $newRecordHasFieldValues->setSelectValue($valueObject);
+                        $newRecordHasFieldValues->setAdditionCreationEvent($creationEvent);
+                        if ($published) {
+                            $newRecordHasFieldValues->setAdditionApprovalEvent($creationEvent);
+                        }
+                        $records[] = $newRecordHasFieldValues;
+                    }
+                }
+            }
+        }
+
+        if ($records) {
+            $debugOutput = array();
+            foreach($records as $record) {
+                $debugOutput[] = $record->getSelectValue()->getTitle();
+            }
+            return new ImportCSVLineResult(
+                implode(', ', $debugOutput),
+                $records
+            );
+        }
+
     }
 
     public function getDataForCache( Field $field, Record $record ) {
