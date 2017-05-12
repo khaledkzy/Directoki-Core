@@ -82,6 +82,9 @@ class SelectValue
      */
     public function setCreationEvent( $creationEvent ) {
         $this->creationEvent = $creationEvent;
+        if ($creationEvent && !$this->createdAt) {
+            $this->createdAt = new \DateTime();
+        }
     }
 
     /**

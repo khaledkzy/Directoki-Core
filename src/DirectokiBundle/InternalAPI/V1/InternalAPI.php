@@ -3,10 +3,12 @@
 namespace DirectokiBundle\InternalAPI\V1;
 use DirectokiBundle\Entity\RecordHasState;
 use DirectokiBundle\FieldType\FieldTypeLatLng;
+use DirectokiBundle\FieldType\FieldTypeMultiSelect;
 use DirectokiBundle\FieldType\FieldTypeString;
 use DirectokiBundle\FieldType\FieldTypeText;
 use DirectokiBundle\InternalAPI\V1\Model\FieldValueLatLng;
 use DirectokiBundle\InternalAPI\V1\Model\FieldValueLatLngEdit;
+use DirectokiBundle\InternalAPI\V1\Model\FieldValueMultiSelect;
 use DirectokiBundle\InternalAPI\V1\Model\FieldValueString;
 use DirectokiBundle\InternalAPI\V1\Model\FieldValueStringEdit;
 use DirectokiBundle\InternalAPI\V1\Model\FieldValueText;
@@ -15,6 +17,7 @@ use DirectokiBundle\InternalAPI\V1\Model\Record;
 use DirectokiBundle\InternalAPI\V1\Model\RecordCreate;
 use DirectokiBundle\InternalAPI\V1\Model\RecordEdit;
 
+use DirectokiBundle\InternalAPI\V1\Model\SelectValue;
 use Symfony\Component\HttpFoundation\Request;
 
 
@@ -112,6 +115,12 @@ class InternalAPI {
                 $fieldValues[$field->getPublicId()] = new FieldValueText($field->getPublicId(), $field->getTitle(), $tmp[0]->getValue());
             } else if ($field->getFieldType() == FieldTypeLatLng::FIELD_TYPE_INTERNAL) {
                 $fieldValues[$field->getPublicId()] = new FieldValueLatLng($field->getPublicId(), $field->getTitle(), $tmp[0]->getLat(), $tmp[0]->getLng());
+            } else if ($field->getFieldType() == FieldTypeMultiSelect::FIELD_TYPE_INTERNAL) {
+                $selectValues = array();
+                foreach($tmp as $t) {
+                    $selectValues[] = new SelectValue($t->getSelectValue()->getPublicId(), $t->getSelectValue()->getTitle());
+                }
+                $fieldValues[$field->getPublicId()] = new FieldValueMultiSelect($field->getPublicId(), $field->getTitle(), $selectValues);
             }
 
         }
