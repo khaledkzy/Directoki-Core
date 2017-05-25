@@ -47,8 +47,13 @@ class ProjectVoter extends Voter {
 
         switch ($attribute) {
             case self::ADMIN:
+                // Anonymous users def can't
+                if (!($user instanceof $user)) {
+                    return false;
+                }
+
                 // Owner definitely can
-                if ($user instanceof User && $user == $subject->getOwner()) {
+                if ($user == $subject->getOwner()) {
                     return true;
                 }
 
