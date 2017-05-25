@@ -34,10 +34,10 @@ class FieldTypeLatLngTest extends BaseTest
         $fieldType = new FieldTypeLatLng($this->container);
         $result = $fieldType->parseCSVLineData($field, $fieldConfig, $lineData, $record, $event, $publish);
         $this->assertEquals('3.4, 6.7', $result->getDebugOutput());
-        $this->assertEquals(1, count($result->getFieldValuesToSave()));
-        $this->assertEquals("DirectokiBundle\Entity\RecordHasFieldLatLngValue", get_class($result->getFieldValuesToSave()[0]));
-        $this->assertEquals('3.4', $result->getFieldValuesToSave()[0]->getLat());
-        $this->assertEquals('6.7', $result->getFieldValuesToSave()[0]->getLng());
+        $this->assertEquals(1, count($result->getEntitiesToSave()));
+        $this->assertEquals("DirectokiBundle\Entity\RecordHasFieldLatLngValue", get_class($result->getEntitiesToSave()[0]));
+        $this->assertEquals('3.4', $result->getEntitiesToSave()[0]->getLat());
+        $this->assertEquals('6.7', $result->getEntitiesToSave()[0]->getLng());
     }
 
 }

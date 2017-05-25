@@ -36,7 +36,7 @@ class ImportCSVCommand extends ContainerAwareCommand
         $doctrine = $this->getContainer()->get('doctrine')->getManager();
 
         $config = parse_ini_file($input->getArgument('config'), true);
-        $publish = boolval($config['general']['publish']);
+        $publish = isset($config['general']['publish']) ? boolval($config['general']['publish']) : false;
 
         $project = $doctrine->getRepository('DirectokiBundle:Project')->findOneByPublicId($config['general']['project']);
         if (!$project) {
@@ -61,7 +61,7 @@ class ImportCSVCommand extends ContainerAwareCommand
             $project,
             null,
             null,
-            $config['general']['comment']
+            isset($config['general']['comment']) ? $config['general']['comment'] : ''
         );
         if ($save) {
             $doctrine->persist($event);
@@ -122,8 +122,8 @@ class ImportCSVCommand extends ContainerAwareCommand
                     $output->writeln(' ... '. $fieldName . ' : ' . $return->getDebugOutput());
 
                     if ($save) {
-                        foreach ( $return->getFieldValuesToSave() as $fieldValueToSave ) {
-                            $doctrine->persist($fieldValueToSave);
+                        foreach ( $return->getEntitiesToSave() as $entityToSave ) {
+                            $doctrine->persist($entityToSave);
                         }
                     }
 

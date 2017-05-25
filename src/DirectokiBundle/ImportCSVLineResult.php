@@ -14,11 +14,11 @@ class ImportCSVLineResult
 
     protected $debugOutput;
 
-    protected $fieldValuesToSave;
+    protected $entitiesToSave;
 
     function __construct( $debugOutput, $fieldValuesToSave ) {
         $this->debugOutput = $debugOutput;
-        $this->fieldValuesToSave = $fieldValuesToSave;
+        $this->entitiesToSave = $fieldValuesToSave;
     }
 
 
@@ -32,8 +32,8 @@ class ImportCSVLineResult
     /**
      * @return array
      */
-    public function getFieldValuesToSave() {
-        return $this->fieldValuesToSave;
+    public function getEntitiesToSave() {
+        return $this->entitiesToSave;
     }
 
 

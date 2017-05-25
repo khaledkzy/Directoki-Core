@@ -246,13 +246,13 @@ class FieldTypeMultiSelect extends  BaseFieldType
 
     public function parseCSVLineData( Field $field, $fieldConfig, $lineData,  Record $record, Event $creationEvent, $published=false ) {
 
-        $records = array();
+        $entitesToSave = array();
         $repoSelectValue = $this->container->get('doctrine')->getManager()->getRepository('DirectokiBundle:SelectValue');
 
         if (isset($fieldConfig['add_value_id'])) {
-            foreach(explode(",", $fieldConfig['add_value_id']) as $fieldPublicId) {
-                if (trim($fieldPublicId)) {
-                    $valueObject = $repoSelectValue->findOneBy(array('field' => $field, 'publicId' => trim($fieldPublicId)));
+            foreach(explode(",", $fieldConfig['add_value_id']) as $valuePublicId) {
+                if (trim($valuePublicId)) {
+                    $valueObject = $repoSelectValue->findOneBy(array('field' => $field, 'publicId' => trim($valuePublicId)));
                     if ($valueObject) {
                         $newRecordHasFieldValues = new RecordHasFieldMultiSelectValue();
                         $newRecordHasFieldValues->setRecord($record);
@@ -262,20 +262,49 @@ class FieldTypeMultiSelect extends  BaseFieldType
                         if ($published) {
                             $newRecordHasFieldValues->setAdditionApprovalEvent($creationEvent);
                         }
-                        $records[] = $newRecordHasFieldValues;
+                        $entitesToSave[] = $newRecordHasFieldValues;
                     }
                 }
             }
         }
 
-        if ($records) {
+        if (isset($fieldConfig['add_title_column'])) {
+            foreach (explode(",", $lineData[$fieldConfig['add_title_column']]) as $valueTitle) {
+                $valueTitle = trim($valueTitle);
+                if ($valueTitle) {
+                    $valueObject = $repoSelectValue->findOneBy(array('field' => $field, 'title' => trim($valueTitle)));
+                    if (!$valueObject) {
+                        $valueObject = new SelectValue();
+                        $valueObject->setCreationEvent($creationEvent);
+                        $valueObject->setTitle(trim($valueTitle));
+                        $valueObject->setField($field);
+                        $entitesToSave[] = $valueObject;
+                    }
+                    $newRecordHasFieldValues = new RecordHasFieldMultiSelectValue();
+                    $newRecordHasFieldValues->setRecord($record);
+                    $newRecordHasFieldValues->setField($field);
+                    $newRecordHasFieldValues->setSelectValue($valueObject);
+                    $newRecordHasFieldValues->setAdditionCreationEvent($creationEvent);
+                    if ($published) {
+                        $newRecordHasFieldValues->setAdditionApprovalEvent($creationEvent);
+                    }
+                    $entitesToSave[] = $newRecordHasFieldValues;
+                }
+            }
+        }
+
+        if ($entitesToSave) {
             $debugOutput = array();
-            foreach($records as $record) {
-                $debugOutput[] = $record->getSelectValue()->getTitle();
+            foreach($entitesToSave as $record) {
+                if ($record instanceof RecordHasFieldMultiSelectValue) {
+                    $debugOutput[] = $record->getSelectValue()->getTitle();
+                } else if ($record instanceof SelectValue) {
+                    $debugOutput[] = "New Select Value: ". $record->getTitle();
+                }
             }
             return new ImportCSVLineResult(
                 implode(', ', $debugOutput),
-                $records
+                $entitesToSave
             );
         }
 

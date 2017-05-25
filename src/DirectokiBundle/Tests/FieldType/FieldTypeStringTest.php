@@ -32,9 +32,9 @@ class FieldTypeStringTest extends BaseTest
         $fieldType = new FieldTypeString($this->container);
         $result = $fieldType->parseCSVLineData($field, $fieldConfig, $lineData, $record, $event, $publish);
         $this->assertEquals('cats', $result->getDebugOutput());
-        $this->assertEquals(1, count($result->getFieldValuesToSave()));
-        $this->assertEquals("DirectokiBundle\Entity\RecordHasFieldStringValue", get_class($result->getFieldValuesToSave()[0]));
-        $this->assertEquals('cats', $result->getFieldValuesToSave()[0]->getValue());
+        $this->assertEquals(1, count($result->getEntitiesToSave()));
+        $this->assertEquals("DirectokiBundle\Entity\RecordHasFieldStringValue", get_class($result->getEntitiesToSave()[0]));
+        $this->assertEquals('cats', $result->getEntitiesToSave()[0]->getValue());
     }
 
 }
