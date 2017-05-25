@@ -170,23 +170,25 @@ class FieldTypeLatLng extends  BaseFieldType {
 
             $columnLat = intval($fieldConfig['column_lat']);
             $columnLng = intval($fieldConfig['column_lng']);
-            $dataLat  = $lineData[$columnLat];
-            $dataLng = $lineData[$columnLng];
+            if (isset($lineData[$columnLat]) && isset($lineData[$columnLng]) && $lineData[$columnLat] && $lineData[$columnLng]) {
+                $dataLat = $lineData[$columnLat];
+                $dataLng = $lineData[$columnLng];
 
-            $newRecordHasFieldValues = new RecordHasFieldLatLngValue();
-            $newRecordHasFieldValues->setRecord($record);
-            $newRecordHasFieldValues->setField($field);
-            $newRecordHasFieldValues->setLat($dataLat);
-            $newRecordHasFieldValues->setLng($dataLng);
-            $newRecordHasFieldValues->setCreationEvent($creationEvent);
-            if ($published) {
-                $newRecordHasFieldValues->setApprovalEvent($creationEvent);
+                $newRecordHasFieldValues = new RecordHasFieldLatLngValue();
+                $newRecordHasFieldValues->setRecord($record);
+                $newRecordHasFieldValues->setField($field);
+                $newRecordHasFieldValues->setLat($dataLat);
+                $newRecordHasFieldValues->setLng($dataLng);
+                $newRecordHasFieldValues->setCreationEvent($creationEvent);
+                if ($published) {
+                    $newRecordHasFieldValues->setApprovalEvent($creationEvent);
+                }
+
+                return new ImportCSVLineResult(
+                    $dataLat . ", " . $dataLng,
+                    array($newRecordHasFieldValues)
+                );
             }
-
-            return new ImportCSVLineResult(
-                $dataLat. ", ". $dataLng,
-                array($newRecordHasFieldValues)
-            );
         }
 
     }

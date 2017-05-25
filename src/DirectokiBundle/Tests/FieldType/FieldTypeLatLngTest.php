@@ -40,4 +40,23 @@ class FieldTypeLatLngTest extends BaseTest
         $this->assertEquals('6.7', $result->getEntitiesToSave()[0]->getLng());
     }
 
+    function testParseCSVLineDataTest2() {
+        $field = new Field();
+        $fieldConfig = array(
+            'column_lat'=>1,
+            'column_lng'=>2
+        );
+        $lineData = array(
+            'cats',
+            '',
+            '',
+        );
+        $record = new Record();
+        $event = new Event();
+        $publish = false;
+        $fieldType = new FieldTypeLatLng($this->container);
+        $result = $fieldType->parseCSVLineData($field, $fieldConfig, $lineData, $record, $event, $publish);
+        $this->assertNull($result);
+    }
+
 }
