@@ -126,9 +126,25 @@ class FieldTypeEmail extends  BaseFieldType {
 
 
     public function processInternalAPI1Record(BaseFieldValue $fieldValueEdit, Directory $directory, Record $record = null, Event $event) {
-        // TODO
+        if ($fieldValueEdit->getNewValue()) {
+            $repo = $this->container->get('doctrine')->getManager()->getRepository('DirectokiBundle:Field');
+            $field = $repo->findOneBy(array('directory'=>$directory, 'publicId'=>$fieldValueEdit->getPublicID()));
+            $currentValue = '';
+            if ( $record !== null ) {
+                $latestValueObject = $this->getLatestFieldValue($field, $record);
+                $currentValue = $latestValueObject->getValue();
+            }
+            $newValue = $fieldValueEdit->getNewValue();
+            if ($newValue != $currentValue) {
+                $newRecordHasFieldValues = new RecordHasFieldEmailValue();
+                $newRecordHasFieldValues->setRecord($record);
+                $newRecordHasFieldValues->setField($field);
+                $newRecordHasFieldValues->setValue($newValue);
+                $newRecordHasFieldValues->setCreationEvent($event);
+                return array($newRecordHasFieldValues);
+            }
+        }
         return array();
-
     }
 
     public function parseCSVLineData( Field $field, $fieldConfig, $lineData,  Record $record, Event $creationEvent, $published=false ) {

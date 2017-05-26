@@ -2,10 +2,13 @@
 
 namespace DirectokiBundle\InternalAPI\V1;
 use DirectokiBundle\Entity\RecordHasState;
+use DirectokiBundle\FieldType\FieldTypeEmail;
 use DirectokiBundle\FieldType\FieldTypeLatLng;
 use DirectokiBundle\FieldType\FieldTypeMultiSelect;
 use DirectokiBundle\FieldType\FieldTypeString;
 use DirectokiBundle\FieldType\FieldTypeText;
+use DirectokiBundle\InternalAPI\V1\Model\FieldValueEmail;
+use DirectokiBundle\InternalAPI\V1\Model\FieldValueEmailEdit;
 use DirectokiBundle\InternalAPI\V1\Model\FieldValueLatLng;
 use DirectokiBundle\InternalAPI\V1\Model\FieldValueLatLngEdit;
 use DirectokiBundle\InternalAPI\V1\Model\FieldValueMultiSelect;
@@ -63,6 +66,8 @@ class InternalAPI {
                     $fieldValues[ $field->getPublicId() ] = new FieldValueString( $field->getPublicId(), $field->getTitle(), $tmp[0]->getValue() );
                 } else if ( $field->getFieldType() == FieldTypeText::FIELD_TYPE_INTERNAL && $tmp[0] ) {
                     $fieldValues[ $field->getPublicId() ] = new FieldValueText( $field->getPublicId(), $field->getTitle(), $tmp[0]->getValue() );
+                } else if ( $field->getFieldType() == FieldTypeEmail::FIELD_TYPE_INTERNAL && $tmp[0] ) {
+                    $fieldValues[ $field->getPublicId() ] = new FieldValueEmail( $field->getPublicId(), $field->getTitle(), $tmp[0]->getValue() );
                 } else if ( $field->getFieldType() == FieldTypeLatLng::FIELD_TYPE_INTERNAL && $tmp[0] ) {
                     $fieldValues[ $field->getPublicId() ] = new FieldValueLatLng( $field->getPublicId(), $field->getTitle(), $tmp[0]->getLat(), $tmp[0]->getLng()  );
                 }
@@ -113,6 +118,8 @@ class InternalAPI {
                 $fieldValues[$field->getPublicId()] = new FieldValueString($field->getPublicId(), $field->getTitle(), $tmp[0]->getValue());
             } else if ($field->getFieldType() == FieldTypeText::FIELD_TYPE_INTERNAL) {
                 $fieldValues[$field->getPublicId()] = new FieldValueText($field->getPublicId(), $field->getTitle(), $tmp[0]->getValue());
+            } else if ($field->getFieldType() == FieldTypeEmail::FIELD_TYPE_INTERNAL) {
+                $fieldValues[$field->getPublicId()] = new FieldValueEmail($field->getPublicId(), $field->getTitle(), $tmp[0]->getValue());
             } else if ($field->getFieldType() == FieldTypeLatLng::FIELD_TYPE_INTERNAL) {
                 $fieldValues[$field->getPublicId()] = new FieldValueLatLng($field->getPublicId(), $field->getTitle(), $tmp[0]->getLat(), $tmp[0]->getLng());
             } else if ($field->getFieldType() == FieldTypeMultiSelect::FIELD_TYPE_INTERNAL) {
@@ -218,6 +225,8 @@ class InternalAPI {
                 $fields[$field->getPublicId()] = new FieldValueStringEdit(null, $field);
             } else if ($field->getFieldType() == FieldTypeText::FIELD_TYPE_INTERNAL) {
                 $fields[$field->getPublicId()] = new FieldValueTextEdit(null, $field);
+            } else if ($field->getFieldType() == FieldTypeEmail::FIELD_TYPE_INTERNAL) {
+                $fields[$field->getPublicId()] = new FieldValueEmailEdit(null, $field);
             } else if ($field->getFieldType() == FieldTypeLatLng::FIELD_TYPE_INTERNAL) {
                 $fields[$field->getPublicId()] = new FieldValueLatLngEdit(null, $field);
             }
