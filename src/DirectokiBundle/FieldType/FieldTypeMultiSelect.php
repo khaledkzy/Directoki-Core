@@ -43,7 +43,26 @@ class FieldTypeMultiSelect extends  BaseFieldType
 
 
     public function getLatestFieldValuesFromCache( Field $field, Record $record ) {
-        // TODO: Implement getLatestFieldValuesFromCache() method.
+
+        if ($record->getCachedFields() && isset($record->getCachedFields()[$field->getId()])  && is_array($record->getCachedFields()[$field->getId()]['value'])) {
+
+            $out = array();
+
+            foreach($record->getCachedFields()[$field->getId()]['value'] as $data) {
+                $selectValue = new SelectValue();
+                $selectValue->setTitle($data['title']);
+                $selectValue->setPublicId($data['publicId']);
+
+                $recordHasFieldMultiSelectValue = new RecordHasFieldMultiSelectValue();
+                $recordHasFieldMultiSelectValue->setSelectValue($selectValue);
+
+                $out[] = $recordHasFieldMultiSelectValue;
+            }
+
+            return $out;
+        }
+        return array();
+
     }
 
     public function getFieldValuesToModerate(Field $field, Record $record)
@@ -311,8 +330,15 @@ class FieldTypeMultiSelect extends  BaseFieldType
     }
 
     public function getDataForCache( Field $field, Record $record ) {
-        // TODO: Implement getDataForCache() method.
-        return array();
+        $out = array('value'=>array());
+        foreach($this->getLatestFieldValues($field, $record) as $recordHasFieldMultiSelectValue) {
+            $out['value'][] = array(
+                'publicId'=>$recordHasFieldMultiSelectValue->getSelectValue()->getPublicId(),
+                'title'=>$recordHasFieldMultiSelectValue->getSelectValue()->getTitle(),
+            );
+        }
+        return $out;
     }
+
 }
 

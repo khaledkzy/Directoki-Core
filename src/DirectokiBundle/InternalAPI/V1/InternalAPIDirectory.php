@@ -8,18 +8,21 @@ use DirectokiBundle\Entity\Project;
 use DirectokiBundle\Entity\RecordHasState;
 use DirectokiBundle\FieldType\FieldTypeEmail;
 use DirectokiBundle\FieldType\FieldTypeLatLng;
+use DirectokiBundle\FieldType\FieldTypeMultiSelect;
 use DirectokiBundle\FieldType\FieldTypeString;
 use DirectokiBundle\FieldType\FieldTypeText;
 use DirectokiBundle\InternalAPI\V1\Model\FieldValueEmail;
 use DirectokiBundle\InternalAPI\V1\Model\FieldValueEmailEdit;
 use DirectokiBundle\InternalAPI\V1\Model\FieldValueLatLng;
 use DirectokiBundle\InternalAPI\V1\Model\FieldValueLatLngEdit;
+use DirectokiBundle\InternalAPI\V1\Model\FieldValueMultiSelect;
 use DirectokiBundle\InternalAPI\V1\Model\FieldValueString;
 use DirectokiBundle\InternalAPI\V1\Model\FieldValueStringEdit;
 use DirectokiBundle\InternalAPI\V1\Model\FieldValueText;
 use DirectokiBundle\InternalAPI\V1\Model\FieldValueTextEdit;
 use DirectokiBundle\InternalAPI\V1\Model\Record;
 use DirectokiBundle\InternalAPI\V1\Model\RecordCreate;
+use DirectokiBundle\InternalAPI\V1\Model\SelectValue;
 
 
 /**
@@ -104,6 +107,12 @@ class InternalAPIDirectory
                     $fieldValues[ $field->getPublicId() ] = new FieldValueEmail( $field->getPublicId(), $field->getTitle(), $tmp[0]->getValue() );
                 } else if ( $field->getFieldType() == FieldTypeLatLng::FIELD_TYPE_INTERNAL && $tmp[0] ) {
                     $fieldValues[ $field->getPublicId() ] = new FieldValueLatLng( $field->getPublicId(), $field->getTitle(), $tmp[0]->getLat(), $tmp[0]->getLng()  );
+                } else if ($field->getFieldType() == FieldTypeMultiSelect::FIELD_TYPE_INTERNAL) {
+                    $selectValues = array();
+                    foreach ($tmp as $t) {
+                        $selectValues[] = new SelectValue($t->getSelectValue()->getPublicId(), $t->getSelectValue()->getTitle());
+                    }
+                    $fieldValues[$field->getPublicId()] = new FieldValueMultiSelect($field->getPublicId(), $field->getTitle(), $selectValues);
                 }
             }
             $out[] = new Record($this->project->getPublicId(), $this->directory->getPublicId(), $record->getPublicId(), $fieldValues);
