@@ -272,7 +272,7 @@ class FieldTypeMultiSelect extends  BaseFieldType
             foreach (explode(",", $lineData[$fieldConfig['add_title_column']]) as $valueTitle) {
                 $valueTitle = trim($valueTitle);
                 if ($valueTitle) {
-                    $valueObject = $repoSelectValue->findOneBy(array('field' => $field, 'title' => trim($valueTitle)));
+                    $valueObject = $repoSelectValue->findByTitleFromUser($field, $valueTitle);
                     if (!$valueObject) {
                         $valueObject = new SelectValue();
                         $valueObject->setCreationEvent($creationEvent);
