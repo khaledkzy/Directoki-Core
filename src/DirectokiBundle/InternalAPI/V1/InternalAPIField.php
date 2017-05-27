@@ -78,7 +78,7 @@ class InternalAPIField
         if (!$field) {
             throw new \Exception('Value not found');
         }
-        return $field;
+        return new SelectValue($field->getPublicId(), $field->getTitle());
 
     }
 
