@@ -64,6 +64,23 @@ class InternalAPIDirectory
     }
 
 
+    /**
+     * @param $fieldId
+     * @return InternalAPIField
+     * @throws \Exception
+     */
+    function getFieldAPI( $fieldId ) {
+        $doctrine = $this->container->get('doctrine')->getManager();
+
+        $field = $doctrine->getRepository('DirectokiBundle:Field')->findOneBy(array('directory'=>$this->directory, 'publicId'=>$fieldId));
+        if (!$field) {
+            throw new \Exception("Not Found Field");
+        }
+
+        return new InternalAPIField($this->container, $this->project, $this->directory, $field);
+    }
+
+
     function getPublishedRecords() {
 
         $doctrine = $this->container->get('doctrine')->getManager();
