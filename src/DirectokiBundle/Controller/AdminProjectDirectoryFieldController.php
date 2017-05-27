@@ -57,7 +57,7 @@ class AdminProjectDirectoryFieldController extends Controller
 
         $doctrine = $this->getDoctrine()->getManager();
         $repo = $doctrine->getRepository('DirectokiBundle:SelectValue');
-        $selectValues = $repo->findByField($this->field);
+        $selectValues = $repo->findByField($this->field, array('title'=>'ASC'));
 
         return $this->render('DirectokiBundle:AdminProjectDirectoryField:selectValues.html.twig', array(
             'project' => $this->project,
