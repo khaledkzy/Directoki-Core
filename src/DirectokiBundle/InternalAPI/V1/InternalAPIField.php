@@ -65,4 +65,21 @@ class InternalAPIField
 
     }
 
+    function getPublishedSelectValue($valueId) {
+
+        if ($this->field->getFieldType() != FieldTypeMultiSelect::FIELD_TYPE_INTERNAL) {
+            throw new \Exception('Not a Select Field!');
+        }
+
+        $out = array();
+        $doctrine = $this->container->get('doctrine')->getManager();
+        $repo = $doctrine->getRepository('DirectokiBundle:SelectValue');
+        $field = $repo->findOneBy(array('field'=>$this->field, 'publicId'=>$valueId));
+        if (!$field) {
+            throw new \Exception('Value not found');
+        }
+        return $field;
+
+    }
+
 }
