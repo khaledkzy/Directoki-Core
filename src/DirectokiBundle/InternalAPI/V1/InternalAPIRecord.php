@@ -1,0 +1,158 @@
+<?php
+
+namespace DirectokiBundle\InternalAPI\V1;
+
+use DirectokiBundle\Entity\Project;
+use DirectokiBundle\Entity\Directory;
+use DirectokiBundle\Entity\RecordHasState;
+use DirectokiBundle\FieldType\FieldTypeEmail;
+use DirectokiBundle\FieldType\FieldTypeLatLng;
+use DirectokiBundle\FieldType\FieldTypeMultiSelect;
+use DirectokiBundle\FieldType\FieldTypeString;
+use DirectokiBundle\FieldType\FieldTypeText;
+use DirectokiBundle\InternalAPI\V1\Model\FieldValueEmail;
+use DirectokiBundle\InternalAPI\V1\Model\FieldValueLatLng;
+use DirectokiBundle\InternalAPI\V1\Model\FieldValueMultiSelect;
+use DirectokiBundle\InternalAPI\V1\Model\FieldValueString;
+use DirectokiBundle\InternalAPI\V1\Model\FieldValueText;
+use DirectokiBundle\InternalAPI\V1\Model\RecordEdit;
+
+use DirectokiBundle\InternalAPI\V1\Model\SelectValue;
+
+
+/**
+ *  @license 3-clause BSD
+ *  @link https://github.com/Directoki/Directoki-Core/blob/master/LICENSE.txt
+ */
+class InternalAPIRecord
+{
+
+    protected $container;
+
+    /** @var  Project */
+    protected $project;
+
+
+    /** @var  Directory */
+    protected $directory;
+
+
+    /** @var \DirectokiBundle\Entity\Record */
+    protected $record;
+
+    function __construct($container, Project $project, Directory $directory, \DirectokiBundle\Entity\Record $record)
+    {
+        $this->container = $container;
+        $this->project = $project;
+        $this->directory = $directory;
+        $this->record = $record;
+    }
+
+    function getPublished()
+    {
+        $doctrine = $this->container->get('doctrine')->getManager();
+
+
+        // check published
+        $recordHasState = $doctrine->getRepository('DirectokiBundle:RecordHasState')->getLatestStateForRecord($this->record);
+        if ($recordHasState->getState() != RecordHasState::STATE_PUBLISHED) {
+            throw new \Exception("Not Found State");
+        }
+
+        // Get data, return
+
+        $fields = $doctrine->getRepository('DirectokiBundle:Field')->findForDirectory($this->directory);
+
+        $fieldValues = array();
+        foreach($fields as $field) {
+
+            $fieldType = $this->container->get('directoki_field_type_service')->getByField($field);
+            $tmp = $fieldType->getLatestFieldValues($field, $this->record);
+
+            if ($field->getFieldType() == FieldTypeString::FIELD_TYPE_INTERNAL) {
+                $fieldValues[$field->getPublicId()] = new FieldValueString($field->getPublicId(), $field->getTitle(), $tmp[0]->getValue());
+            } else if ($field->getFieldType() == FieldTypeText::FIELD_TYPE_INTERNAL) {
+                $fieldValues[$field->getPublicId()] = new FieldValueText($field->getPublicId(), $field->getTitle(), $tmp[0]->getValue());
+            } else if ($field->getFieldType() == FieldTypeEmail::FIELD_TYPE_INTERNAL) {
+                $fieldValues[$field->getPublicId()] = new FieldValueEmail($field->getPublicId(), $field->getTitle(), $tmp[0]->getValue());
+            } else if ($field->getFieldType() == FieldTypeLatLng::FIELD_TYPE_INTERNAL) {
+                $fieldValues[$field->getPublicId()] = new FieldValueLatLng($field->getPublicId(), $field->getTitle(), $tmp[0]->getLat(), $tmp[0]->getLng());
+            } else if ($field->getFieldType() == FieldTypeMultiSelect::FIELD_TYPE_INTERNAL) {
+                $selectValues = array();
+                foreach($tmp as $t) {
+                    $selectValues[] = new SelectValue($t->getSelectValue()->getPublicId(), $t->getSelectValue()->getTitle());
+                }
+                $fieldValues[$field->getPublicId()] = new FieldValueMultiSelect($field->getPublicId(), $field->getTitle(), $selectValues);
+            }
+
+        }
+
+        return new \DirectokiBundle\InternalAPI\V1\Model\Record($this->project->getPublicId(), $this->directory->getPublicId(), $this->record->getPublicId(), $fieldValues);
+
+    }
+
+
+    function getPublishedEdit()
+    {
+        return new RecordEdit($this->getPublished());
+    }
+
+
+    function savePublishedEdit(RecordEdit $recordEdit, Request $request = null) {
+
+        $doctrine = $this->container->get('doctrine')->getManager();
+
+        if ($recordEdit->getProjectPublicId() != $this->project->getPublicId()) {
+            throw new \Exception('Passed wrong project!');
+        }
+        if ($recordEdit->getDirectoryPublicId() != $this->directory->getPublicId()) {
+            throw new \Exception('Passed wrong Directory!');
+        }
+        if ($recordEdit->getPublicID() != $this->record->getPublicId()) {
+            throw new \Exception('Passed wrong Record!');
+        }
+
+        $event = $this->container->get('directoki_event_builder_service')->build(
+            $this->project,
+            $recordEdit->getUser(),
+            $request,
+            $recordEdit->getComment()
+        );
+
+        $fieldDataToSave = array();
+        foreach ( $recordEdit->getFieldValueEdits() as $fieldEdit ) {
+
+            $field = $doctrine->getRepository('DirectokiBundle:Field')->findOneBy(array('directory'=>$this->directory, 'publicId'=>$fieldEdit->getPublicID()));
+
+            $fieldType = $this->container->get( 'directoki_field_type_service' )->getByField( $field );
+
+            $fieldDataToSave = array_merge($fieldDataToSave, $fieldType->processInternalAPI1Record($fieldEdit, $this->directory, $this->record, $event));
+
+        }
+
+        if ($fieldDataToSave) {
+
+            $email = $recordEdit->getEmail();
+            if ($email) {
+                if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                    $event->setContact( $doctrine->getRepository( 'DirectokiBundle:Contact' )->findOrCreateByEmail($this->project, $email));
+                } else {
+                    $this->get('logger')->error('An edit on project '.$this->project->getPublicId().' directory '.$this->directory->getPublicId().' record '.$this->record->getPublicId().' had an email address we did not recognise: ' . $email);
+                }
+            }
+            $doctrine->persist($event);
+
+            foreach($fieldDataToSave as $entityToSave) {
+                $doctrine->persist($entityToSave);
+            }
+
+            $doctrine->flush();
+
+            return true;
+
+        } else {
+            return false;
+        }
+    }
+
+}
