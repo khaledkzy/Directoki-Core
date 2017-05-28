@@ -26,7 +26,7 @@ class RecordHasFieldMultiSelectValueType extends BaseRecordHasFieldValueType {
         $repoSelectValue = $container->get('doctrine')->getManager()->getRepository('DirectokiBundle:SelectValue');
         $repoRecordHasFieldMultiSelectValue = $container->get('doctrine')->getManager()->getRepository('DirectokiBundle:RecordHasFieldMultiSelectValue');
 
-        foreach($repoSelectValue->findBy(array('field'=>$field)) as $selectValue) {
+        foreach($repoSelectValue->findBy(array('field'=>$field), array('title'=>'asc')) as $selectValue) {
             $this->selectValues[] = $selectValue;
             $this->selectValuesCurrentValue[$selectValue->getPublicId()] = $repoRecordHasFieldMultiSelectValue->doesRecordHaveFieldHaveValue($record, $field, $selectValue);
         }
