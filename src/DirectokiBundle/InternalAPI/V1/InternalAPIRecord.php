@@ -20,6 +20,7 @@ use DirectokiBundle\InternalAPI\V1\Model\RecordEdit;
 
 use DirectokiBundle\InternalAPI\V1\Model\RecordReportEdit;
 use DirectokiBundle\InternalAPI\V1\Model\SelectValue;
+use Symfony\Component\HttpFoundation\Request;
 
 
 /**
