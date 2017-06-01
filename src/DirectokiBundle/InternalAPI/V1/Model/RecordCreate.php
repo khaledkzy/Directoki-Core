@@ -1,7 +1,7 @@
 <?php
 
 namespace DirectokiBundle\InternalAPI\V1\Model;
-
+use JMBTechnology\UserAccountsBundle\Entity\User;
 
 
 /**
@@ -92,7 +92,7 @@ class RecordCreate {
     /**
      * @param mixed $user
      */
-    public function setUser( $user ) {
+    public function setUser(User $user ) {
         $this->user = $user;
     }
 
