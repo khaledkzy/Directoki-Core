@@ -5,6 +5,7 @@ namespace DirectokiBundle\InternalAPI\V1;
 use DirectokiBundle\Entity\Project;
 use DirectokiBundle\Entity\Directory;
 use DirectokiBundle\Entity\RecordHasState;
+use DirectokiBundle\Entity\RecordReport;
 use DirectokiBundle\FieldType\FieldTypeEmail;
 use DirectokiBundle\FieldType\FieldTypeLatLng;
 use DirectokiBundle\FieldType\FieldTypeMultiSelect;
@@ -17,6 +18,7 @@ use DirectokiBundle\InternalAPI\V1\Model\FieldValueString;
 use DirectokiBundle\InternalAPI\V1\Model\FieldValueText;
 use DirectokiBundle\InternalAPI\V1\Model\RecordEdit;
 
+use DirectokiBundle\InternalAPI\V1\Model\RecordReportEdit;
 use DirectokiBundle\InternalAPI\V1\Model\SelectValue;
 
 
@@ -137,7 +139,7 @@ class InternalAPIRecord
                 if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
                     $event->setContact( $doctrine->getRepository( 'DirectokiBundle:Contact' )->findOrCreateByEmail($this->project, $email));
                 } else {
-                    $this->get('logger')->error('An edit on project '.$this->project->getPublicId().' directory '.$this->directory->getPublicId().' record '.$this->record->getPublicId().' had an email address we did not recognise: ' . $email);
+                    $this->container->get('logger')->error('An edit on project '.$this->project->getPublicId().' directory '.$this->directory->getPublicId().' record '.$this->record->getPublicId().' had an email address we did not recognise: ' . $email);
                 }
             }
             $doctrine->persist($event);
@@ -153,6 +155,45 @@ class InternalAPIRecord
         } else {
             return false;
         }
+    }
+
+
+    function saveReport(RecordReportEdit $recordReportEdit, Request $request = null)
+    {
+
+        $doctrine = $this->container->get('doctrine')->getManager();
+
+        if ($recordReportEdit->getDescription()) {
+
+            $event = $this->container->get('directoki_event_builder_service')->build(
+                $this->project,
+                $recordReportEdit->getUser(),
+                $request,
+                null
+            );
+            $email = trim($recordReportEdit->getEmail());
+            if ($email) {
+                if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                    $event->setContact( $doctrine->getRepository( 'DirectokiBundle:Contact' )->findOrCreateByEmail($this->project, $email));
+                } else {
+                    $this->container->get('logger')->error('A new report on project '.$this->project->getPublicId().' directory '.$this->directory->getPublicId().' record '.$this->record->getPublicId().' had an email address we did not recognise: ' . $email);
+                }
+            }
+            $doctrine->persist($event);
+
+            $recordReport = new RecordReport();
+            $recordReport->setCreationEvent($event);
+            $recordReport->setRecord($this->record);
+            $recordReport->setDescription($recordReportEdit->getDescription());
+            $doctrine->persist($recordReport);
+
+            $doctrine->flush();
+
+            return true;
+        } else {
+            return false;
+        }
+
     }
 
 }
