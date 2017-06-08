@@ -8,10 +8,12 @@ use DirectokiBundle\Entity\Event;
 use DirectokiBundle\Entity\Record;
 use DirectokiBundle\Entity\RecordHasFieldTextValue;
 use DirectokiBundle\Entity\Field;
+use Symfony\Component\Form\Form;
 use DirectokiBundle\InternalAPI\V1\Model\BaseFieldValue;
 use JMBTechnology\UserAccountsBundle\Entity\User;
 use DirectokiBundle\Form\Type\RecordHasFieldTextValueType;
 use DirectokiBundle\ImportCSVLineResult;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -185,5 +187,31 @@ class FieldTypeText extends  BaseFieldType {
     public static function filterValue($value) {
         return trim(str_replace("\r","", $value));
     }
+
+    public function addToNewRecordForm(Field $field, FormBuilderInterface $formBuilderInterface)
+    {
+        $formBuilderInterface->add($field->getPublicId(), 'textarea', array(
+            'required' => false,
+            'label'=>$field->getTitle(),
+        ));    }
+
+    public function processNewRecordForm(Field $field, Record $record, Form $form, Event $creationEvent, $published = false)
+    {
+
+        $data = $form->get($field->getPublicId())->getData();
+        if ($data) {
+            $newRecordHasFieldValues = new RecordHasFieldTextValue();
+            $newRecordHasFieldValues->setRecord($record);
+            $newRecordHasFieldValues->setField($field);
+            $newRecordHasFieldValues->setValue($data);
+            $newRecordHasFieldValues->setCreationEvent($creationEvent);
+            if ($published) {
+                $newRecordHasFieldValues->setApprovalEvent($creationEvent);
+            }
+            return array($newRecordHasFieldValues);
+        }
+        return array();
+    }
+
 
 }

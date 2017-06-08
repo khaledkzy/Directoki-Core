@@ -8,10 +8,12 @@ use DirectokiBundle\Entity\Event;
 use DirectokiBundle\Entity\Record;
 use DirectokiBundle\Entity\RecordHasFieldEmailValue;
 use DirectokiBundle\Entity\Field;
+use Symfony\Component\Form\Form;
 use DirectokiBundle\InternalAPI\V1\Model\BaseFieldValue;
 use JMBTechnology\UserAccountsBundle\Entity\User;
 use DirectokiBundle\Form\Type\RecordHasFieldEmailValueType;
 use DirectokiBundle\ImportCSVLineResult;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -174,5 +176,31 @@ class FieldTypeEmail extends  BaseFieldType {
         $val = $this->getLatestFieldValue($field, $record);
         return $val ? array('value'=>$val->getValue()) : array();
     }
+
+    public function addToNewRecordForm(Field $field, FormBuilderInterface $formBuilderInterface)
+    {
+        $formBuilderInterface->add($field->getPublicId(), 'email', array(
+            'required' => false,
+            'label'=>$field->getTitle(),
+        ));
+    }
+
+    public function processNewRecordForm(Field $field, Record $record,Form $form, Event $creationEvent, $published = false)
+    {
+        $data = $form->get($field->getPublicId())->getData();
+        if ($data) {
+            $newRecordHasFieldValues = new RecordHasFieldEmailValue();
+            $newRecordHasFieldValues->setRecord($record);
+            $newRecordHasFieldValues->setField($field);
+            $newRecordHasFieldValues->setValue($data);
+            $newRecordHasFieldValues->setCreationEvent($creationEvent);
+            if ($published) {
+                $newRecordHasFieldValues->setApprovalEvent($creationEvent);
+            }
+            return array($newRecordHasFieldValues);
+        }
+        return array();
+    }
+
 
 }

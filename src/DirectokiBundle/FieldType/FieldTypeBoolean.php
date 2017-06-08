@@ -9,10 +9,12 @@ use DirectokiBundle\Entity\Record;
 use DirectokiBundle\Entity\RecordHasBooleanFieldValue;
 use DirectokiBundle\Entity\Field;
 use DirectokiBundle\Entity\RecordHasFieldBooleanValue;
+use Symfony\Component\Form\Form;
 use DirectokiBundle\InternalAPI\V1\Model\BaseFieldValue;
 use JMBTechnology\UserAccountsBundle\Entity\User;
 use DirectokiBundle\Form\Type\RecordHasBooleanFieldValueType;
 use DirectokiBundle\Form\Type\RecordHasFieldBooleanValueType;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -142,4 +144,17 @@ class FieldTypeBoolean extends  BaseFieldType {
         $val = $this->getLatestFieldValue($field, $record);
         return $val ? array('value'=>$val->getValue()) : array();
     }
+
+    public function addToNewRecordForm(Field $field, FormBuilderInterface $formBuilderInterface)
+    {
+        // TODO: Implement addToNewRecordForm() method.
+    }
+
+    public function processNewRecordForm(Field $field, Record $record, Form $form, Event $creationEvent, $published = false)
+    {
+        // TODO: Implement processNewRecordForm() method.
+        return array();
+    }
+
+
 }

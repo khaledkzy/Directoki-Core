@@ -9,14 +9,17 @@ use DirectokiBundle\Entity\Record;
 use DirectokiBundle\Entity\RecordHasFieldMultiSelectValue;
 use DirectokiBundle\Entity\Field;
 use DirectokiBundle\Entity\SelectValue;
+use Symfony\Component\Form\Form;
 use DirectokiBundle\ImportCSVLineResult;
 use DirectokiBundle\InternalAPI\V1\Model\BaseFieldValue;
 use JMBTechnology\UserAccountsBundle\Entity\User;
 use DirectokiBundle\Form\Type\RecordHasFieldMultiSelectValueType;
 use DirectokiBundle\ModerationNeeded\ModerationNeededRecordHasFieldMultiValueAddition;
 use DirectokiBundle\ModerationNeeded\ModerationNeededRecordHasFieldMultiValueRemoval;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 
 /**
@@ -339,6 +342,40 @@ class FieldTypeMultiSelect extends  BaseFieldType
         }
         return $out;
     }
+
+    public function addToNewRecordForm(Field $field, FormBuilderInterface $formBuilderInterface)
+    {
+        $repoSelectValue = $this->container->get('doctrine')->getManager()->getRepository('DirectokiBundle:SelectValue');
+        foreach ($repoSelectValue->findBy(array('field' => $field),array('title'=>'asc')) as $selectValue) {
+            $formBuilderInterface->add($field->getPublicId().'_value_'. $selectValue->getPublicId(), CheckboxType::class, array(
+                'required' => false,
+                'label'=>$field->getTitle() . ': '. $selectValue->getTitle(),
+            ));
+        }
+    }
+
+    public function processNewRecordForm(Field $field, Record $record, Form $form, Event $creationEvent, $published = false)
+    {
+        $entitesToSave = array();
+        $repoSelectValue = $this->container->get('doctrine')->getManager()->getRepository('DirectokiBundle:SelectValue');
+        foreach ($repoSelectValue->findBy(array('field' => $field),array('title'=>'asc')) as $selectValue) {
+            $value = $form->get($field->getPublicId().'_value_'. $selectValue->getPublicId())->getData();
+            if ($value) {
+                $newRecordHasFieldValues = new RecordHasFieldMultiSelectValue();
+                $newRecordHasFieldValues->setRecord($record);
+                $newRecordHasFieldValues->setField($field);
+                $newRecordHasFieldValues->setSelectValue($selectValue);
+                $newRecordHasFieldValues->setAdditionCreationEvent($creationEvent);
+                if ($published) {
+                    $newRecordHasFieldValues->setAdditionApprovalEvent($creationEvent);
+                }
+                $entitesToSave[] = $newRecordHasFieldValues;
+
+            }
+        }
+        return $entitesToSave;
+    }
+
 
 }
 

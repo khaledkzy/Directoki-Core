@@ -8,12 +8,15 @@ use DirectokiBundle\Entity\Event;
 use DirectokiBundle\Entity\Record;
 use DirectokiBundle\Entity\RecordHasFieldLatLngValue;
 use DirectokiBundle\Entity\Field;
+use Symfony\Component\Form\Form;
 use DirectokiBundle\InternalAPI\V1\Model\BaseFieldValue;
 use JMBTechnology\UserAccountsBundle\Entity\User;
 use DirectokiBundle\Form\Type\RecordHasFieldLatLngValueType;
 use DirectokiBundle\ImportCSVLineResult;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 
 
 /**
@@ -197,4 +200,40 @@ class FieldTypeLatLng extends  BaseFieldType {
         $val = $this->getLatestFieldValue($field, $record);
         return $val ? array('lat'=>$val->getLat(), 'lng'=>$val->getLng()) : array();
     }
+
+    public function addToNewRecordForm(Field $field, FormBuilderInterface $formBuilderInterface)
+    {
+
+        $formBuilderInterface->add($field->getPublicId().'_lat', NumberType::class, array(
+            'required' => false,
+            'label'=>$field->getTitle().' Lat',
+            'scale'=>12,
+        ));
+
+        $formBuilderInterface->add($field->getPublicId().'_lng', NumberType::class, array(
+            'required' => false,
+            'label'=>$field->getTitle().' Lng',
+            'scale'=>12,
+        ));
+    }
+
+    public function processNewRecordForm(Field $field, Record $record, Form $form, Event $creationEvent, $published = false)
+    {
+        $lat = $form->get($field->getPublicId().'_lat')->getData();
+        $lng = $form->get($field->getPublicId().'_lng')->getData();
+        if ($lat && $lng) {
+            $newRecordHasFieldValues = new RecordHasFieldLatLngValue();
+            $newRecordHasFieldValues->setRecord($record);
+            $newRecordHasFieldValues->setField($field);
+            $newRecordHasFieldValues->setLat($lat);
+            $newRecordHasFieldValues->setLng($lng);
+            $newRecordHasFieldValues->setCreationEvent($creationEvent);
+            if ($published) {
+                $newRecordHasFieldValues->setApprovalEvent($creationEvent);
+            }
+            return array($newRecordHasFieldValues);
+        }
+        return array();
+    }
+
 }

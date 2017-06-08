@@ -8,10 +8,12 @@ use DirectokiBundle\Entity\Event;
 use DirectokiBundle\Entity\Record;
 use DirectokiBundle\Entity\RecordHasFieldURLValue;
 use DirectokiBundle\Entity\Field;
+use Symfony\Component\Form\Form;
 use DirectokiBundle\InternalAPI\V1\Model\BaseFieldValue;
 use JMBTechnology\UserAccountsBundle\Entity\User;
 use DirectokiBundle\Form\Type\RecordHasFieldURLValueType;
 use DirectokiBundle\ImportCSVLineResult;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -156,5 +158,17 @@ class FieldTypeURL extends  BaseFieldType {
         $val = $this->getLatestFieldValue($field, $record);
         return $val ? array('value'=>$val->getValue()) : array();
     }
+
+    public function addToNewRecordForm(Field $field, FormBuilderInterface $formBuilderInterface)
+    {
+        // TODO: Implement addToNewRecordForm() method.
+    }
+
+    public function processNewRecordForm(Field $field, Record $record, Form $form, Event $creationEvent, $published = false)
+    {
+        // TODO: Implement processNewRecordForm() method.
+        return array();
+    }
+
 
 }

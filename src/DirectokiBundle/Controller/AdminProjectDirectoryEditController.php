@@ -2,6 +2,7 @@
 
 namespace DirectokiBundle\Controller;
 
+use DirectokiBundle\Action\UpdateRecordCache;
 use DirectokiBundle\Entity\Event;
 use DirectokiBundle\Entity\Field;
 use DirectokiBundle\Entity\Record;
@@ -405,12 +406,16 @@ class AdminProjectDirectoryEditController extends AdminProjectDirectoryControlle
         //data
 
         $doctrine = $this->getDoctrine()->getManager();
+        $fields        = $doctrine->getRepository( 'DirectokiBundle:Field' )->findForDirectory( $this->directory );
 
-        $form = $this->createForm(new RecordNewType());
+
+        $form = $this->createForm(new RecordNewType($this->container, $fields));
         $request = $this->getRequest();
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
             if ($form->isValid()) {
+
+                $approve = $form->get('approve')->getData();
 
                 $event = $this->get('directoki_event_builder_service')->build(
                     $this->project,
@@ -421,13 +426,36 @@ class AdminProjectDirectoryEditController extends AdminProjectDirectoryControlle
                 $event->setAPIVersion(1);
 
                 $record = new Record();
-                $record->setCachedState(RecordHasState::STATE_DRAFT);
+                $record->setCachedState($approve ? RecordHasState::STATE_PUBLISHED : RecordHasState::STATE_DRAFT);
                 $record->setDirectory($this->directory);
                 $record->setCreationEvent($event);
 
                 $doctrine->persist($record);
                 $doctrine->persist($event);
-                $doctrine->flush(array($event, $record));
+
+                if ($approve) {
+                    $recordHasState = new RecordHasState();
+                    $recordHasState->setRecord($record);
+                    $recordHasState->setState(RecordHasState::STATE_PUBLISHED);
+                    $recordHasState->setCreationEvent($event);
+                    $recordHasState->setApprovedAt(new \DateTime());
+                    $recordHasState->setApprovalEvent($event);
+                    $doctrine->persist($recordHasState);
+                }
+
+                foreach($fields as $field) {
+                    $fieldType = $this->container->get('directoki_field_type_service')->getByField($field);
+                    foreach($fieldType->processNewRecordForm($field, $record, $form, $event, $approve) as $entity) {
+                        $doctrine->persist($entity);
+                    }
+                }
+
+                $doctrine->flush();
+
+                if ($approve) {
+                    $updateRecordCache = new UpdateRecordCache($this->container);
+                    $updateRecordCache->go($record);
+                }
 
                 return $this->redirect($this->generateUrl('directoki_admin_project_directory_record_show', array(
                     'projectId'=>$this->project->getPublicId(),

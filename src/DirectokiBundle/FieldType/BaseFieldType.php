@@ -8,10 +8,13 @@ use DirectokiBundle\Entity\Event;
 use DirectokiBundle\Entity\Record;
 use DirectokiBundle\Entity\RecordHasStringField;
 use DirectokiBundle\Entity\Field;
+use Symfony\Component\Form\Form;
 use DirectokiBundle\InternalAPI\V1\Model\BaseFieldValue;
 use JMBTechnology\UserAccountsBundle\Entity\User;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Form\FormBuilderInterface;
+
 
 
 /**
@@ -66,4 +69,7 @@ abstract class  BaseFieldType {
 
     public abstract function getDataForCache(Field $field, Record $record);
 
+    public abstract function addToNewRecordForm(Field $field, FormBuilderInterface $formBuilderInterface);
+
+    public abstract function processNewRecordForm(Field $field, Record $record, Form $form, Event $creationEvent, $published=false );
 }

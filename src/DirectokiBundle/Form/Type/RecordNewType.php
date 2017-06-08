@@ -15,9 +15,38 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
  */
 class RecordNewType extends AbstractType {
 
+    protected $fields;
+
+    protected $container;
+
+    /**
+     * RecordNewType constructor.
+     * @param $fields
+     */
+    public function __construct($container, $fields)
+    {
+        $this->fields = $fields;
+        $this->container = $container;
+    }
+
+
     public function buildForm(FormBuilderInterface $builder, array $options) {
 
 
+        foreach($this->fields as $field) {
+
+            $fieldType = $this->container->get('directoki_field_type_service')->getByField($field);
+
+            $fieldType->addToNewRecordForm($field, $builder);
+
+        }
+
+
+        $builder->add('approve',  CheckboxType::class, array(
+            'required' => false,
+            'label'=>'Approve instantly?',
+            'data' =>true,
+        ));
 
     }
 
