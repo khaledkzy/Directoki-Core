@@ -46,7 +46,7 @@ class RecordHasFieldLatLngValueType extends BaseRecordHasFieldValueType {
     }
 
     public function getName() {
-        return 'tree';
+        return 'latlng';
     }
 
     public function getDefaultOptions(array $options) {

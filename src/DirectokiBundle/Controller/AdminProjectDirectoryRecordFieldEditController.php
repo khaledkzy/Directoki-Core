@@ -62,7 +62,7 @@ class AdminProjectDirectoryRecordFieldEditController extends AdminProjectDirecto
         }
 
 
-        return $this->render('DirectokiBundle:AdminProjectDirectoryRecordFieldEdit:edit.html.twig', array(
+        return $this->render('DirectokiBundle:AdminProjectDirectoryRecordFieldEdit:edit'.$this->field->getFieldType().'.html.twig', array(
             'project' => $this->project,
             'directory' => $this->directory,
             'record' => $this->record,
