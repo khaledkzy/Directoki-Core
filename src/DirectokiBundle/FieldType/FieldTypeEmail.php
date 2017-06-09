@@ -202,5 +202,8 @@ class FieldTypeEmail extends  BaseFieldType {
         return array();
     }
 
+    public function getViewTemplateNewRecordForm() {
+        return '@Directoki/FieldType/Email/newRecordForm.html.twig';
+    }
 
 }

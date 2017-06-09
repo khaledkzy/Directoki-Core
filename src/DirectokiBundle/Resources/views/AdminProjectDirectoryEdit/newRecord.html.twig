@@ -22,13 +22,19 @@
 	<h1>Directory: {{  directory.titlePlural }} New Record</h1>
 
 
-	<form class="styled" action="" method="post" {{ form_enctype(form) }}>
-		{{ form_errors(form) }}
+    <form class="styled" action="" method="post" {{ form_enctype(form) }}>
+        {{ form_errors(form) }}
 
-		{{ form_rest(form) }}
+        {% for field in fields %}
+            <h2>{{ field.title }}</h2>
+            {% include fieldTypeService.getByField(field).getViewTemplateNewRecordForm() with { field:field, form:form } %}
+        {% endfor %}
 
-		<input type="submit" value="Save" />
+        <h2>Misc</h2>
+        {{ form_rest(form) }}
 
-	</form>
+        <input type="submit" value="Save" />
+
+    </form>
 
 {%  endblock %}

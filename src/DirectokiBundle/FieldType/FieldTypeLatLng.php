@@ -236,4 +236,8 @@ class FieldTypeLatLng extends  BaseFieldType {
         return array();
     }
 
+    public function getViewTemplateNewRecordForm() {
+        return '@Directoki/FieldType/LatLng/newRecordForm.html.twig';
+    }
+
 }

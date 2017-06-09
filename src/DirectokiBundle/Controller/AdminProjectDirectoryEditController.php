@@ -470,6 +470,8 @@ class AdminProjectDirectoryEditController extends AdminProjectDirectoryControlle
             'project' => $this->project,
             'directory' => $this->directory,
             'form' => $form->createView(),
+            'fields' => $fields,
+            'fieldTypeService' => $this->container->get('directoki_field_type_service'),
         ));
 
     }

@@ -1,0 +1,7 @@
+{##
+#  @license 3-clause BSD
+#  @link https://github.com/Directoki/Directoki-Core/blob/master/LICENSE.txt
+##}
+{% for selectValue in fieldTypeService.getByField(field).getSelectValues(field) %}
+    {{  form_row(form[field.publicId ~ '_value_' ~ selectValue.publicId]) }}
+{% endfor %}

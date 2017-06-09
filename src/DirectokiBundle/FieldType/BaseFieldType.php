@@ -71,5 +71,7 @@ abstract class  BaseFieldType {
 
     public abstract function addToNewRecordForm(Field $field, FormBuilderInterface $formBuilderInterface);
 
+    public abstract function getViewTemplateNewRecordForm();
+
     public abstract function processNewRecordForm(Field $field, Record $record, Form $form, Event $creationEvent, $published=false );
 }

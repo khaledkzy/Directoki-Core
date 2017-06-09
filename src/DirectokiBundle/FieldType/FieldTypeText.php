@@ -213,5 +213,8 @@ class FieldTypeText extends  BaseFieldType {
         return array();
     }
 
+    public function getViewTemplateNewRecordForm() {
+        return '@Directoki/FieldType/Text/newRecordForm.html.twig';
+    }
 
 }

@@ -33,6 +33,18 @@ class FieldTypeMultiSelect extends  BaseFieldType
     const FIELD_TYPE_INTERNAL = 'multiselect';
     const FIELD_TYPE_API1 = 'multiselect';
 
+
+    public function getSelectValues(Field $field)
+    {
+
+        $repo = $this->container->get('doctrine')->getManager()->getRepository('DirectokiBundle:SelectValue');
+
+        $r = $repo->findBy(array('field'=>$field),array('title'=>'asc'));
+
+        return $r;
+
+    }
+
     public function getLatestFieldValues(Field $field, Record $record)
     {
 
@@ -345,11 +357,10 @@ class FieldTypeMultiSelect extends  BaseFieldType
 
     public function addToNewRecordForm(Field $field, FormBuilderInterface $formBuilderInterface)
     {
-        $repoSelectValue = $this->container->get('doctrine')->getManager()->getRepository('DirectokiBundle:SelectValue');
-        foreach ($repoSelectValue->findBy(array('field' => $field),array('title'=>'asc')) as $selectValue) {
+        foreach ($this->getSelectValues($field) as $selectValue) {
             $formBuilderInterface->add($field->getPublicId().'_value_'. $selectValue->getPublicId(), CheckboxType::class, array(
                 'required' => false,
-                'label'=>$field->getTitle() . ': '. $selectValue->getTitle(),
+                'label'=> $selectValue->getTitle(),
             ));
         }
     }
@@ -357,8 +368,7 @@ class FieldTypeMultiSelect extends  BaseFieldType
     public function processNewRecordForm(Field $field, Record $record, Form $form, Event $creationEvent, $published = false)
     {
         $entitesToSave = array();
-        $repoSelectValue = $this->container->get('doctrine')->getManager()->getRepository('DirectokiBundle:SelectValue');
-        foreach ($repoSelectValue->findBy(array('field' => $field),array('title'=>'asc')) as $selectValue) {
+        foreach ($this->getSelectValues($field) as $selectValue) {
             $value = $form->get($field->getPublicId().'_value_'. $selectValue->getPublicId())->getData();
             if ($value) {
                 $newRecordHasFieldValues = new RecordHasFieldMultiSelectValue();
@@ -374,6 +384,11 @@ class FieldTypeMultiSelect extends  BaseFieldType
             }
         }
         return $entitesToSave;
+    }
+
+    public function getViewTemplateNewRecordForm()
+    {
+        return '@Directoki/FieldType/MultiSelect/newRecordForm.html.twig';
     }
 
 

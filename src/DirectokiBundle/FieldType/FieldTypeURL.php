@@ -170,5 +170,9 @@ class FieldTypeURL extends  BaseFieldType {
         return array();
     }
 
+    public function getViewTemplateNewRecordForm() {
+        return '@Directoki/FieldType/URL/newRecordForm.html.twig';
+    }
+
 
 }

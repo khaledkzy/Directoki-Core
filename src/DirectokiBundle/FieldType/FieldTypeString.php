@@ -206,5 +206,9 @@ class FieldTypeString extends  BaseFieldType {
         return array();
     }
 
+    public function getViewTemplateNewRecordForm() {
+        return '@Directoki/FieldType/String/newRecordForm.html.twig';
+    }
+
 
 }

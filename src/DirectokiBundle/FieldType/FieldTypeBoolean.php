@@ -157,4 +157,7 @@ class FieldTypeBoolean extends  BaseFieldType {
     }
 
 
+    public function getViewTemplateNewRecordForm() {
+        return '@Directoki/FieldType/Boolean/newRecordForm.html.twig';
+    }
 }
