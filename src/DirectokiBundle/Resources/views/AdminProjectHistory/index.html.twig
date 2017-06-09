@@ -1,0 +1,63 @@
+{##
+#  @license 3-clause BSD
+#  @link https://github.com/Directoki/Directoki-Core/blob/master/LICENSE.txt
+##}
+
+
+{% extends 'DirectokiBundle::base.html.twig' %}
+
+{% block title %}Welcome{% endblock %}
+
+{% block main %}
+
+
+    <ol class="breadcrumb">
+        <li><a href="{{ path('directoki_admin_project_list') }}">Admin</a></li>
+        <li><a href="{{  path('directoki_admin_project_show', { 'projectId':project.publicId }) }}">Project: {{  project.title }}</a></li>
+        <li class="active">History: {{  event.id }}</li>
+    </ol>
+
+    <h1>History: {{   event.id }}</h1>
+
+
+
+    <table class="table table-striped">
+        <tbody>
+            <tr>
+                <th>
+                    Comment
+                </td>
+                <td>
+                   {{  event.comment | nl2br }}
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    IP
+                </td>
+                <td>
+                   {{  event.ip }}
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    Useragent
+                </td>
+                <td>
+                   {{  event.userAgent }}
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    Date
+                </td>
+                <td>
+                    {{  event.createdAt | date('r') }}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+
+
+{%  endblock %}
