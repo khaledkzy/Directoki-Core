@@ -120,6 +120,8 @@ class InternalAPIFieldWithDataBaseTest extends BaseTestWithDataBase
         $selectValue1->setCreationEvent($event);
         $selectValue1->setTitle('PHP');
         $this->em->persist($selectValue1);
+        // Need to flush after each one to avoid risk that randomly 2 of the selectValues will be given same public Id!
+        $this->em->flush();
 
 
         $selectValue2 = new SelectValue();
@@ -127,6 +129,7 @@ class InternalAPIFieldWithDataBaseTest extends BaseTestWithDataBase
         $selectValue2->setCreationEvent($event);
         $selectValue2->setTitle('Symfony');
         $this->em->persist($selectValue2);
+        $this->em->flush();
 
 
         $selectValue3 = new SelectValue();
@@ -134,8 +137,8 @@ class InternalAPIFieldWithDataBaseTest extends BaseTestWithDataBase
         $selectValue3->setCreationEvent($event);
         $selectValue3->setTitle('Postgresql');
         $this->em->persist($selectValue3);
-
         $this->em->flush();
+
 
         # TEST
         $selectValues = (new InternalAPI($this->container))->getProjectAPI('test1')->getDirectoryAPI('resource')->getFieldAPI('tags')->getPublishedSelectValues();
