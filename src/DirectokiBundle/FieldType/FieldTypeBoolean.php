@@ -130,7 +130,7 @@ class FieldTypeBoolean extends  BaseFieldType {
     }
 
 
-    public function processInternalAPI1Record(BaseFieldValue $fieldValueEdit, Directory $directory, Record $record = null, Event $event) {
+    public function processInternalAPI1Record(BaseFieldValue $fieldValueEdit, Directory $directory, Record $record = null, Field $field, Event $event) {
         // TODO
         return array();
 

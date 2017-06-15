@@ -129,7 +129,7 @@ class InternalAPIRecord
 
             $fieldType = $this->container->get( 'directoki_field_type_service' )->getByField( $field );
 
-            $fieldDataToSave = array_merge($fieldDataToSave, $fieldType->processInternalAPI1Record($fieldEdit, $this->directory, $this->record, $event));
+            $fieldDataToSave = array_merge($fieldDataToSave, $fieldType->processInternalAPI1Record($fieldEdit, $this->directory, $this->record, $field, $event));
 
         }
 

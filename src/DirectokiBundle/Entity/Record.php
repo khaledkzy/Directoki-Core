@@ -94,6 +94,11 @@ class Record
     private $recordHasFieldEmailValues;
 
     /**
+     * @ORM\OneToMany(targetEntity="DirectokiBundle\Entity\RecordHasFieldMultiSelectValue", mappedBy="record")
+     */
+    private $recordHasFieldMultiSelectValues;
+
+    /**
      * @ORM\OneToMany(targetEntity="DirectokiBundle\Entity\RecordHasFieldURLValue", mappedBy="record")
      */
     private $recordHasFieldURLValues;

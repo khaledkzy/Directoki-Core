@@ -16,6 +16,7 @@ use DirectokiBundle\InternalAPI\V1\Model\FieldValueEmailEdit;
 use DirectokiBundle\InternalAPI\V1\Model\FieldValueLatLng;
 use DirectokiBundle\InternalAPI\V1\Model\FieldValueLatLngEdit;
 use DirectokiBundle\InternalAPI\V1\Model\FieldValueMultiSelect;
+use DirectokiBundle\InternalAPI\V1\Model\FieldValueMultiSelectEdit;
 use DirectokiBundle\InternalAPI\V1\Model\FieldValueString;
 use DirectokiBundle\InternalAPI\V1\Model\FieldValueStringEdit;
 use DirectokiBundle\InternalAPI\V1\Model\FieldValueText;
@@ -138,6 +139,8 @@ class InternalAPIDirectory
                 $fields[$field->getPublicId()] = new FieldValueEmailEdit(null, $field);
             } else if ($field->getFieldType() == FieldTypeLatLng::FIELD_TYPE_INTERNAL) {
                 $fields[$field->getPublicId()] = new FieldValueLatLngEdit(null, $field);
+            } else if ($field->getFieldType() == FieldTypeMultiSelect::FIELD_TYPE_INTERNAL) {
+                $fields[$field->getPublicId()] = new FieldValueMultiSelectEdit(null, $field);
             }
         }
 
@@ -171,7 +174,7 @@ class InternalAPIDirectory
 
             $fieldType = $this->container->get( 'directoki_field_type_service' )->getByField( $field );
 
-            $fieldDataToSave = array_merge($fieldDataToSave, $fieldType->processInternalAPI1Record($fieldEdit, $this->directory, null, $event));
+            $fieldDataToSave = array_merge($fieldDataToSave, $fieldType->processInternalAPI1Record($fieldEdit, $this->directory, null, $field, $event));
 
         }
 

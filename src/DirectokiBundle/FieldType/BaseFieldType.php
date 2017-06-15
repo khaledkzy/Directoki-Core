@@ -60,7 +60,7 @@ abstract class  BaseFieldType {
 
     public abstract function processAPI1Record(Field $field, Record $record, ParameterBag $parameterBag, Event $event);
 
-    public abstract function processInternalAPI1Record(BaseFieldValue $field, Directory $directory, Record $record, Event $event);
+    public abstract function processInternalAPI1Record(BaseFieldValue $fieldValueEdit, Directory $directory, Record $record, Field $field, Event $event);
 
     /**
      * @return ImportCSVLineResult|null

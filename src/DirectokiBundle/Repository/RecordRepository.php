@@ -43,10 +43,12 @@ class RecordRepository extends EntityRepository {
                 ' LEFT JOIN r.recordHasFieldEmailValues rhfev WITH rhfev.refusedAt IS NULL AND rhfev.approvedAt IS NULL '.
                 ' LEFT JOIN r.recordHasFieldURLValues rhfuv WITH rhfuv.refusedAt IS NULL AND rhfuv.approvedAt IS NULL '.
                 ' LEFT JOIN r.recordHasFieldBooleanValues rhfbv WITH rhfbv.refusedAt IS NULL AND rhfbv.approvedAt IS NULL '.
+                ' LEFT JOIN r.recordHasFieldMultiSelectValues rhfmsv1 WITH rhfmsv1.additionApprovedAt IS NULL AND rhfmsv1.additionRefusedAt IS NULL '.
+                ' LEFT JOIN r.recordHasFieldMultiSelectValues rhfmsv2 WITH rhfmsv2.removalCreatedAt IS NOT NULL AND rhfmsv2.removalApprovedAt IS NULL AND rhfmsv2.removalRefusedAt IS NULL '.
                 ' LEFT JOIN r.recordHasStates rhs WITH rhs.refusedAt IS NULL AND rhs.approvedAt IS NULL '.
                 ' LEFT JOIN r.recordReports rr WITH rr.resolvedAt IS NULL '.
                 ' WHERE r.directory = :directory AND '.
-                '(rhfsv.id IS NOT NULL OR rhftv.id IS NOT NULL OR rhfbv.id IS NOT NULL OR rhfllv.id IS NOT NULL OR rhfev.id IS NOT NULL OR rhfuv.id IS NOT NULL OR rhs.id IS NOT NULL OR rr.id IS NOT NULL)  '.
+                '(rhfsv.id IS NOT NULL OR rhftv.id IS NOT NULL OR rhfbv.id IS NOT NULL OR rhfllv.id IS NOT NULL OR rhfev.id IS NOT NULL OR rhfuv.id IS NOT NULL OR rhs.id IS NOT NULL OR rr.id IS NOT NULL OR rhfmsv1.id IS NOT NULL OR rhfmsv2.id IS NOT NULL)  '.
                 'GROUP BY r.id '
             )
             ->setMaxResults(50)

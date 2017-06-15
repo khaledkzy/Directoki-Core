@@ -140,10 +140,8 @@ class FieldTypeLatLng extends  BaseFieldType {
     }
 
 
-    public function processInternalAPI1Record(BaseFieldValue $fieldValueEdit, Directory $directory, Record $record = null, Event $event) {
+    public function processInternalAPI1Record(BaseFieldValue $fieldValueEdit, Directory $directory, Record $record = null, Field $field, Event $event) {
         if ($fieldValueEdit->getNewLat() && $fieldValueEdit->getNewLat()) {
-            $repo = $this->container->get('doctrine')->getManager()->getRepository('DirectokiBundle:Field');
-            $field = $repo->findOneBy(array('directory'=>$directory, 'publicId'=>$fieldValueEdit->getPublicID()));
             $currentValueLat = null;
             $currentValueLng = null;
             if ( $record !== null ) {

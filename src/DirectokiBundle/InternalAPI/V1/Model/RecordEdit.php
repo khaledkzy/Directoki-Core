@@ -34,6 +34,8 @@ class RecordEdit extends Record {
                 $this->fieldsEdit[$field->getPublicID()] = new FieldValueEmailEdit($field);
             } else if ($field instanceof FieldValueLatLng) {
                 $this->fieldsEdit[$field->getPublicID()] = new FieldValueLatLngEdit($field);
+            } else if ($field instanceof FieldValueMultiSelect) {
+                $this->fieldsEdit[$field->getPublicID()] = new FieldValueMultiSelectEdit($field);
             }
         }
     }

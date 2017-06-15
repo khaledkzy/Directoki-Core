@@ -134,10 +134,8 @@ class FieldTypeText extends  BaseFieldType {
         return array();
     }
 
-    public function processInternalAPI1Record(BaseFieldValue $fieldValueEdit, Directory $directory, Record $record = null, Event $event) {
+    public function processInternalAPI1Record(BaseFieldValue $fieldValueEdit, Directory $directory, Record $record = null, Field $field, Event $event) {
         if ($fieldValueEdit->getNewValue()) {
-            $repo = $this->container->get('doctrine')->getManager()->getRepository('DirectokiBundle:Field');
-            $field = $repo->findOneBy(array('directory'=>$directory, 'publicId'=>$fieldValueEdit->getPublicID()));
             $currentValue = '';
             if ( $record !== null ) {
                 $latestValueObject = $this->getLatestFieldValue($field, $record);
