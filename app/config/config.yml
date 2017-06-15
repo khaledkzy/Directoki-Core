@@ -127,6 +127,9 @@ doctrine_migrations:
     table_name: migration_versions
     name: Application Migrations
 
+directoki:
+    read_only: "%directoki_read_only%"
+
 
 
 

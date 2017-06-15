@@ -5,6 +5,7 @@ namespace DirectokiBundle\Controller;
 use DirectokiBundle\Entity\Project;
 use DirectokiBundle\Form\Type\ProjectNewType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 /**
  *  @license 3-clause BSD
@@ -18,6 +19,10 @@ class AdminDefaultEditController extends Controller
 
     public function newProjectAction()
     {
+
+        if ($this->container->getParameter('directoki.read_only')) {
+            throw new HttpException(503, 'Directoki is in Read Only mode.');
+        }
 
         $doctrine = $this->getDoctrine()->getManager();
 

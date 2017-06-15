@@ -9,3 +9,4 @@ parameters:
     mailer_user:       ~
     mailer_password:   ~
     secret:            ThisTokenIsNotSoSecretChangeIt
+    directoki_read_only: false
