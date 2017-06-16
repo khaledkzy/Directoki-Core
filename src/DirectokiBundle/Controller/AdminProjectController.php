@@ -87,4 +87,24 @@ class AdminProjectController extends Controller
 
 
 
+    public function localeAction($projectId)
+    {
+
+        // build
+        $this->build($projectId);
+        //data
+
+        $doctrine = $this->getDoctrine()->getManager();
+        $repo = $doctrine->getRepository('DirectokiBundle:Locale');
+        $locales = $repo->findBy(array('project'=>$this->project),array('title'=>'asc'));
+
+        return $this->render('DirectokiBundle:AdminProject:locale.html.twig', array(
+            'project' => $this->project,
+            'locales' => $locales,
+        ));
+
+    }
+
+
+
 }

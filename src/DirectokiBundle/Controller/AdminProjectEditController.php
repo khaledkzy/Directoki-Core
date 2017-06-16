@@ -4,7 +4,9 @@ namespace DirectokiBundle\Controller;
 
 use DirectokiBundle\Entity\Directory;
 use DirectokiBundle\Entity\Event;
+use DirectokiBundle\Entity\Locale;
 use DirectokiBundle\Form\Type\DirectoryNewType;
+use DirectokiBundle\Form\Type\LocaleNewType;
 use DirectokiBundle\Security\ProjectVoter;
 
 /**
@@ -63,6 +65,52 @@ class AdminProjectEditController extends AdminProjectController
 
 
         return $this->render('DirectokiBundle:AdminProjectEdit:newDirectory.html.twig', array(
+            'project' => $this->project,
+            'form' => $form->createView(),
+        ));
+
+    }
+
+    public function newLocaleAction($projectId)
+    {
+
+        // build
+        $this->build($projectId);
+        //data
+
+        $doctrine = $this->getDoctrine()->getManager();
+
+
+        $locale = new Locale();
+        $locale->setProject($this->project);
+
+        $form = $this->createForm(new LocaleNewType(), $locale);
+        $request = $this->getRequest();
+        if ($request->getMethod() == 'POST') {
+            $form->handleRequest($request);
+            if ($form->isValid()) {
+
+                $event = $this->get('directoki_event_builder_service')->build(
+                    $this->project,
+                    $this->getUser(),
+                    $this->getRequest(),
+                    null
+                );
+                $doctrine->persist($event);
+
+                $locale->setCreationEvent($event);
+                $doctrine->persist($locale);
+
+                $doctrine->flush();
+
+                return $this->redirect($this->generateUrl('directoki_admin_project_locale_list', array(
+                    'projectId'=>$this->project->getPublicId(),
+                )));
+            }
+        }
+
+
+        return $this->render('DirectokiBundle:AdminProjectEdit:newLocale.html.twig', array(
             'project' => $this->project,
             'form' => $form->createView(),
         ));

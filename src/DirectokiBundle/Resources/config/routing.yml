@@ -47,6 +47,14 @@ directoki_admin_project_history_show:
     path:     /admin/project/{projectId}/history/{historyId}
     defaults: { _controller: DirectokiBundle:AdminProjectHistory:index }
 
+directoki_admin_project_locale_list:
+    path:     /admin/project/{projectId}/locale
+    defaults: { _controller: DirectokiBundle:AdminProject:locale }
+
+directoki_admin_project_locale_new:
+    path:     /admin/project/{projectId}/newLocale
+    defaults: { _controller: DirectokiBundle:AdminProjectEdit:newLocale }
+
 directoki_admin_project_directory_new:
     path:     /admin/project/{projectId}/newDirectory
     defaults: { _controller: DirectokiBundle:AdminProjectEdit:newDirectory }
