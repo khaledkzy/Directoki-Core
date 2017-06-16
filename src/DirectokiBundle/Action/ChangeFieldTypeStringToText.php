@@ -34,7 +34,6 @@ class ChangeFieldTypeStringToText
 
             $recordHasFieldTextValue = new RecordHasFieldTextValue();
             $recordHasFieldTextValue->setValue($recordHasFieldStringValue->getValue());
-            $recordHasFieldTextValue->setLocale($recordHasFieldStringValue->getLocale());
             $recordHasFieldTextValue->setField($recordHasFieldStringValue->getField());
             $recordHasFieldTextValue->setRecord($recordHasFieldStringValue->getRecord());
             $recordHasFieldTextValue->setCreatedAt($recordHasFieldStringValue->getCreatedAt());
