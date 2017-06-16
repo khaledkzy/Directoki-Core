@@ -89,6 +89,9 @@ class API1ProjectDirectoryRecordEditControllerFieldStringWithDataBaseTest extend
             'email' => 'user1@example.com',
         ));
 
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+
+
         # TEST AGAIN
 
         $values = $this->em->getRepository('DirectokiBundle:RecordHasFieldStringValue')->findAll();
@@ -156,6 +159,9 @@ class API1ProjectDirectoryRecordEditControllerFieldStringWithDataBaseTest extend
             'comment' => 'I make good change!',
             'email' => 'user1@example.com',
         ));
+
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+
 
         # TEST AGAIN
 
@@ -226,6 +232,9 @@ class API1ProjectDirectoryRecordEditControllerFieldStringWithDataBaseTest extend
             'comment' => 'I have no idea what to say',
             'email' => 'user1@example.com',
         ));
+
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+
 
         # TEST AGAIN
 
@@ -309,6 +318,9 @@ class API1ProjectDirectoryRecordEditControllerFieldStringWithDataBaseTest extend
             'comment' => 'Rocks needs a !',
             'email' => 'user1@example.com',
         ));
+
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+
 
         # TEST AGAIN
 
@@ -397,6 +409,9 @@ class API1ProjectDirectoryRecordEditControllerFieldStringWithDataBaseTest extend
             'comment' => 'I just want my name on this, but I made no change!',
             'email' => 'user1@example.com',
         ));
+
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+
 
         # TEST AGAIN
 

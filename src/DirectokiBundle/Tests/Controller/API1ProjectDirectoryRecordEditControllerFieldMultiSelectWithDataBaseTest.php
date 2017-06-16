@@ -88,6 +88,9 @@ class API1ProjectDirectoryRecordEditControllerFieldMultiSelectWithDataBaseTest e
             'email' => 'user1@example.com',
         ));
 
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+
+
         # TEST AGAIN
 
 
@@ -176,6 +179,9 @@ class API1ProjectDirectoryRecordEditControllerFieldMultiSelectWithDataBaseTest e
             'comment' => 'I make good change!',
             'email' => 'user1@example.com',
         ));
+
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+
 
         # TEST AGAIN
 

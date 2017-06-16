@@ -97,11 +97,19 @@ class InternalAPIRecord
 
     function getPublishedEdit()
     {
+        if ($this->container->getParameter('directoki.read_only')) {
+            throw new \Exception('Directoki is in Read Only mode.');
+        }
+
         return new RecordEdit($this->getPublished());
     }
 
 
     function savePublishedEdit(RecordEdit $recordEdit, Request $request = null) {
+
+        if ($this->container->getParameter('directoki.read_only')) {
+            throw new \Exception('Directoki is in Read Only mode.');
+        }
 
         $doctrine = $this->container->get('doctrine')->getManager();
 
@@ -161,6 +169,10 @@ class InternalAPIRecord
 
     function saveReport(RecordReportEdit $recordReportEdit, Request $request = null)
     {
+
+        if ($this->container->getParameter('directoki.read_only')) {
+            throw new \Exception('Directoki is in Read Only mode.');
+        }
 
         $doctrine = $this->container->get('doctrine')->getManager();
 

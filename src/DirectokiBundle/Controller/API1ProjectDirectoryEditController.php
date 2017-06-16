@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 /**
  *  @license 3-clause BSD
@@ -21,6 +22,11 @@ class API1ProjectDirectoryEditController extends API1ProjectDirectoryController
     protected function build( $projectId, $directoryId ) {
         parent::build( $projectId, $directoryId );
         // TODO check isAPIModeratedEditAllowed
+
+        if ($this->container->getParameter('directoki.read_only')) {
+            throw new HttpException(503, 'Directoki is in Read Only mode.');
+        }
+
     }
 
 

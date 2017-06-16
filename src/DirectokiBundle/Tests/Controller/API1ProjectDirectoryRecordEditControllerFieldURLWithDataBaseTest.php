@@ -81,6 +81,9 @@ class API1ProjectDirectoryRecordEditControllerFieldURLWithDataBaseTest extends B
             'email' => 'user1@example.com',
         ));
 
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+
+
         # TEST AGAIN
 
 

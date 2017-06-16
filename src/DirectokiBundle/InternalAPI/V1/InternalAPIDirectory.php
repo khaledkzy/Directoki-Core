@@ -126,6 +126,10 @@ class InternalAPIDirectory
 
     function getRecordCreate() {
 
+        if ($this->container->getParameter('directoki.read_only')) {
+            throw new \Exception('Directoki is in Read Only mode.');
+        }
+
         $doctrine = $this->container->get('doctrine')->getManager();
 
         $fields = array();
@@ -149,6 +153,10 @@ class InternalAPIDirectory
 
     function saveRecordCreate(RecordCreate $recordCreate, Request $request = null)
     {
+
+        if ($this->container->getParameter('directoki.read_only')) {
+            throw new \Exception('Directoki is in Read Only mode.');
+        }
 
         $doctrine = $this->container->get('doctrine')->getManager();
 

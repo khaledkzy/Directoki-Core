@@ -69,6 +69,8 @@ class API1ProjectDirectoryEditControllerFieldStringWithDataBaseTest extends Base
             'email' => 'user1@example.com',
         ));
 
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+
         # TEST
 
         $values = $this->em->getRepository('DirectokiBundle:RecordHasFieldStringValue')->findAll();
@@ -129,6 +131,9 @@ class API1ProjectDirectoryEditControllerFieldStringWithDataBaseTest extends Base
             'comment' => 'I send a comment but no fields with it.',
             'email' => 'user1@example.com',
         ));
+
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+
 
         # TEST
 
