@@ -14,7 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(name="directoki_record_has_field_email_value")
  * @ORM\HasLifecycleCallbacks
  */
-class RecordHasFieldEmailValue extends BaseRecordHasFieldValueMultilingual
+class RecordHasFieldEmailValue extends BaseRecordHasFieldValue
 {
 
 
