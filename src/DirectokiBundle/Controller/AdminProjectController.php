@@ -67,6 +67,24 @@ class AdminProjectController extends Controller
 
     }
 
+    public function contactAction($projectId)
+    {
+
+        // build
+        $this->build($projectId);
+        //data
+
+        $doctrine = $this->getDoctrine()->getManager();
+        $repo = $doctrine->getRepository('DirectokiBundle:Contact');
+        $contacts = $repo->findByProject($this->project);
+
+        return $this->render('DirectokiBundle:AdminProject:contact.html.twig', array(
+            'project' => $this->project,
+            'contacts' => $contacts,
+        ));
+
+    }
+
 
     public function historyAction($projectId)
     {

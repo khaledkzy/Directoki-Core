@@ -39,6 +39,10 @@ directoki_admin_project_user_list:
     path:     /admin/project/{projectId}/user
     defaults: { _controller: DirectokiBundle:AdminProject:user }
 
+directoki_admin_project_contact_list:
+    path:     /admin/project/{projectId}/contact
+    defaults: { _controller: DirectokiBundle:AdminProject:contact }
+
 directoki_admin_project_history_list:
     path:     /admin/project/{projectId}/history
     defaults: { _controller: DirectokiBundle:AdminProject:history }
