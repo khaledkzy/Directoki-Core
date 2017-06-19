@@ -5,6 +5,7 @@ namespace DirectokiBundle\Controller;
 use DirectokiBundle\Entity\Project;
 use DirectokiBundle\Security\ProjectVoter;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  *  @license 3-clause BSD
