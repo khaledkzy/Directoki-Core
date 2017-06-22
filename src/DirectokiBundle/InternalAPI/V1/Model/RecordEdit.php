@@ -28,6 +28,8 @@ class RecordEdit extends Record {
         foreach($record->fields as $field) {
             if ($field instanceof FieldValueString) {
                 $this->fieldsEdit[$field->getPublicID()] = new FieldValueStringEdit($field);
+            } else if ($field instanceof FieldValueStringWithLocale) {
+                $this->fieldsEdit[$field->getPublicID()] = new FieldValueStringWithLocaleEdit($field);
             } else if ($field instanceof FieldValueText) {
                 $this->fieldsEdit[$field->getPublicID()] = new FieldValueTextEdit($field);
             } else if ($field instanceof FieldValueEmail) {

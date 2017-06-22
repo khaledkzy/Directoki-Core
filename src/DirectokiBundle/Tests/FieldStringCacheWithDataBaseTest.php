@@ -21,6 +21,7 @@ use DirectokiBundle\Tests\BaseTestWithDataBase;
 
 
 /**
+ * @TODO Move into FieldType package
  *  @license 3-clause BSD
  *  @link https://github.com/Directoki/Directoki-Core/blob/master/LICENSE.txt
  */

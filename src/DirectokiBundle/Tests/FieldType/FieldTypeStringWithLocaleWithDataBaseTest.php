@@ -1,28 +1,29 @@
 <?php
 
 
-namespace DirectokiBundle\Tests\InternalAPI\V1;
-
+namespace DirectokiBundle\Tests\FieldType;
 
 use DirectokiBundle\Action\UpdateRecordCache;
 use DirectokiBundle\Entity\Directory;
 use DirectokiBundle\Entity\Event;
 use DirectokiBundle\Entity\Field;
+use DirectokiBundle\Entity\Locale;
 use DirectokiBundle\Entity\Project;
 use DirectokiBundle\Entity\Record;
-use DirectokiBundle\Entity\RecordHasFieldTextValue;
+use DirectokiBundle\Entity\RecordHasFieldStringWithLocaleValue;
 use DirectokiBundle\Entity\RecordHasState;
-use DirectokiBundle\FieldType\FieldTypeText;
-use JMBTechnology\UserAccountsBundle\Entity\User;
+use DirectokiBundle\FieldType\FieldTypeStringWithLocale;
 use DirectokiBundle\Tests\BaseTestWithDataBase;
+use JMBTechnology\UserAccountsBundle\Entity\User;
 
 
 /**
- * @TODO Move into FieldType package
  *  @license 3-clause BSD
  *  @link https://github.com/Directoki/Directoki-Core/blob/master/LICENSE.txt
  */
-class FieldTextCacheWithDataBaseTest extends BaseTestWithDataBase {
+class FieldTypeStringWithLocaleWitdDataBaseTest extends BaseTestWithDataBase
+{
+
 
     public function test1() {
 
@@ -43,6 +44,21 @@ class FieldTextCacheWithDataBaseTest extends BaseTestWithDataBase {
         $event->setUser( $user );
         $this->em->persist( $event );
 
+        $locale1 = new Locale();
+        $locale1->setTitle('en_GB');
+        $locale1->setPublicId('en_GB');
+        $locale1->setProject($project);
+        $locale1->setCreationEvent($event);
+        $this->em->persist($locale1);
+
+        $locale2 = new Locale();
+        $locale2->setTitle('de_DE');
+        $locale2->setPublicId('de_DE');
+        $locale2->setProject($project);
+        $locale2->setCreationEvent($event);
+        $this->em->persist($locale2);
+
+
         $directory = new Directory();
         $directory->setPublicId( 'resource' );
         $directory->setTitleSingular( 'Resource' );
@@ -59,20 +75,21 @@ class FieldTextCacheWithDataBaseTest extends BaseTestWithDataBase {
         $this->em->persist( $record );
 
         $field = new Field();
-        $field->setTitle( 'Description' );
-        $field->setPublicId( 'description' );
+        $field->setTitle( 'Title' );
+        $field->setPublicId( 'title' );
         $field->setDirectory( $directory );
-        $field->setFieldType( FieldTypeText::FIELD_TYPE_INTERNAL );
+        $field->setFieldType( FieldTypeStringWithLocale::FIELD_TYPE_INTERNAL );
         $field->setCreationEvent( $event );
         $this->em->persist( $field );
 
-        $recordHasFieldTextValue = new RecordHasFieldTextValue();
-        $recordHasFieldTextValue->setRecord( $record );
-        $recordHasFieldTextValue->setField( $field );
-        $recordHasFieldTextValue->setValue( '123' );
-        $recordHasFieldTextValue->setApprovedAt( new \DateTime() );
-        $recordHasFieldTextValue->setCreationEvent( $event );
-        $this->em->persist( $recordHasFieldTextValue );
+        $recordHasFieldStringValue = new RecordHasFieldStringWithLocaleValue();
+        $recordHasFieldStringValue->setRecord( $record );
+        $recordHasFieldStringValue->setField( $field );
+        $recordHasFieldStringValue->setLocale($locale1);
+        $recordHasFieldStringValue->setValue( 'My Title Rocks' );
+        $recordHasFieldStringValue->setApprovedAt( new \DateTime() );
+        $recordHasFieldStringValue->setCreationEvent( $event );
+        $this->em->persist( $recordHasFieldStringValue );
 
         $this->em->flush();
 
@@ -80,8 +97,7 @@ class FieldTextCacheWithDataBaseTest extends BaseTestWithDataBase {
         $record = $this->em->getRepository('DirectokiBundle:Record')->find($record->getId());
         $fieldType = $this->container->get('directoki_field_type_service')->getByField($field);
         $cachedValues = $fieldType->getLatestFieldValuesFromCache($field, $record);
-        $this->assertEquals(1, count($cachedValues));
-        $this->assertNull($cachedValues[0]);
+        $this->assertEquals(0, count($cachedValues));
 
 
         # CACHE
@@ -92,12 +108,15 @@ class FieldTextCacheWithDataBaseTest extends BaseTestWithDataBase {
         $record = $this->em->getRepository('DirectokiBundle:Record')->find($record->getId());
         $fieldType = $this->container->get('directoki_field_type_service')->getByField($field);
         $cachedValues = $fieldType->getLatestFieldValuesFromCache($field, $record);
-        $this->assertEquals(1, count($cachedValues));
-        $this->assertEquals('DirectokiBundle\Entity\RecordHasFieldTextValue', get_class($cachedValues[0]));
-        $this->assertEquals('123', $cachedValues[0]->getValue());
+        $this->assertEquals(2, count($cachedValues));
+        $this->assertEquals('DirectokiBundle\Entity\RecordHasFieldStringWithLocaleValue', get_class($cachedValues[0]));
+        $this->assertEquals('', $cachedValues[0]->getValue());
+        $this->assertEquals('de_DE', $cachedValues[0]->getLocale()->getPublicId());
+        $this->assertEquals('DirectokiBundle\Entity\RecordHasFieldStringWithLocaleValue', get_class($cachedValues[0]));
+        $this->assertEquals('My Title Rocks', $cachedValues[1]->getValue());
+        $this->assertEquals('en_GB', $cachedValues[1]->getLocale()->getPublicId());
 
 
     }
 
 }
-

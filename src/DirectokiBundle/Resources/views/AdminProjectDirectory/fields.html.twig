@@ -63,6 +63,7 @@
 	{% endif %}
 
 	<a href="{{  path('directoki_admin_project_directory_new_string_field', { 'projectId':project.publicId,'directoryId':directory.publicId }) }}" class="btn btn-default">New String Field (Single Line)</a>
+	<a href="{{  path('directoki_admin_project_directory_new_string_with_locale_field', { 'projectId':project.publicId,'directoryId':directory.publicId }) }}" class="btn btn-default">New String With Locale Field (Single Line)</a>
 	<a href="{{  path('directoki_admin_project_directory_new_text_field', { 'projectId':project.publicId,'directoryId':directory.publicId }) }}" class="btn btn-default">New Text Field (Multi-line)</a>
 	<a href="{{  path('directoki_admin_project_directory_new_boolean_field', { 'projectId':project.publicId,'directoryId':directory.publicId }) }}" class="btn btn-default">New Boolean Field</a>
 	<a href="{{  path('directoki_admin_project_directory_new_latlng_field', { 'projectId':project.publicId,'directoryId':directory.publicId }) }}" class="btn btn-default">New Lat/Lng Field</a>

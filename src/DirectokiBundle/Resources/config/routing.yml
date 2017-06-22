@@ -71,6 +71,10 @@ directoki_admin_project_directory_new_string_field:
     path:     /admin/project/{projectId}/directory/{directoryId}/newField/string
     defaults: { _controller: DirectokiBundle:AdminProjectDirectoryEdit:newStringField }
 
+directoki_admin_project_directory_new_string_with_locale_field:
+    path:     /admin/project/{projectId}/directory/{directoryId}/newField/stringWithLocale
+    defaults: { _controller: DirectokiBundle:AdminProjectDirectoryEdit:newStringWithLocaleField }
+
 directoki_admin_project_directory_new_text_field:
     path:     /admin/project/{projectId}/directory/{directoryId}/newField/text
     defaults: { _controller: DirectokiBundle:AdminProjectDirectoryEdit:newTextField }

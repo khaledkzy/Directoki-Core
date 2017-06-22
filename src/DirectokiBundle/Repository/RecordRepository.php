@@ -38,6 +38,7 @@ class RecordRepository extends EntityRepository {
             ->createQuery(
                 ' SELECT r FROM DirectokiBundle:Record r'.
                 ' LEFT JOIN r.recordHasFieldStringValues rhfsv WITH rhfsv.refusedAt IS NULL AND rhfsv.approvedAt IS NULL '.
+                ' LEFT JOIN r.recordHasFieldStringWithLocaleValues rhfswlv WITH rhfswlv.refusedAt IS NULL AND rhfswlv.approvedAt IS NULL '.
                 ' LEFT JOIN r.recordHasFieldTextValues rhftv WITH rhftv.refusedAt IS NULL AND rhftv.approvedAt IS NULL '.
                 ' LEFT JOIN r.recordHasFieldLatLngValues rhfllv WITH rhfllv.refusedAt IS NULL AND rhfllv.approvedAt IS NULL '.
                 ' LEFT JOIN r.recordHasFieldEmailValues rhfev WITH rhfev.refusedAt IS NULL AND rhfev.approvedAt IS NULL '.
@@ -48,7 +49,8 @@ class RecordRepository extends EntityRepository {
                 ' LEFT JOIN r.recordHasStates rhs WITH rhs.refusedAt IS NULL AND rhs.approvedAt IS NULL '.
                 ' LEFT JOIN r.recordReports rr WITH rr.resolvedAt IS NULL '.
                 ' WHERE r.directory = :directory AND '.
-                '(rhfsv.id IS NOT NULL OR rhftv.id IS NOT NULL OR rhfbv.id IS NOT NULL OR rhfllv.id IS NOT NULL OR rhfev.id IS NOT NULL OR rhfuv.id IS NOT NULL OR rhs.id IS NOT NULL OR rr.id IS NOT NULL OR rhfmsv1.id IS NOT NULL OR rhfmsv2.id IS NOT NULL)  '.
+                '(rhfsv.id IS NOT NULL OR rhftv.id IS NOT NULL OR rhfbv.id IS NOT NULL OR rhfllv.id IS NOT NULL OR rhfev.id IS NOT NULL OR
+                    rhfuv.id IS NOT NULL OR rhs.id IS NOT NULL OR rr.id IS NOT NULL OR rhfmsv1.id IS NOT NULL OR rhfmsv2.id IS NOT NULL OR rhfswlv.id IS NOT NULL )  '.
                 'GROUP BY r.id '
             )
             ->setMaxResults(50)

@@ -10,6 +10,7 @@ use DirectokiBundle\FieldType\FieldTypeEmail;
 use DirectokiBundle\FieldType\FieldTypeLatLng;
 use DirectokiBundle\FieldType\FieldTypeMultiSelect;
 use DirectokiBundle\FieldType\FieldTypeString;
+use DirectokiBundle\FieldType\FieldTypeStringWithLocale;
 use DirectokiBundle\FieldType\FieldTypeText;
 use DirectokiBundle\InternalAPI\V1\Model\FieldValueEmail;
 use DirectokiBundle\InternalAPI\V1\Model\FieldValueEmailEdit;
@@ -19,6 +20,8 @@ use DirectokiBundle\InternalAPI\V1\Model\FieldValueMultiSelect;
 use DirectokiBundle\InternalAPI\V1\Model\FieldValueMultiSelectEdit;
 use DirectokiBundle\InternalAPI\V1\Model\FieldValueString;
 use DirectokiBundle\InternalAPI\V1\Model\FieldValueStringEdit;
+use DirectokiBundle\InternalAPI\V1\Model\FieldValueStringWithLocale;
+use DirectokiBundle\InternalAPI\V1\Model\FieldValueStringWithLocaleEdit;
 use DirectokiBundle\InternalAPI\V1\Model\FieldValueText;
 use DirectokiBundle\InternalAPI\V1\Model\FieldValueTextEdit;
 use DirectokiBundle\InternalAPI\V1\Model\Record;
@@ -103,6 +106,12 @@ class InternalAPIDirectory
 
                 if ( $field->getFieldType() == FieldTypeString::FIELD_TYPE_INTERNAL && $tmp[0] ) {
                     $fieldValues[ $field->getPublicId() ] = new FieldValueString( $field->getPublicId(), $field->getTitle(), $tmp[0]->getValue() );
+                } else if ($field->getFieldType() == FieldTypeStringWithLocale::FIELD_TYPE_INTERNAL && $tmp) {
+                    $values = array();
+                    foreach($tmp as $t) {
+                        $values[$t->getLocale()->getPublicId()] = $t->getValue();
+                    }
+                    $fieldValues[$field->getPublicId()] = new FieldValueStringWithLocale($field->getPublicId(), $field->getTitle(), $values);
                 } else if ( $field->getFieldType() == FieldTypeText::FIELD_TYPE_INTERNAL && $tmp[0] ) {
                     $fieldValues[ $field->getPublicId() ] = new FieldValueText( $field->getPublicId(), $field->getTitle(), $tmp[0]->getValue() );
                 } else if ( $field->getFieldType() == FieldTypeEmail::FIELD_TYPE_INTERNAL && $tmp[0] ) {
@@ -137,6 +146,8 @@ class InternalAPIDirectory
 
             if ($field->getFieldType() == FieldTypeString::FIELD_TYPE_INTERNAL) {
                 $fields[$field->getPublicId()] = new FieldValueStringEdit(null, $field);
+            } else if ($field->getFieldType() == FieldTypeStringWithLocale::FIELD_TYPE_INTERNAL) {
+                $fields[$field->getPublicId()] = new FieldValueStringWithLocaleEdit(null, $field);
             } else if ($field->getFieldType() == FieldTypeText::FIELD_TYPE_INTERNAL) {
                 $fields[$field->getPublicId()] = new FieldValueTextEdit(null, $field);
             } else if ($field->getFieldType() == FieldTypeEmail::FIELD_TYPE_INTERNAL) {

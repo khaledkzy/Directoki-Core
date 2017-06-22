@@ -74,6 +74,11 @@ class Record
     private $recordHasFieldStringValues;
 
     /**
+     * @ORM\OneToMany(targetEntity="DirectokiBundle\Entity\RecordHasFieldStringWithLocaleValue", mappedBy="record")
+     */
+    private $recordHasFieldStringWithLocaleValues;
+
+    /**
      * @ORM\OneToMany(targetEntity="DirectokiBundle\Entity\RecordHasFieldTextValue", mappedBy="record")
      */
     private $recordHasFieldTextValues;
