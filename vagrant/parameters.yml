@@ -12,3 +12,6 @@ parameters:
     secret: ThisTokenIsNotSoSecretChangeIt
     server_host: null
     has_ssl: false
+    directoki_read_only: false
+
+
