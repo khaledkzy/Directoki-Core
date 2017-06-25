@@ -50,6 +50,7 @@ class FieldTypeStringWithLocale extends BaseFieldType {
 
         if (!$r) {
             $r = new RecordHasFieldStringWithLocaleValue();
+            $r->setLocale($locale);
         }
 
         return $r;
