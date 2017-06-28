@@ -238,4 +238,19 @@ class FieldTypeLatLng extends  BaseFieldType {
         return '@Directoki/FieldType/LatLng/newRecordForm.html.twig';
     }
 
+
+    public function getExportCSVHeaders(Field $field)
+    {
+        return array(
+            $field->getTitle(). " - Lat",
+            $field->getTitle(). " - Lng",
+        );
+    }
+
+    public function getExportCSVData(Field $field, Record $record)
+    {
+        $value = $this->getLatestFieldValue($field, $record);
+        return array( $value->getLat(), $value->getLng() );
+    }
+
 }

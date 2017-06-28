@@ -209,4 +209,16 @@ class FieldTypeString extends  BaseFieldType {
     }
 
 
+    public function getExportCSVHeaders(Field $field)
+    {
+        return array($field->getTitle());
+    }
+
+    public function getExportCSVData(Field $field, Record $record)
+    {
+        $value = $this->getLatestFieldValue($field, $record);
+        return array( $value->getValue() );
+    }
+
+
 }

@@ -160,4 +160,18 @@ class FieldTypeBoolean extends  BaseFieldType {
     public function getViewTemplateNewRecordForm() {
         return '@Directoki/FieldType/Boolean/newRecordForm.html.twig';
     }
+
+
+    public function getExportCSVHeaders(Field $field)
+    {
+        // TODO: Implement getExportCSVHeaders() method.
+        return array();
+    }
+
+    public function getExportCSVData(Field $field, Record $record)
+    {
+        // TODO: Implement getExportCSVData() method.
+        return array();
+    }
+
 }

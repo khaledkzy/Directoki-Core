@@ -174,5 +174,14 @@ class FieldTypeURL extends  BaseFieldType {
         return '@Directoki/FieldType/URL/newRecordForm.html.twig';
     }
 
+    public function getExportCSVHeaders(Field $field)
+    {
+        return array($field->getTitle());
+    }
 
+    public function getExportCSVData(Field $field, Record $record)
+    {
+        $value = $this->getLatestFieldValue($field, $record);
+        return array( $value->getValue() );
+    }
 }

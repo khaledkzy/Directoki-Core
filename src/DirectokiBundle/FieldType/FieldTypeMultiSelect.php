@@ -424,5 +424,20 @@ class FieldTypeMultiSelect extends  BaseFieldType
     }
 
 
+    public function getExportCSVHeaders(Field $field)
+    {
+        return array( $field->getTitle() );
+    }
+
+    public function getExportCSVData(Field $field, Record $record)
+    {
+        $out = array();
+        foreach($this->getLatestFieldValues($field, $record) as $value) {
+            $out[] = $value->getSelectValue()->getTitle();
+        }
+        return array( implode(", ", $out) );
+    }
+
+
 }
 
