@@ -141,7 +141,7 @@ class FieldTypeLatLng extends  BaseFieldType {
     }
 
 
-    public function processInternalAPI1Record(BaseFieldValue $fieldValueEdit, Directory $directory, Record $record = null, Field $field, Event $event) {
+    public function processInternalAPI1Record(BaseFieldValue $fieldValueEdit, Directory $directory, Record $record = null, Field $field, Event $event, $approve=false) {
         if ($fieldValueEdit->getNewLat() && $fieldValueEdit->getNewLat()) {
             $currentValueLat = null;
             $currentValueLng = null;
@@ -159,6 +159,9 @@ class FieldTypeLatLng extends  BaseFieldType {
                 $newRecordHasFieldValues->setLat($newValueLat);
                 $newRecordHasFieldValues->setLng($newValueLng);
                 $newRecordHasFieldValues->setCreationEvent($event);
+                if ($approve) {
+                    $newRecordHasFieldValues->setApprovalEvent($event);
+                }
                 return array($newRecordHasFieldValues);
             }
         }

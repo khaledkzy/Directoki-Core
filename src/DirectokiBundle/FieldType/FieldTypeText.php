@@ -135,7 +135,7 @@ class FieldTypeText extends  BaseFieldType {
         return array();
     }
 
-    public function processInternalAPI1Record(BaseFieldValue $fieldValueEdit, Directory $directory, Record $record = null, Field $field, Event $event) {
+    public function processInternalAPI1Record(BaseFieldValue $fieldValueEdit, Directory $directory, Record $record = null, Field $field, Event $event, $approve=false) {
         if ($fieldValueEdit->getNewValue()) {
             $currentValue = '';
             if ( $record !== null ) {
@@ -149,6 +149,9 @@ class FieldTypeText extends  BaseFieldType {
                 $newRecordHasFieldValues->setField($field);
                 $newRecordHasFieldValues->setValue($newValue);
                 $newRecordHasFieldValues->setCreationEvent($event);
+                if ($approve) {
+                    $newRecordHasFieldValues->setApprovalEvent($event);
+                }
                 return array($newRecordHasFieldValues);
             }
         }

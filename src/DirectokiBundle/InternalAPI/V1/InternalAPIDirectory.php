@@ -27,6 +27,7 @@ use DirectokiBundle\InternalAPI\V1\Model\FieldValueTextEdit;
 use DirectokiBundle\InternalAPI\V1\Model\Record;
 use DirectokiBundle\InternalAPI\V1\Model\RecordCreate;
 use DirectokiBundle\InternalAPI\V1\Model\SelectValue;
+use DirectokiBundle\Security\ProjectVoter;
 use Symfony\Component\HttpFoundation\Request;
 
 
@@ -186,6 +187,15 @@ class InternalAPIDirectory
             $recordCreate->getComment()
         );
 
+        $approve = false;
+
+        if ($recordCreate->isApproveInstantlyIfAllowed() && $recordCreate->getUser()) {
+            $projectVoter = $this->container->get('directoki.project_voter');
+            if ($projectVoter->getVoteOnProjectForAttributeForUser($this->project, ProjectVoter::ADMIN, $recordCreate->getUser())) {
+                $approve = true;
+            }
+        }
+
         $fieldDataToSave = array();
         foreach ( $recordCreate->getFieldValueEdits() as $fieldEdit ) {
 
@@ -193,7 +203,10 @@ class InternalAPIDirectory
 
             $fieldType = $this->container->get( 'directoki_field_type_service' )->getByField( $field );
 
-            $fieldDataToSave = array_merge($fieldDataToSave, $fieldType->processInternalAPI1Record($fieldEdit, $this->directory, null, $field, $event));
+            $fieldDataToSave = array_merge(
+                $fieldDataToSave,
+                $fieldType->processInternalAPI1Record($fieldEdit, $this->directory, null, $field, $event, $approve)
+            );
 
         }
 
@@ -212,14 +225,16 @@ class InternalAPIDirectory
             $record = new \DirectokiBundle\Entity\Record();
             $record->setDirectory($this->directory);
             $record->setCreationEvent($event);
-            $record->setCachedState(RecordHasState::STATE_DRAFT);
+            $record->setCachedState($approve ? RecordHasState::STATE_PUBLISHED : RecordHasState::STATE_DRAFT);
             $doctrine->persist($record);
 
-            // Also record a request to publish this record but don't approve it - moderator will do that.
             $recordHasState = new RecordHasState();
             $recordHasState->setRecord($record);
             $recordHasState->setState(RecordHasState::STATE_PUBLISHED);
             $recordHasState->setCreationEvent($event);
+            if ($approve) {
+                $recordHasState->setApprovalEvent($event);
+            }
             $doctrine->persist($recordHasState);
 
             foreach($fieldDataToSave as $entityToSave) {

@@ -22,6 +22,7 @@ use DirectokiBundle\InternalAPI\V1\Model\RecordEdit;
 
 use DirectokiBundle\InternalAPI\V1\Model\RecordReportEdit;
 use DirectokiBundle\InternalAPI\V1\Model\SelectValue;
+use DirectokiBundle\Security\ProjectVoter;
 use Symfony\Component\HttpFoundation\Request;
 
 
@@ -131,6 +132,15 @@ class InternalAPIRecord
             throw new \Exception('Passed wrong Record!');
         }
 
+        $approve = false;
+
+        if ($recordEdit->isApproveInstantlyIfAllowed() && $recordEdit->getUser()) {
+            $projectVoter = $this->container->get('directoki.project_voter');
+            if ($projectVoter->getVoteOnProjectForAttributeForUser($this->project, ProjectVoter::ADMIN, $recordEdit->getUser())) {
+                $approve = true;
+            }
+        }
+
         $event = $this->container->get('directoki_event_builder_service')->build(
             $this->project,
             $recordEdit->getUser(),
@@ -145,7 +155,10 @@ class InternalAPIRecord
 
             $fieldType = $this->container->get( 'directoki_field_type_service' )->getByField( $field );
 
-            $fieldDataToSave = array_merge($fieldDataToSave, $fieldType->processInternalAPI1Record($fieldEdit, $this->directory, $this->record, $field, $event));
+            $fieldDataToSave = array_merge(
+                $fieldDataToSave,
+                $fieldType->processInternalAPI1Record($fieldEdit, $this->directory, $this->record, $field, $event, $approve)
+            );
 
         }
 

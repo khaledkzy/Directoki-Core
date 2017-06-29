@@ -216,14 +216,14 @@ class FieldTypeMultiSelect extends  BaseFieldType
         return $out;
     }
 
-    public function processInternalAPI1Record(BaseFieldValue $fieldValueEdit, Directory $directory, Record $record = null, Field $field, Event $event) {
+    public function processInternalAPI1Record(BaseFieldValue $fieldValueEdit, Directory $directory, Record $record = null, Field $field, Event $event, $approve=false) {
         $repoSelectValue = $this->container->get('doctrine')->getManager()->getRepository('DirectokiBundle:SelectValue');
         $out = array();
 
         foreach($fieldValueEdit->getAddSelectValues() as $selectValueInternalAPI) {
             $selectValue = $repoSelectValue->findOneBy(array('field'=>$field, 'publicId'=>$selectValueInternalAPI->getId()));
             if ($selectValue) {
-                $out = array_merge($out, $this->processAPI1RecordAddSelectValue($selectValue, $field, $record, $event));
+                $out = array_merge($out, $this->processAPI1RecordAddSelectValue($selectValue, $field, $record, $event, $approve));
             } else {
                 throw new \Exception('Passed a select value we could not find!');
             }
@@ -232,7 +232,7 @@ class FieldTypeMultiSelect extends  BaseFieldType
         foreach($fieldValueEdit->getRemoveSelectValues() as $selectValueInternalAPI) {
             $selectValue = $repoSelectValue->findOneBy(array('field'=>$field, 'publicId'=>$selectValueInternalAPI->getId()));
             if ($selectValue) {
-                $out = array_merge($out, $this->processAPI1RecordRemoveSelectValue($selectValue, $field, $record, $event));
+                $out = array_merge($out, $this->processAPI1RecordRemoveSelectValue($selectValue, $field, $record, $event, $approve));
             } else {
                 throw new \Exception('Passed a select value we could not find!');
             }        }
@@ -240,7 +240,7 @@ class FieldTypeMultiSelect extends  BaseFieldType
         return $out;
     }
 
-    protected function processAPI1RecordAddStringValue($value, Field $field, Record $record = null, Event $event)
+    protected function processAPI1RecordAddStringValue($value, Field $field, Record $record = null, Event $event, $approve = false)
     {
 
         $repoSelectValue = $this->container->get('doctrine')->getManager()->getRepository('DirectokiBundle:SelectValue');
@@ -251,11 +251,11 @@ class FieldTypeMultiSelect extends  BaseFieldType
             return array(); // TODO We can't find the value the user passed.
         }
 
-        return $this->processAPI1RecordAddSelectValue($valueObject, $field, $record, $event);
+        return $this->processAPI1RecordAddSelectValue($valueObject, $field, $record, $event, $approve);
 
     }
 
-    protected function processAPI1RecordAddSelectValue(SelectValue $selectValue, Field $field, Record $record = null, Event $event)
+    protected function processAPI1RecordAddSelectValue(SelectValue $selectValue, Field $field, Record $record = null, Event $event, $approve = false)
     {
 
         $repoRecordHasFieldMultiSelectValue = $this->container->get('doctrine')->getManager()->getRepository('DirectokiBundle:RecordHasFieldMultiSelectValue');
@@ -271,12 +271,15 @@ class FieldTypeMultiSelect extends  BaseFieldType
         $newRecordHasFieldValues->setField($field);
         $newRecordHasFieldValues->setSelectValue($selectValue);
         $newRecordHasFieldValues->setAdditionCreationEvent($event);
+        if ($approve) {
+            $newRecordHasFieldValues->setAdditionApprovalEvent($event);
+        }
         return array($newRecordHasFieldValues);
 
     }
 
 
-    protected function processAPI1RecordRemoveStringId($value, Field $field, Record $record = null, Event $event)
+    protected function processAPI1RecordRemoveStringId($value, Field $field, Record $record = null, Event $event, $approve = false)
     {
         $repoSelectValue = $this->container->get('doctrine')->getManager()->getRepository('DirectokiBundle:SelectValue');
 
@@ -287,12 +290,12 @@ class FieldTypeMultiSelect extends  BaseFieldType
             return array(); // TODO We can't find the value the user passed.
         }
 
-        return $this->processAPI1RecordRemoveSelectValue($valueObject, $field, $record, $event);
+        return $this->processAPI1RecordRemoveSelectValue($valueObject, $field, $record, $event, $approve);
 
     }
 
 
-    protected function processAPI1RecordRemoveSelectValue(SelectValue $selectValue, Field $field, Record $record = null, Event $event)
+    protected function processAPI1RecordRemoveSelectValue(SelectValue $selectValue, Field $field, Record $record = null, Event $event, $approve = false)
     {
         $repoRecordHasFieldMultiSelectValue = $this->container->get('doctrine')->getManager()->getRepository('DirectokiBundle:RecordHasFieldMultiSelectValue');
 
@@ -308,6 +311,9 @@ class FieldTypeMultiSelect extends  BaseFieldType
 
         $recordFieldHasValue->setRemovalCreationEvent($event);
         $recordFieldHasValue->setRemovalCreatedAt(new \DateTime());
+        if ($approve) {
+            $recordFieldHasValue->setRemovalApprovalEvent($event);
+        }
         return array($recordFieldHasValue);
     }
 

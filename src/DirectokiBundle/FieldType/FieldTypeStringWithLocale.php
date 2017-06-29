@@ -286,7 +286,8 @@ class FieldTypeStringWithLocale extends BaseFieldType {
         Directory $directory,
         Record $record = null,
         Field $field,
-        Event $event
+        Event $event,
+        $approve=false
     ) {
 
         $out = array();
@@ -308,6 +309,9 @@ class FieldTypeStringWithLocale extends BaseFieldType {
                     $newRecordHasFieldValues->setLocale($locale);
                     $newRecordHasFieldValues->setValue($newValue);
                     $newRecordHasFieldValues->setCreationEvent($event);
+                    if ($approve) {
+                        $newRecordHasFieldValues->setApprovalEvent($event);
+                    }
                     $out[] = $newRecordHasFieldValues;
 
                 }

@@ -18,6 +18,7 @@ class RecordEdit extends Record {
 
     protected $user;
 
+    protected $approveInstantlyIfAllowed = true;
 
     public function __construct(Record $record) {
 
@@ -93,6 +94,20 @@ class RecordEdit extends Record {
         $this->user = $user;
     }
 
+    /**
+     * @return boolean
+     */
+    public function isApproveInstantlyIfAllowed()
+    {
+        return $this->approveInstantlyIfAllowed;
+    }
 
+    /**
+     * @param boolean $approveInstantlyIfAllowed
+     */
+    public function setApproveInstantlyIfAllowed($approveInstantlyIfAllowed)
+    {
+        $this->approveInstantlyIfAllowed = $approveInstantlyIfAllowed;
+    }
 
 }

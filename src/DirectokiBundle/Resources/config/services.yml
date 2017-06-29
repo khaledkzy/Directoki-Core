@@ -12,7 +12,7 @@ services:
         class: DirectokiBundle\Security\ProjectVoter
         tags:
             - { name: security.voter }
-        # small performance boost
-        public: false
+        # needs to be public as internal API checks it
+        public: true
         arguments: ["@service_container"]
 

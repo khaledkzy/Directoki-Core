@@ -127,7 +127,7 @@ class FieldTypeURL extends  BaseFieldType {
         return array();
     }
 
-    public function processInternalAPI1Record(BaseFieldValue $fieldValueEdit, Directory $directory, Record $record = null, Field $field, Event $event) {
+    public function processInternalAPI1Record(BaseFieldValue $fieldValueEdit, Directory $directory, Record $record = null, Field $field, Event $event, $approve=false) {
         // TODO
         return array();
 

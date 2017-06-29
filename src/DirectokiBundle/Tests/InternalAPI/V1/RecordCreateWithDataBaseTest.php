@@ -86,6 +86,7 @@ class PublishedCreateWithDataBaseTest extends BaseTestWithDataBase {
         // Don't set any field values! We should be smart enough not to save.
         $recordCreate->setComment('Test');
         $recordCreate->setEmail('test@example.com');
+        $recordCreate->setApproveInstantlyIfAllowed(false);
 
         $this->assertFalse($internalAPI->saveRecordCreate($recordCreate));
 
@@ -100,78 +101,6 @@ class PublishedCreateWithDataBaseTest extends BaseTestWithDataBase {
 
     }
 
-
-    public function testStringField() {
-
-        $user = new User();
-        $user->setEmail('test1@example.com');
-        $user->setPassword('password');
-        $user->setUsername('test1');
-        $this->em->persist($user);
-
-        $project = new Project();
-        $project->setTitle('test1');
-        $project->setPublicId('test1');
-        $project->setOwner($user);
-        $this->em->persist($project);
-
-        $event = new Event();
-        $event->setProject($project);
-        $event->setUser($user);
-        $this->em->persist($event);
-
-        $directory = new Directory();
-        $directory->setPublicId('resource');
-        $directory->setTitleSingular('Resource');
-        $directory->setTitlePlural('Resources');
-        $directory->setProject($project);
-        $directory->setCreationEvent($event);
-        $this->em->persist($directory);
-
-        $field = new Field();
-        $field->setTitle('Title');
-        $field->setPublicId('title');
-        $field->setDirectory($directory);
-        $field->setFieldType(FieldTypeString::FIELD_TYPE_INTERNAL);
-        $field->setCreationEvent($event);
-        $this->em->persist($field);
-
-
-        $this->em->flush();
-
-
-
-        # CREATE
-        $internalAPI = new InternalAPI($this->container);
-
-        $recordCreate = $internalAPI->getRecordCreate('test1','resource');
-        $recordCreate->getFieldValueEdit('title')->setNewValue('A Title');
-        $recordCreate->setComment('Test');
-        $recordCreate->setEmail('test@example.com');
-
-        $this->assertTrue($internalAPI->saveRecordCreate($recordCreate));
-
-
-
-
-         # TEST
-
-        $records = $this->em->getRepository('DirectokiBundle:Record')->getRecordsNeedingAttention($directory);
-        $this->assertEquals(1, count($records));
-
-        $fieldType = $this->container->get('directoki_field_type_service')->getByField($field);
-
-        $fieldModerationsNeeded = $fieldType->getFieldValuesToModerate($field, $records[0]);
-
-        $this->assertEquals(1, count($fieldModerationsNeeded));
-
-        $fieldModerationNeeded = $fieldModerationsNeeded[0];
-
-        $this->assertEquals('DirectokiBundle\Entity\RecordHasFieldStringValue', get_class($fieldModerationNeeded));
-        $this->assertEquals('A Title', $fieldModerationNeeded->getValue());
-
-
-    }
 
 
     public function testStringWithLocaleField()
@@ -229,6 +158,7 @@ class PublishedCreateWithDataBaseTest extends BaseTestWithDataBase {
         $recordCreate->getFieldValueEdit('title')->setNewValue('en_GB','A Title');
         $recordCreate->setComment('Test');
         $recordCreate->setEmail('test@example.com');
+        $recordCreate->setApproveInstantlyIfAllowed(false);
 
         $this->assertTrue($internalAPI->saveRecordCreate($recordCreate));
 
@@ -300,6 +230,7 @@ class PublishedCreateWithDataBaseTest extends BaseTestWithDataBase {
         $recordCreate->getFieldValueEdit('description')->setNewValue('I can count.');
         $recordCreate->setComment('Test');
         $recordCreate->setEmail('test@example.com');
+        $recordCreate->setApproveInstantlyIfAllowed(false);
 
         $this->assertTrue($internalAPI->saveRecordCreate($recordCreate));
 
@@ -378,6 +309,7 @@ class PublishedCreateWithDataBaseTest extends BaseTestWithDataBase {
         $recordCreate->getFieldValueEdit('map')->setNewLng(-2.83);
         $recordCreate->setComment('Test');
         $recordCreate->setEmail('test@example.com');
+        $recordCreate->setApproveInstantlyIfAllowed(false);
 
         $this->assertTrue($internalAPI->saveRecordCreate($recordCreate));
 
@@ -452,6 +384,7 @@ class PublishedCreateWithDataBaseTest extends BaseTestWithDataBase {
         $recordCreate->getFieldValueEdit('email')->setNewValue('bob@example.com');
         $recordCreate->setComment('Test');
         $recordCreate->setEmail('test@example.com');
+        $recordCreate->setApproveInstantlyIfAllowed(false);
 
         $this->assertTrue($internalAPI->saveRecordCreate($recordCreate));
 
@@ -535,6 +468,7 @@ class PublishedCreateWithDataBaseTest extends BaseTestWithDataBase {
         $recordCreate->getFieldValueEdit('tags')->addValueToAdd($selectValuesFromAPI[0]);
         $recordCreate->setComment('Test');
         $recordCreate->setEmail('test@example.com');
+        $recordCreate->setApproveInstantlyIfAllowed(false);
 
         $this->assertTrue($internalAPI->saveRecordCreate($recordCreate));
 

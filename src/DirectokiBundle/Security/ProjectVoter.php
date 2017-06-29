@@ -42,7 +42,13 @@ class ProjectVoter extends Voter {
 
     protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
     {
-        $user = $token->getUser();
+        return $this->getVoteOnProjectForAttributeForUser($subject, $attribute, $token->getUser());
+    }
+
+
+    public function getVoteOnProjectForAttributeForUser(Project $subject, $attribute, User $user=null)
+    {
+
         $doctrine = $this->container->get('doctrine')->getManager();
 
         switch ($attribute) {

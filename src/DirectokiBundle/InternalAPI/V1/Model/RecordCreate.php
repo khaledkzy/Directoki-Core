@@ -16,6 +16,7 @@ class RecordCreate {
 
     protected $fieldsEdit = array();
 
+    protected $approveInstantlyIfAllowed = true;
 
     protected $comment;
 
@@ -94,6 +95,22 @@ class RecordCreate {
      */
     public function setUser(User $user ) {
         $this->user = $user;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isApproveInstantlyIfAllowed()
+    {
+        return $this->approveInstantlyIfAllowed;
+    }
+
+    /**
+     * @param boolean $approveInstantlyIfAllowed
+     */
+    public function setApproveInstantlyIfAllowed($approveInstantlyIfAllowed)
+    {
+        $this->approveInstantlyIfAllowed = $approveInstantlyIfAllowed;
     }
 
 

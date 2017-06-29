@@ -20,7 +20,7 @@ class RecordHasFieldStringValueRepository extends EntityRepository {
                    ->createQuery(
                        ' SELECT fv FROM DirectokiBundle:RecordHasFieldStringValue fv '.
                        ' WHERE fv.field = :field AND fv.record = :record AND fv.approvedAt IS NOT NULL ' .
-                       ' ORDER BY fv.approvedAt DESC '
+                       ' ORDER BY fv.approvedAt DESC, fv.id DESC '
                    )
                    ->setMaxResults(1)
                    ->setParameter('field', $field)
