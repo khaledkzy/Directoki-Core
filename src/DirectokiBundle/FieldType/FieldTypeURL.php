@@ -8,6 +8,7 @@ use DirectokiBundle\Entity\Event;
 use DirectokiBundle\Entity\Record;
 use DirectokiBundle\Entity\RecordHasFieldURLValue;
 use DirectokiBundle\Entity\Field;
+use DirectokiBundle\LocaleMode\BaseLocaleMode;
 use Symfony\Component\Form\Form;
 use DirectokiBundle\InternalAPI\V1\Model\BaseFieldValue;
 use JMBTechnology\UserAccountsBundle\Entity\User;
@@ -98,7 +99,7 @@ class FieldTypeURL extends  BaseFieldType {
         return '@Directoki/FieldType/URL/view.html.twig';
     }
 
-    public function getAPIJSON( Field $field, Record $record , $useCachedData = true) {
+    public function getAPIJSON( Field $field, Record $record, BaseLocaleMode $localeMode , $useCachedData = true) {
         // TODO respect $useCachedData! (Must actually implement  getLatestFieldValuesFromCache first!)
         $latest = $this->getLatestFieldValue($field, $record);
         return array('value'=>$latest->getValue());

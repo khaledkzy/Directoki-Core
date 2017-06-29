@@ -16,6 +16,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class API1ProjectDirectoryController extends Controller
 {
 
+    use API1TraitLocale;
 
     /** @var Project */
     protected $project;
@@ -23,7 +24,7 @@ class API1ProjectDirectoryController extends Controller
     /** @var Directory */
     protected $directory;
 
-    protected function build($projectId, $directoryId) {
+    protected function build($projectId, $directoryId, Request $request) {
         $doctrine = $this->getDoctrine()->getManager();
         // load
         $repository = $doctrine->getRepository('DirectokiBundle:Project');
@@ -39,14 +40,16 @@ class API1ProjectDirectoryController extends Controller
         if (!$this->directory) {
             throw new  NotFoundHttpException('Not found');
         }
+
+        $this->buildLocale($request);
     }
 
 
-    public function indexJSONAction($projectId, $directoryId)
+    public function indexJSONAction($projectId, $directoryId, Request $request)
     {
 
         // build
-        $this->build($projectId, $directoryId);
+        $this->build($projectId, $directoryId, $request);
         //data
         $out = array(
             'project'=>array(
@@ -67,11 +70,11 @@ class API1ProjectDirectoryController extends Controller
 
     }
 
-    protected  function fieldsData($projectId, $directoryId)
+    protected  function fieldsData($projectId, $directoryId, Request $request)
     {
 
         // build
-        $this->build($projectId, $directoryId);
+        $this->build($projectId, $directoryId, $request);
         //data
 
         $doctrine = $this->getDoctrine()->getManager();
@@ -103,9 +106,9 @@ class API1ProjectDirectoryController extends Controller
 
     }
 
-    public function fieldsJSONAction($projectId, $directoryId)
+    public function fieldsJSONAction($projectId, $directoryId, Request $request)
     {
-        $response = new Response(json_encode($this->fieldsData($projectId, $directoryId)));
+        $response = new Response(json_encode($this->fieldsData($projectId, $directoryId, $request)));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
@@ -114,16 +117,16 @@ class API1ProjectDirectoryController extends Controller
     public function fieldsJSONPAction($projectId, $directoryId, Request $request)
     {
         $callback = $request->get('q') ? $request->get('q') : 'callback';
-        $response = new Response($callback."(".json_encode($this->fieldsData($projectId, $directoryId)).");");
+        $response = new Response($callback."(".json_encode($this->fieldsData($projectId, $directoryId, $request)).");");
         $response->headers->set('Content-Type', 'application/javascript');
         return $response;
     }
 
-    public function recordsJSONAction($projectId, $directoryId)
+    public function recordsJSONAction($projectId, $directoryId, Request $request)
     {
 
         // build
-        $this->build($projectId, $directoryId);
+        $this->build($projectId, $directoryId, $request);
         //data
 
         $doctrine = $this->getDoctrine()->getManager();

@@ -8,6 +8,7 @@ use DirectokiBundle\Entity\Event;
 use DirectokiBundle\Entity\Record;
 use DirectokiBundle\Entity\RecordHasFieldLatLngValue;
 use DirectokiBundle\Entity\Field;
+use DirectokiBundle\LocaleMode\BaseLocaleMode;
 use Symfony\Component\Form\Form;
 use DirectokiBundle\InternalAPI\V1\Model\BaseFieldValue;
 use JMBTechnology\UserAccountsBundle\Entity\User;
@@ -109,7 +110,7 @@ class FieldTypeLatLng extends  BaseFieldType {
         return '@Directoki/FieldType/LatLng/view.html.twig';
     }
 
-    public function getAPIJSON( Field $field, Record $record , $useCachedData = false) {
+    public function getAPIJSON( Field $field, Record $record, BaseLocaleMode $localeMode , $useCachedData = false) {
         // TODO respect $useCachedData! (Must actually implement  getLatestFieldValuesFromCache first!)
         $latest = $this->getLatestFieldValue($field, $record);
         return array('lat'=>$latest->getLat(), 'lng'=>$latest->getLng());

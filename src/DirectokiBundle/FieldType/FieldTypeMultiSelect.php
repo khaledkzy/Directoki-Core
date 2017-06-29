@@ -9,6 +9,7 @@ use DirectokiBundle\Entity\Record;
 use DirectokiBundle\Entity\RecordHasFieldMultiSelectValue;
 use DirectokiBundle\Entity\Field;
 use DirectokiBundle\Entity\SelectValue;
+use DirectokiBundle\LocaleMode\BaseLocaleMode;
 use Symfony\Component\Form\Form;
 use DirectokiBundle\ImportCSVLineResult;
 use DirectokiBundle\InternalAPI\V1\Model\BaseFieldValue;
@@ -174,7 +175,7 @@ class FieldTypeMultiSelect extends  BaseFieldType
         return '@Directoki/FieldType/MultiSelect/view.html.twig';
     }
 
-    public function getAPIJSON(Field $field, Record $record, $useCachedData = false)
+    public function getAPIJSON(Field $field, Record $record, BaseLocaleMode $localeMode, $useCachedData = false)
     {
         // TODO respect $useCachedData! (Must actually implement  getLatestFieldValuesFromCache first!)
         $out = array();

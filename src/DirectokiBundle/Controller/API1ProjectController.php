@@ -5,6 +5,7 @@ namespace DirectokiBundle\Controller;
 use DirectokiBundle\Entity\Project;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
@@ -14,30 +15,32 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class API1ProjectController extends Controller
 {
 
+    use API1TraitLocale;
 
     /** @var Project */
     protected $project;
 
-
-    protected function build($projectId) {
+    protected function build($projectId, Request $request) {
         $doctrine = $this->getDoctrine()->getManager();
-        // load
-        $repository = $doctrine->getRepository('DirectokiBundle:Project');
-        $this->project = $repository->findOneByPublicId($projectId);
+        // Project
+        $projectRepository = $doctrine->getRepository('DirectokiBundle:Project');
+        $this->project = $projectRepository->findOneByPublicId($projectId);
         if (!$this->project) {
             throw new  NotFoundHttpException('Not found');
         }
 
         // TODO check isAPIReadAllowed
         //$this->denyAccessUnlessGranted(ProjectVoter::VIEW, $this->project);
+
+        $this->buildLocale($request);
     }
 
 
-    public function indexJSONAction($projectId)
+    public function indexJSONAction($projectId, Request $request)
     {
 
         // build
-        $this->build($projectId);
+        $this->build($projectId, $request);
         //data
 
         $doctrine = $this->getDoctrine()->getManager();
@@ -59,11 +62,11 @@ class API1ProjectController extends Controller
 
 
 
-    public function directoriesJSONAction($projectId)
+    public function directoriesJSONAction($projectId, Request $request)
     {
 
         // build
-        $this->build($projectId);
+        $this->build($projectId, $request);
         //data
 
         $doctrine = $this->getDoctrine()->getManager();

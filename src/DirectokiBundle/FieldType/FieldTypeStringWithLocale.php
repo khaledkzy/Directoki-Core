@@ -11,6 +11,9 @@ use DirectokiBundle\Entity\RecordHasFieldStringValue;
 use DirectokiBundle\Entity\Field;
 use DirectokiBundle\Entity\RecordHasFieldStringWithLocaleValue;
 use DirectokiBundle\Form\Type\RecordHasFieldStringWithLocaleValueType;
+use DirectokiBundle\LocaleMode\BaseLocaleMode;
+use DirectokiBundle\LocaleMode\MultiLocaleMode;
+use DirectokiBundle\LocaleMode\SingleLocaleMode;
 use DirectokiBundle\ModerationNeeded\ModerationNeededRecordHasFieldValue;
 use Symfony\Component\Form\Form;
 use DirectokiBundle\InternalAPI\V1\Model\BaseFieldValue;
@@ -198,24 +201,53 @@ class FieldTypeStringWithLocale extends BaseFieldType {
         return '@Directoki/FieldType/StringWithLocale/view.html.twig';
     }
 
-    public function getAPIJSON(Field $field, Record $record, $useCachedData = false)
+    public function getAPIJSON(Field $field, Record $record, BaseLocaleMode $localeMode, $useCachedData = false)
     {
         if ($useCachedData) {
-            $out = array();
-            foreach($this->getLatestFieldValuesFromCache($field, $record) as $value) {
-                $out['value_'.$value->getLocale()->getPublicId()] = $value->getValue();
-            }
-            return $out;
-        } else {
-            $repo = $this->container->get('doctrine')->getManager()->getRepository('DirectokiBundle:Locale');
-            $locales = $repo->findByProject($record->getDirectory()->getProject());
 
-            $out = array();
-            foreach($locales as $locale) {
-                $out['value_'.$locale->getPublicId()] = $this->getLatestFieldValueForLocale($field, $record, $locale)->getValue();
+            if ($localeMode instanceof SingleLocaleMode) {
+                foreach($this->getLatestFieldValuesFromCache($field, $record) as $value) {
+                    if ($value->getLocale()->getPublicId() == $localeMode->getLocale()->getPublicId()) {
+                        return array(
+                            'value'=>$value->getValue(),
+                        );
+                    }
+                }
+
+            } else if ($localeMode instanceof MultiLocaleMode) {
+
+                $out = array();
+                foreach($this->getLatestFieldValuesFromCache($field, $record) as $value) {
+                    if ($localeMode->containsPublicId($value->getLocale()->getPublicId())) {
+                        $out['value_' . $value->getLocale()->getPublicId()] = $value->getValue();
+                    }
+                }
+                return $out;
+
             }
-            return $out;
+
+        } else {
+
+            if ($localeMode instanceof SingleLocaleMode) {
+
+                return array(
+                    'value' => $this->getLatestFieldValueForLocale($field, $record, $localeMode->getLocale())->getValue(),
+                );
+
+            } else if ($localeMode instanceof MultiLocaleMode) {
+
+                $out = array();
+                foreach($localeMode->getLocales() as $locale) {
+                    $out['value_'.$locale->getPublicId()] = $this->getLatestFieldValueForLocale($field, $record, $locale)->getValue();
+                }
+                return $out;
+
+            }
+
         }
+
+        // Just in case nothing matched; eg For NoLocaleMode on a with Locale Field, we aren't going to try and do anything.
+        return array();
     }
 
     public function processAPI1Record(Field $field, Record $record, ParameterBag $parameterBag, Event $event)

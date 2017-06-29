@@ -20,15 +20,17 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 class API1ProjectDirectoryRecordEditController extends API1ProjectDirectoryRecordController
 {
 
+    use API1TraitLocale;
 
-
-    protected function build($projectId, $directoryId, $recordId) {
-        parent::build($projectId, $directoryId, $recordId);
+    protected function build($projectId, $directoryId, $recordId, Request $request) {
+        parent::build($projectId, $directoryId, $recordId, $request);
         // TODO check isAPIModeratedEditAllowed
 
         if ($this->container->getParameter('directoki.read_only')) {
             throw new HttpException(503, 'Directoki is in Read Only mode.');
         }
+
+        $this->buildLocale($request);
 
     }
 
@@ -36,7 +38,7 @@ class API1ProjectDirectoryRecordEditController extends API1ProjectDirectoryRecor
     protected function editData($projectId, $directoryId, $recordId, ParameterBag $parameterBag, Request $request) {
 
         // build
-        $this->build( $projectId, $directoryId, $recordId );
+        $this->build( $projectId, $directoryId, $recordId , $request );
         //data
         $doctrine = $this->getDoctrine()->getManager();
 
@@ -108,7 +110,7 @@ class API1ProjectDirectoryRecordEditController extends API1ProjectDirectoryRecor
     protected function newReportData($projectId, $directoryId, $recordId, ParameterBag $parameterBag, Request $request) {
 
         // build
-        $this->build( $projectId, $directoryId, $recordId );
+        $this->build( $projectId, $directoryId, $recordId, $request );
         //data
         $doctrine = $this->getDoctrine()->getManager();
         $out = array();

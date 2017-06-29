@@ -8,6 +8,7 @@ use DirectokiBundle\Entity\Event;
 use DirectokiBundle\Entity\Record;
 use DirectokiBundle\Entity\RecordHasStringField;
 use DirectokiBundle\Entity\Field;
+use DirectokiBundle\LocaleMode\BaseLocaleMode;
 use Symfony\Component\Form\Form;
 use DirectokiBundle\InternalAPI\V1\Model\BaseFieldValue;
 use JMBTechnology\UserAccountsBundle\Entity\User;
@@ -56,7 +57,7 @@ abstract class  BaseFieldType {
 
     public abstract function getViewTemplate();
 
-    public abstract function getAPIJSON(Field $field, Record $record, $useCachedData = false);
+    public abstract function getAPIJSON(Field $field, Record $record, BaseLocaleMode $localeMode, $useCachedData = false);
 
     public abstract function processAPI1Record(Field $field, Record $record, ParameterBag $parameterBag, Event $event);
 

@@ -18,6 +18,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class API1ProjectDirectoryRecordController extends Controller
 {
 
+    use API1TraitLocale;
 
     /** @var Project */
     protected $project;
@@ -28,7 +29,7 @@ class API1ProjectDirectoryRecordController extends Controller
     /** @var Record */
     protected $record;
 
-    protected function build($projectId, $directoryId, $recordId) {
+    protected function build($projectId, $directoryId, $recordId, Request $request) {
         $doctrine = $this->getDoctrine()->getManager();
         // load
         $repository = $doctrine->getRepository('DirectokiBundle:Project');
@@ -50,13 +51,15 @@ class API1ProjectDirectoryRecordController extends Controller
         if (!$this->record) {
             throw new  NotFoundHttpException('Not found');
         }
+
+        $this->buildLocale($request);
     }
 
 
-    protected function indexData($projectId, $directoryId, $recordId) {
+    protected function indexData($projectId, $directoryId, $recordId, Request $request) {
 
         // build
-        $this->build( $projectId, $directoryId, $recordId );
+        $this->build( $projectId, $directoryId, $recordId, $request );
         //data
         $doctrine = $this->getDoctrine()->getManager();
 
@@ -91,7 +94,7 @@ class API1ProjectDirectoryRecordController extends Controller
                     'id'    => $field->getPublicId(),
                     'type'  => $fieldType::FIELD_TYPE_API1,
                     'title' => $field->getTitle(),
-                    'value' => $fieldType->getAPIJSON( $field, $this->record , false),
+                    'value' => $fieldType->getAPIJSON( $field, $this->record ,  $this->localeMode, false),
                 );
 
             }
@@ -101,9 +104,9 @@ class API1ProjectDirectoryRecordController extends Controller
     }
 
 
-    public function indexJSONAction($projectId, $directoryId, $recordId)
+    public function indexJSONAction($projectId, $directoryId, $recordId, Request $request)
     {
-        $response = new Response(json_encode($this->indexData($projectId, $directoryId, $recordId)));
+        $response = new Response(json_encode($this->indexData($projectId, $directoryId, $recordId, $request)));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
 
@@ -112,7 +115,7 @@ class API1ProjectDirectoryRecordController extends Controller
     public function indexJSONPAction($projectId, $directoryId, $recordId, Request $request)
     {
         $callback = $request->get('q') ? $request->get('q') : 'callback';
-        $response = new Response($callback."(".json_encode($this->indexData($projectId, $directoryId, $recordId)).");");
+        $response = new Response($callback."(".json_encode($this->indexData($projectId, $directoryId, $recordId, $request)).");");
         $response->headers->set('Content-Type', 'application/javascript');
         return $response;
     }
