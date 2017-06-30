@@ -92,13 +92,14 @@ class FieldTypeTextWithDataBaseTest extends BaseTestWithDataBase
 
         # EDIT - Same value, but we try and insert a \r. And it should be rejected.
         $internalAPI = new InternalAPI($this->container);
-        $recordIntAPI = $internalAPI->getPublishedRecord("test1","resource","r1");
-        $recordEditIntAPI = $internalAPI->getPublishedRecordEdit($recordIntAPI);
+        $internalAPIDirectory = $internalAPI->getProjectAPI('test1')->getDirectoryAPI('resource')->getRecordAPI('r1');
+
+        $recordEditIntAPI = $internalAPIDirectory->getPublishedEdit();
         $recordEditIntAPI->getFieldValueEdit('description')->setNewValue("123\r\n456");
         $recordEditIntAPI->setComment('Test');
         $recordEditIntAPI->setEmail('test@example.com');
 
-        $this->assertFalse($internalAPI->savePublishedRecordEdit($recordEditIntAPI));
+        $this->assertFalse($internalAPIDirectory->savePublishedEdit($recordEditIntAPI));
 
 
         # TEST, WE *STILL* HAVE NO MODS
