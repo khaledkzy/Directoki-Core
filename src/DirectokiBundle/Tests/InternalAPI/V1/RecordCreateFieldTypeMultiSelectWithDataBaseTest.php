@@ -25,11 +25,11 @@ use DirectokiBundle\Tests\BaseTestWithDataBase;
  *  @license 3-clause BSD
  *  @link https://github.com/Directoki/Directoki-Core/blob/master/LICENSE.txt
  */
-class PublishedCreateWithDataBaseTest extends BaseTestWithDataBase {
+class RecordCreateFieldTypeMultiSelectWithDataBaseTest extends BaseTestWithDataBase
+{
 
 
-
-    public function testBlankCreate() {
+    public function testMultiSelectField() {
 
         $user = new User();
         $user->setEmail('test1@example.com');
@@ -57,26 +57,21 @@ class PublishedCreateWithDataBaseTest extends BaseTestWithDataBase {
         $this->em->persist($directory);
 
         $field = new Field();
-        $field->setTitle('Title');
-        $field->setPublicId('title');
+        $field->setTitle('Tags');
+        $field->setPublicId('tags');
         $field->setDirectory($directory);
-        $field->setFieldType(FieldTypeString::FIELD_TYPE_INTERNAL);
-        $field->setCreationEvent($event);
-        $this->em->persist($field);
-
-        $field = new Field();
-        $field->setTitle('Description');
-        $field->setPublicId('description');
-        $field->setDirectory($directory);
-        $field->setFieldType(FieldTypeText::FIELD_TYPE_INTERNAL);
+        $field->setFieldType(FieldTypeMultiSelect::FIELD_TYPE_INTERNAL);
         $field->setCreationEvent($event);
         $this->em->persist($field);
 
 
-        // TODO add one of each field type here
+        $selectValue = new SelectValue();
+        $selectValue->setField($field);
+        $selectValue->setCreationEvent($event);
+        $selectValue->setTitle('PHP');
+        $this->em->persist($selectValue);
 
         $this->em->flush();
-
 
 
         # CREATE
@@ -84,28 +79,38 @@ class PublishedCreateWithDataBaseTest extends BaseTestWithDataBase {
 
         $internalAPIDirectory = $internalAPI->getProjectAPI('test1')->getDirectoryAPI('resource');
 
+        $selectValuesFromAPI = $internalAPIDirectory->getFieldAPI('tags')->getPublishedSelectValues();
+        $this->assertEquals(1, count($selectValuesFromAPI));
+        $this->assertEquals('PHP', $selectValuesFromAPI[0]->getTitle());
+
+
         $recordCreate = $internalAPIDirectory->getRecordCreate();
-        // Don't set any field values! We should be smart enough not to save.
+        $recordCreate->getFieldValueEdit('tags')->addValueToAdd($selectValuesFromAPI[0]);
         $recordCreate->setComment('Test');
         $recordCreate->setEmail('test@example.com');
         $recordCreate->setApproveInstantlyIfAllowed(false);
 
-        $this->assertFalse($internalAPIDirectory->saveRecordCreate($recordCreate));
-
-
+        $this->assertTrue($internalAPIDirectory->saveRecordCreate($recordCreate));
 
 
         # TEST
 
         $records = $this->em->getRepository('DirectokiBundle:Record')->getRecordsNeedingAttention($directory);
-        $this->assertEquals(0, count($records));
+        $this->assertEquals(1, count($records));
+
+        $fieldType = $this->container->get('directoki_field_type_service')->getByField($field);
+
+        $fieldModerationsNeeded = $fieldType->getModerationsNeeded($field, $records[0]);
+
+        $this->assertEquals(1, count($fieldModerationsNeeded));
+
+        $fieldModerationNeeded = $fieldModerationsNeeded[0];
+
+        $this->assertEquals('DirectokiBundle\ModerationNeeded\ModerationNeededRecordHasFieldMultiValueAddition', get_class($fieldModerationNeeded));
+        $this->assertEquals('PHP', $fieldModerationNeeded->getFieldValue()->getSelectValue()->getTitle());
 
 
     }
 
 
-
-
-
 }
-

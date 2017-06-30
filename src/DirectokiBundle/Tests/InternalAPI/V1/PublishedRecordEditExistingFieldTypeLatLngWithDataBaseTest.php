@@ -33,10 +33,12 @@ use DirectokiBundle\Tests\BaseTestWithDataBase;
  *  @license 3-clause BSD
  *  @link https://github.com/Directoki/Directoki-Core/blob/master/LICENSE.txt
  */
-class PublishedRecordEditExistingWithDataBaseTest extends BaseTestWithDataBase {
+class PublishedRecordEditExistingFieldTypeLatLngWithDataBaseTest extends BaseTestWithDataBase
+{
 
 
-    public function testBlankEdit() {
+
+    public function testLatLngField() {
 
         $user = new User();
         $user->setEmail('test1@example.com');
@@ -78,52 +80,50 @@ class PublishedRecordEditExistingWithDataBaseTest extends BaseTestWithDataBase {
         $this->em->persist($recordHasState);
 
         $field = new Field();
-        $field->setTitle('Title');
-        $field->setPublicId('title');
+        $field->setTitle('Map');
+        $field->setPublicId('map');
         $field->setDirectory($directory);
-        $field->setFieldType(FieldTypeString::FIELD_TYPE_INTERNAL);
+        $field->setFieldType(FieldTypeLatLng::FIELD_TYPE_INTERNAL);
         $field->setCreationEvent($event);
         $this->em->persist($field);
 
-        $recordHasFieldStringValue = new RecordHasFieldStringValue();
-        $recordHasFieldStringValue->setRecord($record);
-        $recordHasFieldStringValue->setField($field);
-        $recordHasFieldStringValue->setValue('My Title Rocks');
-        $recordHasFieldStringValue->setApprovedAt(new \DateTime());
-        $recordHasFieldStringValue->setCreationEvent($event);
-        $this->em->persist($recordHasFieldStringValue);
-
-        $field = new Field();
-        $field->setTitle('Description');
-        $field->setPublicId('description');
-        $field->setDirectory($directory);
-        $field->setFieldType(FieldTypeText::FIELD_TYPE_INTERNAL);
-        $field->setCreationEvent($event);
-        $this->em->persist($field);
-
-        $recordHasFieldTextValue = new RecordHasFieldTextValue();
-        $recordHasFieldTextValue->setRecord($record);
-        $recordHasFieldTextValue->setField($field);
-        $recordHasFieldTextValue->setValue('123');
-        $recordHasFieldTextValue->setApprovedAt(new \DateTime());
-        $recordHasFieldTextValue->setCreationEvent($event);
-        $this->em->persist($recordHasFieldTextValue);
-
-        // TODO add one of each field type here
+        $recordHasFieldLatLngValue = new RecordHasFieldLatLngValue();
+        $recordHasFieldLatLngValue->setRecord($record);
+        $recordHasFieldLatLngValue->setField($field);
+        $recordHasFieldLatLngValue->setLat(34.92);
+        $recordHasFieldLatLngValue->setLng(-1.76);
+        $recordHasFieldLatLngValue->setApprovedAt(new \DateTime());
+        $recordHasFieldLatLngValue->setCreationEvent($event);
+        $this->em->persist($recordHasFieldLatLngValue);
 
         $this->em->flush();
 
+        # TEST
 
-        # Edit
         $internalAPI = new InternalAPI($this->container);
         $internalAPIRecord = $internalAPI->getProjectAPI('test1')->getDirectoryAPI('resource')->getRecordAPI('r1');
         $recordEditIntAPI = $internalAPIRecord->getPublishedEdit();
-        // Don't set any field values! We should be smart enough not to save.
+
+        $this->assertEquals('r1', $recordEditIntAPI->getPublicId());
+        $this->assertNotNull($recordEditIntAPI->getFieldValueEdit('map'));
+        $this->assertEquals('DirectokiBundle\InternalAPI\V1\Model\FieldValueLatLngEdit', get_class($recordEditIntAPI->getFieldValueEdit('map')));
+        $this->assertEquals('Map', $recordEditIntAPI->getFieldValueEdit('map')->getTitle());
+        $this->assertEquals(34.92, $recordEditIntAPI->getFieldValueEdit('map')->getLat());
+        $this->assertEquals(-1.76, $recordEditIntAPI->getFieldValueEdit('map')->getLng());
+
+        $records = $this->em->getRepository('DirectokiBundle:Record')->getRecordsNeedingAttention($directory);
+        $this->assertEquals(0, count($records));
+
+
+        # Edit
+
+        $recordEditIntAPI->getFieldValueEdit('map')->setNewLat(12.82);
+        $recordEditIntAPI->getFieldValueEdit('map')->setNewLng(-9.82);
         $recordEditIntAPI->setComment('Test');
         $recordEditIntAPI->setEmail('test@example.com');
         $recordEditIntAPI->setApproveInstantlyIfAllowed(false);
 
-        $this->assertFalse($internalAPIRecord->savePublishedEdit($recordEditIntAPI));
+        $this->assertTrue($internalAPIRecord->savePublishedEdit($recordEditIntAPI));
 
 
 
@@ -131,12 +131,27 @@ class PublishedRecordEditExistingWithDataBaseTest extends BaseTestWithDataBase {
         # TEST
 
         $records = $this->em->getRepository('DirectokiBundle:Record')->getRecordsNeedingAttention($directory);
-        $this->assertEquals(0, count($records));
+        $this->assertEquals(1, count($records));
+
+
+        $fieldType = $this->container->get('directoki_field_type_service')->getByField($field);
+
+
+
+        $fieldModerationsNeeded = $fieldType->getFieldValuesToModerate($field, $record);
+
+
+
+        $this->assertEquals(1, count($fieldModerationsNeeded));
+
+        $fieldModerationNeeded = $fieldModerationsNeeded[0];
+
+        $this->assertEquals('DirectokiBundle\Entity\RecordHasFieldLatLngValue', get_class($fieldModerationNeeded));
+        $this->assertEquals(12.82, $fieldModerationNeeded->getLat());
+        $this->assertEquals(-9.82, $fieldModerationNeeded->getLng());
+
 
     }
 
 
-
-
 }
-

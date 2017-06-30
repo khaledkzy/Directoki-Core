@@ -25,11 +25,13 @@ use DirectokiBundle\Tests\BaseTestWithDataBase;
  *  @license 3-clause BSD
  *  @link https://github.com/Directoki/Directoki-Core/blob/master/LICENSE.txt
  */
-class PublishedCreateWithDataBaseTest extends BaseTestWithDataBase {
+class RecordCreateFieldTypeStringWithLocaleWithDataBaseTest extends BaseTestWithDataBase
+{
 
 
 
-    public function testBlankCreate() {
+    public function testStringWithLocaleField()
+    {
 
         $user = new User();
         $user->setEmail('test1@example.com');
@@ -48,6 +50,14 @@ class PublishedCreateWithDataBaseTest extends BaseTestWithDataBase {
         $event->setUser($user);
         $this->em->persist($event);
 
+        $locale1 = new Locale();
+        $locale1->setTitle('en_GB');
+        $locale1->setPublicId('en_GB');
+        $locale1->setProject($project);
+        $locale1->setCreationEvent($event);
+        $this->em->persist($locale1);
+
+
         $directory = new Directory();
         $directory->setPublicId('resource');
         $directory->setTitleSingular('Resource');
@@ -60,23 +70,12 @@ class PublishedCreateWithDataBaseTest extends BaseTestWithDataBase {
         $field->setTitle('Title');
         $field->setPublicId('title');
         $field->setDirectory($directory);
-        $field->setFieldType(FieldTypeString::FIELD_TYPE_INTERNAL);
+        $field->setFieldType(FieldTypeStringWithLocale::FIELD_TYPE_INTERNAL);
         $field->setCreationEvent($event);
         $this->em->persist($field);
 
-        $field = new Field();
-        $field->setTitle('Description');
-        $field->setPublicId('description');
-        $field->setDirectory($directory);
-        $field->setFieldType(FieldTypeText::FIELD_TYPE_INTERNAL);
-        $field->setCreationEvent($event);
-        $this->em->persist($field);
-
-
-        // TODO add one of each field type here
 
         $this->em->flush();
-
 
 
         # CREATE
@@ -85,27 +84,33 @@ class PublishedCreateWithDataBaseTest extends BaseTestWithDataBase {
         $internalAPIDirectory = $internalAPI->getProjectAPI('test1')->getDirectoryAPI('resource');
 
         $recordCreate = $internalAPIDirectory->getRecordCreate();
-        // Don't set any field values! We should be smart enough not to save.
+        $recordCreate->getFieldValueEdit('title')->setNewValue('en_GB','A Title');
         $recordCreate->setComment('Test');
         $recordCreate->setEmail('test@example.com');
         $recordCreate->setApproveInstantlyIfAllowed(false);
 
-        $this->assertFalse($internalAPIDirectory->saveRecordCreate($recordCreate));
-
-
+        $this->assertTrue($internalAPIDirectory->saveRecordCreate($recordCreate));
 
 
         # TEST
 
         $records = $this->em->getRepository('DirectokiBundle:Record')->getRecordsNeedingAttention($directory);
-        $this->assertEquals(0, count($records));
+        $this->assertEquals(1, count($records));
+
+        $fieldType = $this->container->get('directoki_field_type_service')->getByField($field);
+
+        $fieldRecords = $this->em->getRepository('DirectokiBundle:RecordHasFieldStringWithLocaleValue')->findAll();
+
+        $this->assertEquals(1, count($fieldRecords));
+
+        $fieldRecord = $fieldRecords[0];
+
+        $this->assertEquals('DirectokiBundle\Entity\RecordHasFieldStringWithLocaleValue', get_class($fieldRecord));
+        $this->assertEquals('A Title', $fieldRecord->getValue());
 
 
     }
 
 
 
-
-
 }
-

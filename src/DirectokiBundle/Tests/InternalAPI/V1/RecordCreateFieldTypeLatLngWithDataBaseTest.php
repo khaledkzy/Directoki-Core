@@ -25,11 +25,12 @@ use DirectokiBundle\Tests\BaseTestWithDataBase;
  *  @license 3-clause BSD
  *  @link https://github.com/Directoki/Directoki-Core/blob/master/LICENSE.txt
  */
-class PublishedCreateWithDataBaseTest extends BaseTestWithDataBase {
+class RecordCreateFieldTypeLatLngWithDataBaseTest extends BaseTestWithDataBase
+{
 
 
-
-    public function testBlankCreate() {
+    public function testLatLngField()
+    {
 
         $user = new User();
         $user->setEmail('test1@example.com');
@@ -57,26 +58,15 @@ class PublishedCreateWithDataBaseTest extends BaseTestWithDataBase {
         $this->em->persist($directory);
 
         $field = new Field();
-        $field->setTitle('Title');
-        $field->setPublicId('title');
+        $field->setTitle('Map');
+        $field->setPublicId('map');
         $field->setDirectory($directory);
-        $field->setFieldType(FieldTypeString::FIELD_TYPE_INTERNAL);
+        $field->setFieldType(FieldTypeLatLng::FIELD_TYPE_INTERNAL);
         $field->setCreationEvent($event);
         $this->em->persist($field);
 
-        $field = new Field();
-        $field->setTitle('Description');
-        $field->setPublicId('description');
-        $field->setDirectory($directory);
-        $field->setFieldType(FieldTypeText::FIELD_TYPE_INTERNAL);
-        $field->setCreationEvent($event);
-        $this->em->persist($field);
-
-
-        // TODO add one of each field type here
 
         $this->em->flush();
-
 
 
         # CREATE
@@ -85,27 +75,33 @@ class PublishedCreateWithDataBaseTest extends BaseTestWithDataBase {
         $internalAPIDirectory = $internalAPI->getProjectAPI('test1')->getDirectoryAPI('resource');
 
         $recordCreate = $internalAPIDirectory->getRecordCreate();
-        // Don't set any field values! We should be smart enough not to save.
+        $recordCreate->getFieldValueEdit('map')->setNewLat(7.89);
+        $recordCreate->getFieldValueEdit('map')->setNewLng(-2.83);
         $recordCreate->setComment('Test');
         $recordCreate->setEmail('test@example.com');
         $recordCreate->setApproveInstantlyIfAllowed(false);
 
-        $this->assertFalse($internalAPIDirectory->saveRecordCreate($recordCreate));
-
-
+        $this->assertTrue($internalAPIDirectory->saveRecordCreate($recordCreate));
 
 
         # TEST
 
         $records = $this->em->getRepository('DirectokiBundle:Record')->getRecordsNeedingAttention($directory);
-        $this->assertEquals(0, count($records));
+        $this->assertEquals(1, count($records));
+
+        $fieldType = $this->container->get('directoki_field_type_service')->getByField($field);
+
+        $fieldModerationsNeeded = $fieldType->getFieldValuesToModerate($field, $records[0]);
+
+        $this->assertEquals(1, count($fieldModerationsNeeded));
+
+        $fieldModerationNeeded = $fieldModerationsNeeded[0];
+
+        $this->assertEquals('DirectokiBundle\Entity\RecordHasFieldLatLngValue', get_class($fieldModerationNeeded));
+        $this->assertEquals(7.89, $fieldModerationNeeded->getLat());
+        $this->assertEquals(-2.83, $fieldModerationNeeded->getLng());
 
 
     }
 
-
-
-
-
 }
-

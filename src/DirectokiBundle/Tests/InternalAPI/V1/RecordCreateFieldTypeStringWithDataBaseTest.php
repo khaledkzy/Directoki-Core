@@ -25,7 +25,7 @@ use DirectokiBundle\Tests\BaseTestWithDataBase;
  *  @license 3-clause BSD
  *  @link https://github.com/Directoki/Directoki-Core/blob/master/LICENSE.txt
  */
-class PublishedCreateFieldTypeStringWithDataBaseTest extends BaseTestWithDataBase {
+class RecordCreateFieldTypeStringWithDataBaseTest extends BaseTestWithDataBase {
 
     public function testStringField() {
 
