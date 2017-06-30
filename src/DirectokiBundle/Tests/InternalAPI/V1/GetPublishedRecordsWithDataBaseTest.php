@@ -97,7 +97,7 @@ class GetPublishedRecordsWithDataBaseTest extends BaseTestWithDataBase
         # TEST, NO CACHE
 
         $internalAPI = new InternalAPI($this->container);
-        $records = $internalAPI->getPublishedRecords("test1","resource");
+        $records = $internalAPI->getProjectAPI('test1')->getDirectoryAPI('resource')->getPublishedRecords();
 
         $this->assertEquals(1, count($records));
         $this->assertEquals('r1', $records[0]->getPublicId());
@@ -110,7 +110,7 @@ class GetPublishedRecordsWithDataBaseTest extends BaseTestWithDataBase
 
         # TEST, CACHE
         $internalAPI = new InternalAPI($this->container);
-        $records = $internalAPI->getPublishedRecords("test1","resource");
+        $records = $internalAPI->getProjectAPI('test1')->getDirectoryAPI('resource')->getPublishedRecords();
 
         $this->assertEquals(1, count($records));
         $this->assertEquals('r1', $records[0]->getPublicId());
@@ -189,7 +189,7 @@ class GetPublishedRecordsWithDataBaseTest extends BaseTestWithDataBase
         # TEST, NO CACHE
 
         $internalAPI = new InternalAPI($this->container);
-        $records = $internalAPI->getPublishedRecords("test1","resource");
+        $records = $internalAPI->getProjectAPI('test1')->getDirectoryAPI('resource')->getPublishedRecords();
 
         $this->assertEquals(1, count($records));
         $this->assertEquals('r1', $records[0]->getPublicId());
@@ -202,7 +202,7 @@ class GetPublishedRecordsWithDataBaseTest extends BaseTestWithDataBase
 
         # TEST, CACHE
         $internalAPI = new InternalAPI($this->container);
-        $records = $internalAPI->getPublishedRecords("test1","resource");
+        $records = $internalAPI->getProjectAPI('test1')->getDirectoryAPI('resource')->getPublishedRecords();
 
         $this->assertEquals(1, count($records));
         $this->assertEquals('r1', $records[0]->getPublicId());
@@ -274,7 +274,7 @@ class GetPublishedRecordsWithDataBaseTest extends BaseTestWithDataBase
         # TEST, NO CACHE
 
         $internalAPI = new InternalAPI($this->container);
-        $records = $internalAPI->getPublishedRecords("test1","resource");
+        $records = $internalAPI->getProjectAPI('test1')->getDirectoryAPI('resource')->getPublishedRecords();
 
         $this->assertEquals(1, count($records));
         $this->assertEquals('r1', $records[0]->getPublicId());
@@ -287,7 +287,7 @@ class GetPublishedRecordsWithDataBaseTest extends BaseTestWithDataBase
 
         # TEST, CACHE
         $internalAPI = new InternalAPI($this->container);
-        $records = $internalAPI->getPublishedRecords("test1","resource");
+        $records = $internalAPI->getProjectAPI('test1')->getDirectoryAPI('resource')->getPublishedRecords();
 
         $this->assertEquals(1, count($records));
         $this->assertEquals('r1', $records[0]->getPublicId());
@@ -363,7 +363,7 @@ class GetPublishedRecordsWithDataBaseTest extends BaseTestWithDataBase
         # TEST, NO CACHE
 
         $internalAPI = new InternalAPI($this->container);
-        $records = $internalAPI->getPublishedRecords("test1","resource");
+        $records = $internalAPI->getProjectAPI('test1')->getDirectoryAPI('resource')->getPublishedRecords();
 
         $this->assertEquals(1, count($records));
         $this->assertEquals('r1', $records[0]->getPublicId());
@@ -376,7 +376,7 @@ class GetPublishedRecordsWithDataBaseTest extends BaseTestWithDataBase
 
         # TEST, CACHE
         $internalAPI = new InternalAPI($this->container);
-        $records = $internalAPI->getPublishedRecords("test1","resource");
+        $records = $internalAPI->getProjectAPI('test1')->getDirectoryAPI('resource')->getPublishedRecords();
 
         $this->assertEquals(1, count($records));
         $this->assertEquals('r1', $records[0]->getPublicId());
@@ -455,7 +455,7 @@ class GetPublishedRecordsWithDataBaseTest extends BaseTestWithDataBase
         # TEST, NO CACHE
 
         $internalAPI = new InternalAPI($this->container);
-        $records = $internalAPI->getPublishedRecords("test1","resource");
+        $records = $internalAPI->getProjectAPI('test1')->getDirectoryAPI('resource')->getPublishedRecords();
 
         $this->assertEquals(1, count($records));
         $this->assertEquals('r1', $records[0]->getPublicId());
@@ -467,7 +467,7 @@ class GetPublishedRecordsWithDataBaseTest extends BaseTestWithDataBase
 
         # TEST, CACHE
         $internalAPI = new InternalAPI($this->container);
-        $records = $internalAPI->getPublishedRecords("test1","resource");
+        $records = $internalAPI->getProjectAPI('test1')->getDirectoryAPI('resource')->getPublishedRecords();
 
         $this->assertEquals(1, count($records));
         $this->assertEquals('r1', $records[0]->getPublicId());

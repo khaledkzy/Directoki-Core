@@ -116,14 +116,14 @@ class PublishedRecordEditExistingWithDataBaseTest extends BaseTestWithDataBase {
 
         # Edit
         $internalAPI = new InternalAPI($this->container);
-        $recordIntAPI = $internalAPI->getPublishedRecord("test1","resource","r1");
-        $recordEditIntAPI = $internalAPI->getPublishedRecordEdit($recordIntAPI);
+        $internalAPIRecord = $internalAPI->getProjectAPI('test1')->getDirectoryAPI('resource')->getRecordAPI('r1');
+        $recordEditIntAPI = $internalAPIRecord->getPublishedEdit();
         // Don't set any field values! We should be smart enough not to save.
         $recordEditIntAPI->setComment('Test');
         $recordEditIntAPI->setEmail('test@example.com');
         $recordEditIntAPI->setApproveInstantlyIfAllowed(false);
 
-        $this->assertFalse($internalAPI->savePublishedRecordEdit($recordEditIntAPI));
+        $this->assertFalse($internalAPIRecord->savePublishedEdit($recordEditIntAPI));
 
 
 
@@ -207,8 +207,8 @@ class PublishedRecordEditExistingWithDataBaseTest extends BaseTestWithDataBase {
         # TEST
 
         $internalAPI = new InternalAPI($this->container);
-        $recordIntAPI = $internalAPI->getPublishedRecord("test1","resource","r1");
-        $recordEditIntAPI = $internalAPI->getPublishedRecordEdit($recordIntAPI);
+        $internalAPIRecord = $internalAPI->getProjectAPI('test1')->getDirectoryAPI('resource')->getRecordAPI('r1');
+        $recordEditIntAPI = $internalAPIRecord->getPublishedEdit();
 
         $this->assertEquals('r1', $recordEditIntAPI->getPublicId());
         $this->assertNotNull($recordEditIntAPI->getFieldValueEdit('title'));
@@ -227,7 +227,7 @@ class PublishedRecordEditExistingWithDataBaseTest extends BaseTestWithDataBase {
         $recordEditIntAPI->setEmail('test@example.com');
         $recordEditIntAPI->setApproveInstantlyIfAllowed(false);
 
-        $this->assertTrue($internalAPI->savePublishedRecordEdit($recordEditIntAPI));
+        $this->assertTrue($internalAPIRecord->savePublishedEdit($recordEditIntAPI));
 
 
 
@@ -319,8 +319,8 @@ class PublishedRecordEditExistingWithDataBaseTest extends BaseTestWithDataBase {
         # TEST
 
         $internalAPI = new InternalAPI($this->container);
-        $recordIntAPI = $internalAPI->getPublishedRecord("test1","resource","r1");
-        $recordEditIntAPI = $internalAPI->getPublishedRecordEdit($recordIntAPI);
+        $internalAPIRecord = $internalAPI->getProjectAPI('test1')->getDirectoryAPI('resource')->getRecordAPI('r1');
+        $recordEditIntAPI = $internalAPIRecord->getPublishedEdit();
 
         $this->assertEquals('r1', $recordEditIntAPI->getPublicId());
         $this->assertNotNull($recordEditIntAPI->getFieldValueEdit('description'));
@@ -339,7 +339,7 @@ class PublishedRecordEditExistingWithDataBaseTest extends BaseTestWithDataBase {
         $recordEditIntAPI->setEmail('test@example.com');
         $recordEditIntAPI->setApproveInstantlyIfAllowed(false);
 
-        $this->assertTrue($internalAPI->savePublishedRecordEdit($recordEditIntAPI));
+        $this->assertTrue($internalAPIRecord->savePublishedEdit($recordEditIntAPI));
 
 
 
@@ -434,8 +434,8 @@ class PublishedRecordEditExistingWithDataBaseTest extends BaseTestWithDataBase {
         # TEST
 
         $internalAPI = new InternalAPI($this->container);
-        $recordIntAPI = $internalAPI->getPublishedRecord("test1","resource","r1");
-        $recordEditIntAPI = $internalAPI->getPublishedRecordEdit($recordIntAPI);
+        $internalAPIRecord = $internalAPI->getProjectAPI('test1')->getDirectoryAPI('resource')->getRecordAPI('r1');
+        $recordEditIntAPI = $internalAPIRecord->getPublishedEdit();
 
         $this->assertEquals('r1', $recordEditIntAPI->getPublicId());
         $this->assertNotNull($recordEditIntAPI->getFieldValueEdit('map'));
@@ -456,7 +456,7 @@ class PublishedRecordEditExistingWithDataBaseTest extends BaseTestWithDataBase {
         $recordEditIntAPI->setEmail('test@example.com');
         $recordEditIntAPI->setApproveInstantlyIfAllowed(false);
 
-        $this->assertTrue($internalAPI->savePublishedRecordEdit($recordEditIntAPI));
+        $this->assertTrue($internalAPIRecord->savePublishedEdit($recordEditIntAPI));
 
 
 
@@ -548,8 +548,8 @@ class PublishedRecordEditExistingWithDataBaseTest extends BaseTestWithDataBase {
         # TEST
 
         $internalAPI = new InternalAPI($this->container);
-        $recordIntAPI = $internalAPI->getPublishedRecord("test1","resource","r1");
-        $recordEditIntAPI = $internalAPI->getPublishedRecordEdit($recordIntAPI);
+        $internalAPIRecord = $internalAPI->getProjectAPI('test1')->getDirectoryAPI('resource')->getRecordAPI('r1');
+        $recordEditIntAPI = $internalAPIRecord->getPublishedEdit();
 
         $this->assertEquals('r1', $recordEditIntAPI->getPublicId());
         $this->assertNotNull($recordEditIntAPI->getFieldValueEdit('email'));
@@ -568,7 +568,7 @@ class PublishedRecordEditExistingWithDataBaseTest extends BaseTestWithDataBase {
         $recordEditIntAPI->setEmail('test@example.com');
         $recordEditIntAPI->setApproveInstantlyIfAllowed(false);
 
-        $this->assertTrue($internalAPI->savePublishedRecordEdit($recordEditIntAPI));
+        $this->assertTrue($internalAPIRecord->savePublishedEdit($recordEditIntAPI));
 
 
 
@@ -657,8 +657,8 @@ class PublishedRecordEditExistingWithDataBaseTest extends BaseTestWithDataBase {
         # TEST
 
         $internalAPI = new InternalAPI($this->container);
-        $recordIntAPI = $internalAPI->getPublishedRecord("test1","resource","r1");
-        $recordEditIntAPI = $internalAPI->getPublishedRecordEdit($recordIntAPI);
+        $internalAPIRecord = $internalAPI->getProjectAPI('test1')->getDirectoryAPI('resource')->getRecordAPI('r1');
+        $recordEditIntAPI = $internalAPIRecord->getPublishedEdit();
 
         $this->assertEquals('r1', $recordEditIntAPI->getPublicId());
         $this->assertNotNull($recordEditIntAPI->getFieldValueEdit('tags'));
@@ -680,7 +680,7 @@ class PublishedRecordEditExistingWithDataBaseTest extends BaseTestWithDataBase {
         $recordEditIntAPI->setEmail('test@example.com');
         $recordEditIntAPI->setApproveInstantlyIfAllowed(false);
 
-        $this->assertTrue($internalAPI->savePublishedRecordEdit($recordEditIntAPI));
+        $this->assertTrue($internalAPIRecord->savePublishedEdit($recordEditIntAPI));
 
 
         # TEST
@@ -773,8 +773,8 @@ class PublishedRecordEditExistingWithDataBaseTest extends BaseTestWithDataBase {
         # TEST
 
         $internalAPI = new InternalAPI($this->container);
-        $recordIntAPI = $internalAPI->getPublishedRecord("test1","resource","r1");
-        $recordEditIntAPI = $internalAPI->getPublishedRecordEdit($recordIntAPI);
+        $internalAPIRecord = $internalAPI->getProjectAPI('test1')->getDirectoryAPI('resource')->getRecordAPI('r1');
+        $recordEditIntAPI = $internalAPIRecord->getPublishedEdit();
 
         $this->assertEquals('r1', $recordEditIntAPI->getPublicId());
         $this->assertNotNull($recordEditIntAPI->getFieldValueEdit('tags'));
@@ -798,7 +798,7 @@ class PublishedRecordEditExistingWithDataBaseTest extends BaseTestWithDataBase {
         $recordEditIntAPI->setEmail('test@example.com');
         $recordEditIntAPI->setApproveInstantlyIfAllowed(false);
 
-        $this->assertTrue($internalAPI->savePublishedRecordEdit($recordEditIntAPI));
+        $this->assertTrue($internalAPIRecord->savePublishedEdit($recordEditIntAPI));
 
 
         # TEST

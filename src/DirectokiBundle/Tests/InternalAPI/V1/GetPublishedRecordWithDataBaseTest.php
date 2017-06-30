@@ -99,7 +99,8 @@ class GetPublishedRecordWithDataBaseTest extends BaseTestWithDataBase
         # TEST
 
         $internalAPI = new InternalAPI($this->container);
-        $record = $internalAPI->getPublishedRecord("test1","resource","r1");
+
+        $record = $internalAPI->getProjectAPI('test1')->getDirectoryAPI('resource')->getRecordAPI('r1')->getPublished();
 
         $this->assertEquals('r1', $record->getPublicId());
         $this->assertEquals('DirectokiBundle\InternalAPI\V1\Model\FieldValueString', get_class($record->getFieldValue('title')));
@@ -179,7 +180,7 @@ class GetPublishedRecordWithDataBaseTest extends BaseTestWithDataBase
         # TEST
 
         $internalAPI = new InternalAPI($this->container);
-        $record = $internalAPI->getPublishedRecord("test1","resource","r1");
+        $record = $internalAPI->getProjectAPI('test1')->getDirectoryAPI('resource')->getRecordAPI('r1')->getPublished();
 
         $this->assertEquals('r1', $record->getPublicId());
         $this->assertEquals('DirectokiBundle\InternalAPI\V1\Model\FieldValueStringWithLocale', get_class($record->getFieldValue('title')));
@@ -252,7 +253,7 @@ class GetPublishedRecordWithDataBaseTest extends BaseTestWithDataBase
         # TEST
 
         $internalAPI = new InternalAPI($this->container);
-        $record = $internalAPI->getPublishedRecord("test1","resource","r1");
+        $record = $internalAPI->getProjectAPI('test1')->getDirectoryAPI('resource')->getRecordAPI('r1')->getPublished();
 
         $this->assertEquals('r1', $record->getPublicId());
         $this->assertEquals('DirectokiBundle\InternalAPI\V1\Model\FieldValueText', get_class($record->getFieldValue('description')));
@@ -329,7 +330,7 @@ class GetPublishedRecordWithDataBaseTest extends BaseTestWithDataBase
         # TEST
 
         $internalAPI = new InternalAPI($this->container);
-        $record = $internalAPI->getPublishedRecord("test1","resource","r1");
+        $record = $internalAPI->getProjectAPI('test1')->getDirectoryAPI('resource')->getRecordAPI('r1')->getPublished();
 
         $this->assertEquals('r1', $record->getPublicId());
         $this->assertEquals('DirectokiBundle\InternalAPI\V1\Model\FieldValueLatLng', get_class($record->getFieldValue('map')));
@@ -409,7 +410,7 @@ class GetPublishedRecordWithDataBaseTest extends BaseTestWithDataBase
         # TEST
 
         $internalAPI = new InternalAPI($this->container);
-        $record = $internalAPI->getPublishedRecord("test1","resource","r1");
+        $record = $internalAPI->getProjectAPI('test1')->getDirectoryAPI('resource')->getRecordAPI('r1')->getPublished();
 
         $this->assertEquals('r1', $record->getPublicId());
         $this->assertEquals('DirectokiBundle\InternalAPI\V1\Model\FieldValueMultiSelect', get_class($record->getFieldValue('topics')));
@@ -488,7 +489,7 @@ class GetPublishedRecordWithDataBaseTest extends BaseTestWithDataBase
         # TEST
 
         $internalAPI = new InternalAPI($this->container);
-        $record = $internalAPI->getPublishedRecord("test1","resource","r1");
+        $record = $internalAPI->getProjectAPI('test1')->getDirectoryAPI('resource')->getRecordAPI('r1')->getPublished();
 
         $this->assertEquals('r1', $record->getPublicId());
         $this->assertEquals('DirectokiBundle\InternalAPI\V1\Model\FieldValueEmail', get_class($record->getFieldValue('email')));

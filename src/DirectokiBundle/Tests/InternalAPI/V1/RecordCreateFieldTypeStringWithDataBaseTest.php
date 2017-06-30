@@ -69,13 +69,14 @@ class PublishedCreateFieldTypeStringWithDataBaseTest extends BaseTestWithDataBas
 
         # CREATE
         $internalAPI = new InternalAPI($this->container);
+        $internalAPIDirectory = $internalAPI->getProjectAPI('test1')->getDirectoryAPI('resource');
 
-        $recordCreate = $internalAPI->getRecordCreate('test1','resource');
+        $recordCreate = $internalAPIDirectory->getRecordCreate();
         $recordCreate->getFieldValueEdit('title')->setNewValue('A Title');
         $recordCreate->setComment('Test');
         $recordCreate->setEmail('test@example.com');
 
-        $this->assertTrue($internalAPI->saveRecordCreate($recordCreate));
+        $this->assertTrue($internalAPIDirectory->saveRecordCreate($recordCreate));
 
 
 
@@ -147,13 +148,15 @@ class PublishedCreateFieldTypeStringWithDataBaseTest extends BaseTestWithDataBas
         # CREATE
         $internalAPI = new InternalAPI($this->container);
 
-        $recordCreate = $internalAPI->getRecordCreate('test1','resource');
+        $internalAPIDirectory = $internalAPI->getProjectAPI('test1')->getDirectoryAPI('resource');
+
+        $recordCreate = $internalAPIDirectory->getRecordCreate();
         $recordCreate->getFieldValueEdit('title')->setNewValue('A Title');
         $recordCreate->setComment('Test');
         $recordCreate->setEmail('test@example.com');
         $recordCreate->setApproveInstantlyIfAllowed(true);
 
-        $this->assertTrue($internalAPI->saveRecordCreate($recordCreate));
+        $this->assertTrue($internalAPIDirectory->saveRecordCreate($recordCreate));
 
 
 
@@ -221,14 +224,15 @@ class PublishedCreateFieldTypeStringWithDataBaseTest extends BaseTestWithDataBas
 
         # CREATE
         $internalAPI = new InternalAPI($this->container);
+        $internalAPIDirectory = $internalAPI->getProjectAPI('test1')->getDirectoryAPI('resource');
 
-        $recordCreate = $internalAPI->getRecordCreate('test1','resource');
+        $recordCreate = $internalAPIDirectory->getRecordCreate();
         $recordCreate->getFieldValueEdit('title')->setNewValue('A Title');
         $recordCreate->setComment('Test');
         $recordCreate->setUser($user);
         $recordCreate->setApproveInstantlyIfAllowed(true);
 
-        $this->assertTrue($internalAPI->saveRecordCreate($recordCreate));
+        $this->assertTrue($internalAPIDirectory->saveRecordCreate($recordCreate));
 
 
 

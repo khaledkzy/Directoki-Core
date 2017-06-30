@@ -82,13 +82,15 @@ class PublishedCreateWithDataBaseTest extends BaseTestWithDataBase {
         # CREATE
         $internalAPI = new InternalAPI($this->container);
 
-        $recordCreate = $internalAPI->getRecordCreate('test1','resource');
+        $internalAPIDirectory = $internalAPI->getProjectAPI('test1')->getDirectoryAPI('resource');
+
+        $recordCreate = $internalAPIDirectory->getRecordCreate();
         // Don't set any field values! We should be smart enough not to save.
         $recordCreate->setComment('Test');
         $recordCreate->setEmail('test@example.com');
         $recordCreate->setApproveInstantlyIfAllowed(false);
 
-        $this->assertFalse($internalAPI->saveRecordCreate($recordCreate));
+        $this->assertFalse($internalAPIDirectory->saveRecordCreate($recordCreate));
 
 
 
@@ -154,13 +156,15 @@ class PublishedCreateWithDataBaseTest extends BaseTestWithDataBase {
         # CREATE
         $internalAPI = new InternalAPI($this->container);
 
-        $recordCreate = $internalAPI->getRecordCreate('test1', 'resource');
+        $internalAPIDirectory = $internalAPI->getProjectAPI('test1')->getDirectoryAPI('resource');
+
+        $recordCreate = $internalAPIDirectory->getRecordCreate();
         $recordCreate->getFieldValueEdit('title')->setNewValue('en_GB','A Title');
         $recordCreate->setComment('Test');
         $recordCreate->setEmail('test@example.com');
         $recordCreate->setApproveInstantlyIfAllowed(false);
 
-        $this->assertTrue($internalAPI->saveRecordCreate($recordCreate));
+        $this->assertTrue($internalAPIDirectory->saveRecordCreate($recordCreate));
 
 
         # TEST
@@ -226,13 +230,15 @@ class PublishedCreateWithDataBaseTest extends BaseTestWithDataBase {
         # CREATE
         $internalAPI = new InternalAPI($this->container);
 
-        $recordCreate = $internalAPI->getRecordCreate('test1','resource');
+        $internalAPIDirectory = $internalAPI->getProjectAPI('test1')->getDirectoryAPI('resource');
+
+        $recordCreate = $internalAPIDirectory->getRecordCreate();
         $recordCreate->getFieldValueEdit('description')->setNewValue('I can count.');
         $recordCreate->setComment('Test');
         $recordCreate->setEmail('test@example.com');
         $recordCreate->setApproveInstantlyIfAllowed(false);
 
-        $this->assertTrue($internalAPI->saveRecordCreate($recordCreate));
+        $this->assertTrue($internalAPIDirectory->saveRecordCreate($recordCreate));
 
 
 
@@ -304,14 +310,16 @@ class PublishedCreateWithDataBaseTest extends BaseTestWithDataBase {
         # CREATE
         $internalAPI = new InternalAPI($this->container);
 
-        $recordCreate = $internalAPI->getRecordCreate('test1','resource');
+        $internalAPIDirectory = $internalAPI->getProjectAPI('test1')->getDirectoryAPI('resource');
+
+        $recordCreate = $internalAPIDirectory->getRecordCreate();
         $recordCreate->getFieldValueEdit('map')->setNewLat(7.89);
         $recordCreate->getFieldValueEdit('map')->setNewLng(-2.83);
         $recordCreate->setComment('Test');
         $recordCreate->setEmail('test@example.com');
         $recordCreate->setApproveInstantlyIfAllowed(false);
 
-        $this->assertTrue($internalAPI->saveRecordCreate($recordCreate));
+        $this->assertTrue($internalAPIDirectory->saveRecordCreate($recordCreate));
 
 
 
@@ -380,13 +388,15 @@ class PublishedCreateWithDataBaseTest extends BaseTestWithDataBase {
         # CREATE
         $internalAPI = new InternalAPI($this->container);
 
-        $recordCreate = $internalAPI->getRecordCreate('test1','resource');
+        $internalAPIDirectory = $internalAPI->getProjectAPI('test1')->getDirectoryAPI('resource');
+
+        $recordCreate = $internalAPIDirectory->getRecordCreate();
         $recordCreate->getFieldValueEdit('email')->setNewValue('bob@example.com');
         $recordCreate->setComment('Test');
         $recordCreate->setEmail('test@example.com');
         $recordCreate->setApproveInstantlyIfAllowed(false);
 
-        $this->assertTrue($internalAPI->saveRecordCreate($recordCreate));
+        $this->assertTrue($internalAPIDirectory->saveRecordCreate($recordCreate));
 
 
 
@@ -459,18 +469,20 @@ class PublishedCreateWithDataBaseTest extends BaseTestWithDataBase {
         # CREATE
         $internalAPI = new InternalAPI($this->container);
 
+        $internalAPIDirectory = $internalAPI->getProjectAPI('test1')->getDirectoryAPI('resource');
 
-        $selectValuesFromAPI = $internalAPI->getProjectAPI('test1')->getDirectoryAPI('resource')->getFieldAPI('tags')->getPublishedSelectValues();
+        $selectValuesFromAPI = $internalAPIDirectory->getFieldAPI('tags')->getPublishedSelectValues();
         $this->assertEquals(1, count($selectValuesFromAPI));
         $this->assertEquals('PHP', $selectValuesFromAPI[0]->getTitle());
 
-        $recordCreate = $internalAPI->getRecordCreate('test1','resource');
+
+        $recordCreate = $internalAPIDirectory->getRecordCreate();
         $recordCreate->getFieldValueEdit('tags')->addValueToAdd($selectValuesFromAPI[0]);
         $recordCreate->setComment('Test');
         $recordCreate->setEmail('test@example.com');
         $recordCreate->setApproveInstantlyIfAllowed(false);
 
-        $this->assertTrue($internalAPI->saveRecordCreate($recordCreate));
+        $this->assertTrue($internalAPIDirectory->saveRecordCreate($recordCreate));
 
 
         # TEST
