@@ -1,7 +1,7 @@
 <?php
 
 
-namespace DirectokiBundle\Tests\InternalAPI\V1;
+namespace DirectokiBundle\Tests\InternalAPI\V1\PublishedRecordEditExisting;
 
 
 use DirectokiBundle\Entity\Directory;
@@ -33,11 +33,13 @@ use DirectokiBundle\Tests\BaseTestWithDataBase;
  *  @license 3-clause BSD
  *  @link https://github.com/Directoki/Directoki-Core/blob/master/LICENSE.txt
  */
-class PublishedRecordEditExistingFieldTypeEmailWithDataBaseTest extends BaseTestWithDataBase
+class PublishedRecordEditExistingFieldTypeTextWithDataBaseTest extends BaseTestWithDataBase
 {
 
 
-    public function testEmailField() {
+
+
+    public function testTextField() {
 
         $user = new User();
         $user->setEmail('test1@example.com');
@@ -79,20 +81,20 @@ class PublishedRecordEditExistingFieldTypeEmailWithDataBaseTest extends BaseTest
         $this->em->persist($recordHasState);
 
         $field = new Field();
-        $field->setTitle('Email');
-        $field->setPublicId('email');
+        $field->setTitle('Description');
+        $field->setPublicId('description');
         $field->setDirectory($directory);
-        $field->setFieldType(FieldTypeEmail::FIELD_TYPE_INTERNAL);
+        $field->setFieldType(FieldTypeText::FIELD_TYPE_INTERNAL);
         $field->setCreationEvent($event);
         $this->em->persist($field);
 
-        $recordHasFieldEmailValue = new RecordHasFieldEmailValue();
-        $recordHasFieldEmailValue->setRecord($record);
-        $recordHasFieldEmailValue->setField($field);
-        $recordHasFieldEmailValue->setValue('bob@example.com');
-        $recordHasFieldEmailValue->setApprovedAt(new \DateTime());
-        $recordHasFieldEmailValue->setCreationEvent($event);
-        $this->em->persist($recordHasFieldEmailValue);
+        $recordHasFieldTextValue = new RecordHasFieldTextValue();
+        $recordHasFieldTextValue->setRecord($record);
+        $recordHasFieldTextValue->setField($field);
+        $recordHasFieldTextValue->setValue('123');
+        $recordHasFieldTextValue->setApprovedAt(new \DateTime());
+        $recordHasFieldTextValue->setCreationEvent($event);
+        $this->em->persist($recordHasFieldTextValue);
 
         $this->em->flush();
 
@@ -103,10 +105,10 @@ class PublishedRecordEditExistingFieldTypeEmailWithDataBaseTest extends BaseTest
         $recordEditIntAPI = $internalAPIRecord->getPublishedEdit();
 
         $this->assertEquals('r1', $recordEditIntAPI->getPublicId());
-        $this->assertNotNull($recordEditIntAPI->getFieldValueEdit('email'));
-        $this->assertEquals('DirectokiBundle\InternalAPI\V1\Model\FieldValueEmailEdit', get_class($recordEditIntAPI->getFieldValueEdit('email')));
-        $this->assertEquals('Email', $recordEditIntAPI->getFieldValueEdit('email')->getTitle());
-        $this->assertEquals('bob@example.com', $recordEditIntAPI->getFieldValueEdit('email')->getValue());
+        $this->assertNotNull($recordEditIntAPI->getFieldValueEdit('description'));
+        $this->assertEquals('DirectokiBundle\InternalAPI\V1\Model\FieldValueTextEdit', get_class($recordEditIntAPI->getFieldValueEdit('description')));
+        $this->assertEquals('Description', $recordEditIntAPI->getFieldValueEdit('description')->getTitle());
+        $this->assertEquals('123', $recordEditIntAPI->getFieldValueEdit('description')->getValue());
 
         $records = $this->em->getRepository('DirectokiBundle:Record')->getRecordsNeedingAttention($directory);
         $this->assertEquals(0, count($records));
@@ -114,7 +116,7 @@ class PublishedRecordEditExistingFieldTypeEmailWithDataBaseTest extends BaseTest
 
         # Edit
 
-        $recordEditIntAPI->getFieldValueEdit('email')->setNewValue('linda@example.com');
+        $recordEditIntAPI->getFieldValueEdit('description')->setNewValue('1, 2, 3.');
         $recordEditIntAPI->setComment('Test');
         $recordEditIntAPI->setEmail('test@example.com');
         $recordEditIntAPI->setApproveInstantlyIfAllowed(false);
@@ -142,11 +144,13 @@ class PublishedRecordEditExistingFieldTypeEmailWithDataBaseTest extends BaseTest
 
         $fieldModerationNeeded = $fieldModerationsNeeded[0];
 
-        $this->assertEquals('DirectokiBundle\Entity\RecordHasFieldEmailValue', get_class($fieldModerationNeeded));
-        $this->assertEquals('linda@example.com', $fieldModerationNeeded->getValue());
+        $this->assertEquals('DirectokiBundle\Entity\RecordHasFieldTextValue', get_class($fieldModerationNeeded));
+        $this->assertEquals('1, 2, 3.', $fieldModerationNeeded->getValue());
 
 
     }
+
+
 
 
 }

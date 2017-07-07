@@ -1,7 +1,7 @@
 <?php
 
 
-namespace DirectokiBundle\Tests\InternalAPI\V1;
+namespace DirectokiBundle\Tests\InternalAPI\V1\PublishedRecordEditExisting;
 
 
 use DirectokiBundle\Entity\Directory;

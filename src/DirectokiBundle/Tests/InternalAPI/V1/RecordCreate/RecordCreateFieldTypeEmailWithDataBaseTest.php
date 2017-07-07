@@ -1,7 +1,7 @@
 <?php
 
 
-namespace DirectokiBundle\Tests\InternalAPI\V1;
+namespace DirectokiBundle\Tests\InternalAPI\V1\RecordCreate;
 
 
 use DirectokiBundle\Entity\Directory;
@@ -25,12 +25,11 @@ use DirectokiBundle\Tests\BaseTestWithDataBase;
  *  @license 3-clause BSD
  *  @link https://github.com/Directoki/Directoki-Core/blob/master/LICENSE.txt
  */
-class RecordCreateFieldTypeLatLngWithDataBaseTest extends BaseTestWithDataBase
+class RecordCreateFieldTypeEmailWithDataBaseTest extends BaseTestWithDataBase
 {
 
 
-    public function testLatLngField()
-    {
+    public function testEmailField() {
 
         $user = new User();
         $user->setEmail('test1@example.com');
@@ -58,15 +57,16 @@ class RecordCreateFieldTypeLatLngWithDataBaseTest extends BaseTestWithDataBase
         $this->em->persist($directory);
 
         $field = new Field();
-        $field->setTitle('Map');
-        $field->setPublicId('map');
+        $field->setTitle('Email');
+        $field->setPublicId('email');
         $field->setDirectory($directory);
-        $field->setFieldType(FieldTypeLatLng::FIELD_TYPE_INTERNAL);
+        $field->setFieldType(FieldTypeEmail::FIELD_TYPE_INTERNAL);
         $field->setCreationEvent($event);
         $this->em->persist($field);
 
 
         $this->em->flush();
+
 
 
         # CREATE
@@ -75,13 +75,14 @@ class RecordCreateFieldTypeLatLngWithDataBaseTest extends BaseTestWithDataBase
         $internalAPIDirectory = $internalAPI->getProjectAPI('test1')->getDirectoryAPI('resource');
 
         $recordCreate = $internalAPIDirectory->getRecordCreate();
-        $recordCreate->getFieldValueEdit('map')->setNewLat(7.89);
-        $recordCreate->getFieldValueEdit('map')->setNewLng(-2.83);
+        $recordCreate->getFieldValueEdit('email')->setNewValue('bob@example.com');
         $recordCreate->setComment('Test');
         $recordCreate->setEmail('test@example.com');
         $recordCreate->setApproveInstantlyIfAllowed(false);
 
         $this->assertTrue($internalAPIDirectory->saveRecordCreate($recordCreate));
+
+
 
 
         # TEST
@@ -97,11 +98,11 @@ class RecordCreateFieldTypeLatLngWithDataBaseTest extends BaseTestWithDataBase
 
         $fieldModerationNeeded = $fieldModerationsNeeded[0];
 
-        $this->assertEquals('DirectokiBundle\Entity\RecordHasFieldLatLngValue', get_class($fieldModerationNeeded));
-        $this->assertEquals(7.89, $fieldModerationNeeded->getLat());
-        $this->assertEquals(-2.83, $fieldModerationNeeded->getLng());
+        $this->assertEquals('DirectokiBundle\Entity\RecordHasFieldEmailValue', get_class($fieldModerationNeeded));
+        $this->assertEquals('bob@example.com', $fieldModerationNeeded->getValue());
 
 
     }
+
 
 }

@@ -1,7 +1,7 @@
 <?php
 
 
-namespace DirectokiBundle\Tests\InternalAPI\V1;
+namespace DirectokiBundle\Tests\InternalAPI\V1\RecordCreate;
 
 
 use DirectokiBundle\Entity\Directory;
@@ -25,11 +25,12 @@ use DirectokiBundle\Tests\BaseTestWithDataBase;
  *  @license 3-clause BSD
  *  @link https://github.com/Directoki/Directoki-Core/blob/master/LICENSE.txt
  */
-class RecordCreateFieldTypeTextWithDataBaseTest extends BaseTestWithDataBase
+class RecordCreateFieldTypeLatLngWithDataBaseTest extends BaseTestWithDataBase
 {
 
 
-    public function testTextField() {
+    public function testLatLngField()
+    {
 
         $user = new User();
         $user->setEmail('test1@example.com');
@@ -57,16 +58,15 @@ class RecordCreateFieldTypeTextWithDataBaseTest extends BaseTestWithDataBase
         $this->em->persist($directory);
 
         $field = new Field();
-        $field->setTitle('Description');
-        $field->setPublicId('description');
+        $field->setTitle('Map');
+        $field->setPublicId('map');
         $field->setDirectory($directory);
-        $field->setFieldType(FieldTypeText::FIELD_TYPE_INTERNAL);
+        $field->setFieldType(FieldTypeLatLng::FIELD_TYPE_INTERNAL);
         $field->setCreationEvent($event);
         $this->em->persist($field);
 
 
         $this->em->flush();
-
 
 
         # CREATE
@@ -75,14 +75,13 @@ class RecordCreateFieldTypeTextWithDataBaseTest extends BaseTestWithDataBase
         $internalAPIDirectory = $internalAPI->getProjectAPI('test1')->getDirectoryAPI('resource');
 
         $recordCreate = $internalAPIDirectory->getRecordCreate();
-        $recordCreate->getFieldValueEdit('description')->setNewValue('I can count.');
+        $recordCreate->getFieldValueEdit('map')->setNewLat(7.89);
+        $recordCreate->getFieldValueEdit('map')->setNewLng(-2.83);
         $recordCreate->setComment('Test');
         $recordCreate->setEmail('test@example.com');
         $recordCreate->setApproveInstantlyIfAllowed(false);
 
         $this->assertTrue($internalAPIDirectory->saveRecordCreate($recordCreate));
-
-
 
 
         # TEST
@@ -98,10 +97,9 @@ class RecordCreateFieldTypeTextWithDataBaseTest extends BaseTestWithDataBase
 
         $fieldModerationNeeded = $fieldModerationsNeeded[0];
 
-        $this->assertEquals('DirectokiBundle\Entity\RecordHasFieldTextValue', get_class($fieldModerationNeeded));
-        $this->assertEquals('I can count.', $fieldModerationNeeded->getValue());
-
-
+        $this->assertEquals('DirectokiBundle\Entity\RecordHasFieldLatLngValue', get_class($fieldModerationNeeded));
+        $this->assertEquals(7.89, $fieldModerationNeeded->getLat());
+        $this->assertEquals(-2.83, $fieldModerationNeeded->getLng());
 
 
     }

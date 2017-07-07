@@ -1,7 +1,7 @@
 <?php
 
 
-namespace DirectokiBundle\Tests\InternalAPI\V1;
+namespace DirectokiBundle\Tests\InternalAPI\V1\PublishedRecordEditExisting;
 
 
 use DirectokiBundle\Entity\Directory;
@@ -33,13 +33,12 @@ use DirectokiBundle\Tests\BaseTestWithDataBase;
  *  @license 3-clause BSD
  *  @link https://github.com/Directoki/Directoki-Core/blob/master/LICENSE.txt
  */
-class PublishedRecordEditExistingFieldTypeTextWithDataBaseTest extends BaseTestWithDataBase
+class PublishedRecordEditExistingFieldTypeStringWithLocaleWithDataBaseTest extends BaseTestWithDataBase
 {
 
 
 
-
-    public function testTextField() {
+    public function testStringWithLocaleField() {
 
         $user = new User();
         $user->setEmail('test1@example.com');
@@ -57,6 +56,13 @@ class PublishedRecordEditExistingFieldTypeTextWithDataBaseTest extends BaseTestW
         $event->setProject($project);
         $event->setUser($user);
         $this->em->persist($event);
+
+        $locale1 = new Locale();
+        $locale1->setTitle('en_GB');
+        $locale1->setPublicId('en_GB');
+        $locale1->setProject($project);
+        $locale1->setCreationEvent($event);
+        $this->em->persist($locale1);
 
         $directory = new Directory();
         $directory->setPublicId('resource');
@@ -81,20 +87,21 @@ class PublishedRecordEditExistingFieldTypeTextWithDataBaseTest extends BaseTestW
         $this->em->persist($recordHasState);
 
         $field = new Field();
-        $field->setTitle('Description');
-        $field->setPublicId('description');
+        $field->setTitle('Title');
+        $field->setPublicId('title');
         $field->setDirectory($directory);
-        $field->setFieldType(FieldTypeText::FIELD_TYPE_INTERNAL);
+        $field->setFieldType(FieldTypeStringWithLocale::FIELD_TYPE_INTERNAL);
         $field->setCreationEvent($event);
         $this->em->persist($field);
 
-        $recordHasFieldTextValue = new RecordHasFieldTextValue();
-        $recordHasFieldTextValue->setRecord($record);
-        $recordHasFieldTextValue->setField($field);
-        $recordHasFieldTextValue->setValue('123');
-        $recordHasFieldTextValue->setApprovedAt(new \DateTime());
-        $recordHasFieldTextValue->setCreationEvent($event);
-        $this->em->persist($recordHasFieldTextValue);
+        $recordHasFieldStringWithLocaleValue = new RecordHasFieldStringWithLocaleValue();
+        $recordHasFieldStringWithLocaleValue->setRecord($record);
+        $recordHasFieldStringWithLocaleValue->setField($field);
+        $recordHasFieldStringWithLocaleValue->setLocale($locale1);
+        $recordHasFieldStringWithLocaleValue->setValue('My Title Rocks');
+        $recordHasFieldStringWithLocaleValue->setApprovedAt(new \DateTime());
+        $recordHasFieldStringWithLocaleValue->setCreationEvent($event);
+        $this->em->persist($recordHasFieldStringWithLocaleValue);
 
         $this->em->flush();
 
@@ -105,10 +112,10 @@ class PublishedRecordEditExistingFieldTypeTextWithDataBaseTest extends BaseTestW
         $recordEditIntAPI = $internalAPIRecord->getPublishedEdit();
 
         $this->assertEquals('r1', $recordEditIntAPI->getPublicId());
-        $this->assertNotNull($recordEditIntAPI->getFieldValueEdit('description'));
-        $this->assertEquals('DirectokiBundle\InternalAPI\V1\Model\FieldValueTextEdit', get_class($recordEditIntAPI->getFieldValueEdit('description')));
-        $this->assertEquals('Description', $recordEditIntAPI->getFieldValueEdit('description')->getTitle());
-        $this->assertEquals('123', $recordEditIntAPI->getFieldValueEdit('description')->getValue());
+        $this->assertNotNull($recordEditIntAPI->getFieldValueEdit('title'));
+        $this->assertEquals('DirectokiBundle\InternalAPI\V1\Model\FieldValueStringWithLocaleEdit', get_class($recordEditIntAPI->getFieldValueEdit('title')));
+        $this->assertEquals('Title', $recordEditIntAPI->getFieldValueEdit('title')->getTitle());
+        $this->assertEquals('My Title Rocks', $recordEditIntAPI->getFieldValueEdit('title')->getValue('en_GB'));
 
         $records = $this->em->getRepository('DirectokiBundle:Record')->getRecordsNeedingAttention($directory);
         $this->assertEquals(0, count($records));
@@ -116,7 +123,7 @@ class PublishedRecordEditExistingFieldTypeTextWithDataBaseTest extends BaseTestW
 
         # Edit
 
-        $recordEditIntAPI->getFieldValueEdit('description')->setNewValue('1, 2, 3.');
+        $recordEditIntAPI->getFieldValueEdit('title')->setNewValue('en_GB' , 'Less Silly Title Please');
         $recordEditIntAPI->setComment('Test');
         $recordEditIntAPI->setEmail('test@example.com');
         $recordEditIntAPI->setApproveInstantlyIfAllowed(false);
@@ -136,7 +143,7 @@ class PublishedRecordEditExistingFieldTypeTextWithDataBaseTest extends BaseTestW
 
 
 
-        $fieldModerationsNeeded = $fieldType->getFieldValuesToModerate($field, $record);
+        $fieldModerationsNeeded = $fieldType->getModerationsNeeded($field, $record);
 
 
 
@@ -144,13 +151,11 @@ class PublishedRecordEditExistingFieldTypeTextWithDataBaseTest extends BaseTestW
 
         $fieldModerationNeeded = $fieldModerationsNeeded[0];
 
-        $this->assertEquals('DirectokiBundle\Entity\RecordHasFieldTextValue', get_class($fieldModerationNeeded));
-        $this->assertEquals('1, 2, 3.', $fieldModerationNeeded->getValue());
+        $this->assertEquals('DirectokiBundle\ModerationNeeded\ModerationNeededRecordHasFieldValue', get_class($fieldModerationNeeded));
+        $this->assertEquals('Less Silly Title Please', $fieldModerationNeeded->getFieldValue()->getValue());
 
 
     }
-
-
 
 
 }
