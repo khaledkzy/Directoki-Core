@@ -42,7 +42,7 @@ class ProjectVoter extends Voter {
 
     protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
     {
-        return $this->getVoteOnProjectForAttributeForUser($subject, $attribute, $token->getUser());
+        return $this->getVoteOnProjectForAttributeForUser($subject, $attribute, ($token->getUser() instanceof User ?  $token->getUser() : null));
     }
 
 
