@@ -6,7 +6,7 @@ echo "en_GB.UTF-8 UTF-8" >> /etc/locale.gen
 locale-gen
 
 sudo apt-get update
-sudo apt-get install -y apache2 php phpunit postgresql php-pgsql zip   libapache2-mod-php
+sudo apt-get install -y apache2 php phpunit postgresql php-pgsql zip libapache2-mod-php php-mbstring
 
 
 sudo su --login -c "psql -c \"CREATE USER test WITH PASSWORD 'testpassword';\"" postgres
