@@ -446,5 +446,11 @@ class FieldTypeMultiSelect extends  BaseFieldType
     }
 
 
+    public function getURLsForExternalCheck(Field $field, Record $record)
+    {
+        return array();
+    }
+
+
 }
 

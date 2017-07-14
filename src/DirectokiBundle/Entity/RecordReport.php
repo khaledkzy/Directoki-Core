@@ -69,6 +69,13 @@ class RecordReport
     protected $resolutionEvent;
 
     /**
+     * @ORM\ManyToOne(targetEntity="DirectokiBundle\Entity\ExternalCheck")
+     * @ORM\JoinColumn(name="external_check_id", referencedColumnName="id", nullable=true)
+     */
+    protected $externalCheck;
+
+
+    /**
      * @return mixed
      */
     public function getId()
@@ -173,6 +180,23 @@ class RecordReport
     public function setResolutionEvent( $resolutionEvent ) {
         $this->resolutionEvent = $resolutionEvent;
     }
+
+    /**
+     * @return ExternalCheck
+     */
+    public function getExternalCheck()
+    {
+        return $this->externalCheck;
+    }
+
+    /**
+     * @param ExternalCheck $externalCheck
+     */
+    public function setExternalCheck(ExternalCheck $externalCheck = null)
+    {
+        $this->externalCheck = $externalCheck;
+    }
+
 
 
 

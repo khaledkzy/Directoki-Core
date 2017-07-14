@@ -408,4 +408,11 @@ class FieldTypeStringWithLocale extends BaseFieldType {
         return array();
     }
 
+
+    public function getURLsForExternalCheck(Field $field, Record $record)
+    {
+        // TODO: Implement getURLsForExternalCheck() method.
+        return array();
+    }
+
 }

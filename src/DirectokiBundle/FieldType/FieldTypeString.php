@@ -225,4 +225,11 @@ class FieldTypeString extends  BaseFieldType {
     }
 
 
+    public function getURLsForExternalCheck(Field $field, Record $record)
+    {
+        // TODO: Implement getURLsForExternalCheck() method.
+        return array();
+    }
+
+
 }

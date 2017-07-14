@@ -230,4 +230,11 @@ class FieldTypeText extends  BaseFieldType {
         return array( $value->getValue() );
     }
 
+
+    public function getURLsForExternalCheck(Field $field, Record $record)
+    {
+        // TODO: Implement getURLsForExternalCheck() method.
+        return array();
+    }
+
 }

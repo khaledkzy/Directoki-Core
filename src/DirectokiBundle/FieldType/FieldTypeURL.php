@@ -185,4 +185,11 @@ class FieldTypeURL extends  BaseFieldType {
         $value = $this->getLatestFieldValue($field, $record);
         return array( $value->getValue() );
     }
+
+    public function getURLsForExternalCheck(Field $field, Record $record)
+    {
+        $value = $this->getLatestFieldValue($field, $record);
+        return $value->getValue() ? array($value->getValue()) : array();
+    }
+
 }

@@ -80,4 +80,6 @@ abstract class  BaseFieldType {
 
     public abstract function getExportCSVData(Field $field, Record $record);
 
+    public abstract function getURLsForExternalCheck(Field $field, Record $record);
+
 }

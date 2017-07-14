@@ -257,4 +257,10 @@ class FieldTypeLatLng extends  BaseFieldType {
         return array( $value->getLat(), $value->getLng() );
     }
 
+
+    public function getURLsForExternalCheck(Field $field, Record $record)
+    {
+        return array();
+    }
+
 }

@@ -219,4 +219,10 @@ class FieldTypeEmail extends  BaseFieldType {
         $value = $this->getLatestFieldValue($field, $record);
         return array( $value->getValue() );
     }
+
+    public function getURLsForExternalCheck(Field $field, Record $record)
+    {
+        return array();
+    }
+
 }

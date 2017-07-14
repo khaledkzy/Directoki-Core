@@ -175,4 +175,9 @@ class FieldTypeBoolean extends  BaseFieldType {
         return array();
     }
 
+    public function getURLsForExternalCheck(Field $field, Record $record)
+    {
+        return array();
+    }
+
 }
