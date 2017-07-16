@@ -2,6 +2,7 @@
 
 namespace DirectokiBundle\InternalAPI\V1;
 
+use DirectokiBundle\Action\UpdateRecordCache;
 use DirectokiBundle\Entity\Project;
 use DirectokiBundle\Entity\Directory;
 use DirectokiBundle\Entity\RecordHasState;
@@ -179,6 +180,12 @@ class InternalAPIRecord
             }
 
             $doctrine->flush();
+
+            if ($approve) {
+                // Update Caches now as the public can see it instantly.
+                $action = new UpdateRecordCache($this->container);
+                $action->go($this->record);
+            }
 
             return true;
 
