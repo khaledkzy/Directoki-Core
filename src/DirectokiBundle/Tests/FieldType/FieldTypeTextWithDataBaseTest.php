@@ -99,7 +99,7 @@ class FieldTypeTextWithDataBaseTest extends BaseTestWithDataBase
         $recordEditIntAPI->setComment('Test');
         $recordEditIntAPI->setEmail('test@example.com');
 
-        $this->assertFalse($internalAPIDirectory->savePublishedEdit($recordEditIntAPI));
+        $this->assertFalse($internalAPIDirectory->savePublishedEdit($recordEditIntAPI)->getSuccess());
 
 
         # TEST, WE *STILL* HAVE NO MODS

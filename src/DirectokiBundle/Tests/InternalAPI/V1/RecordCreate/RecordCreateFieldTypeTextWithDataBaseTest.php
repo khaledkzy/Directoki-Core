@@ -80,7 +80,7 @@ class RecordCreateFieldTypeTextWithDataBaseTest extends BaseTestWithDataBase
         $recordCreate->setEmail('test@example.com');
         $recordCreate->setApproveInstantlyIfAllowed(false);
 
-        $this->assertTrue($internalAPIDirectory->saveRecordCreate($recordCreate));
+        $this->assertTrue($internalAPIDirectory->saveRecordCreate($recordCreate)->getSuccess());
 
 
 

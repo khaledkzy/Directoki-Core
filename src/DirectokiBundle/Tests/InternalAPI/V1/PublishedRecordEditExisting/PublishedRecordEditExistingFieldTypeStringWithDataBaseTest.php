@@ -119,7 +119,7 @@ class PublishedRecordEditExistingFieldTypeStringWithDataBaseTest extends BaseTes
         $recordEditIntAPI->setComment('Test');
         $recordEditIntAPI->setEmail('test@example.com');
 
-        $this->assertTrue($internalAPIRecord->savePublishedEdit($recordEditIntAPI));
+        $this->assertTrue($internalAPIRecord->savePublishedEdit($recordEditIntAPI)->getSuccess());
 
 
 
@@ -233,7 +233,7 @@ class PublishedRecordEditExistingFieldTypeStringWithDataBaseTest extends BaseTes
         $recordEditIntAPI->setEmail('test@example.com');
         $recordEditIntAPI->setApproveInstantlyIfAllowed(true);
 
-        $this->assertTrue($internalAPIRecord->savePublishedEdit($recordEditIntAPI));
+        $this->assertTrue($internalAPIRecord->savePublishedEdit($recordEditIntAPI)->getSuccess());
 
 
         # TEST
@@ -345,7 +345,7 @@ class PublishedRecordEditExistingFieldTypeStringWithDataBaseTest extends BaseTes
         $recordEditIntAPI->setUser($user);
         $recordEditIntAPI->setApproveInstantlyIfAllowed(true);
 
-        $this->assertTrue($internalAPIRecord->savePublishedEdit($recordEditIntAPI));
+        $this->assertTrue($internalAPIRecord->savePublishedEdit($recordEditIntAPI)->getSuccess());
 
 
         # TEST

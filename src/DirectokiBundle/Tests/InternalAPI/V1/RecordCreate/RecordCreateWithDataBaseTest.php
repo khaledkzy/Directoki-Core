@@ -90,7 +90,7 @@ class PublishedCreateWithDataBaseTest extends BaseTestWithDataBase {
         $recordCreate->setEmail('test@example.com');
         $recordCreate->setApproveInstantlyIfAllowed(false);
 
-        $this->assertFalse($internalAPIDirectory->saveRecordCreate($recordCreate));
+        $this->assertFalse($internalAPIDirectory->saveRecordCreate($recordCreate)->getSuccess());
 
 
 

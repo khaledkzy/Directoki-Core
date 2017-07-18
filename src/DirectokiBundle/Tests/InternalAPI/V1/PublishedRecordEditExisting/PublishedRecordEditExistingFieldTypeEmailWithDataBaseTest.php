@@ -119,7 +119,7 @@ class PublishedRecordEditExistingFieldTypeEmailWithDataBaseTest extends BaseTest
         $recordEditIntAPI->setEmail('test@example.com');
         $recordEditIntAPI->setApproveInstantlyIfAllowed(false);
 
-        $this->assertTrue($internalAPIRecord->savePublishedEdit($recordEditIntAPI));
+        $this->assertTrue($internalAPIRecord->savePublishedEdit($recordEditIntAPI)->getSuccess());
 
 
 

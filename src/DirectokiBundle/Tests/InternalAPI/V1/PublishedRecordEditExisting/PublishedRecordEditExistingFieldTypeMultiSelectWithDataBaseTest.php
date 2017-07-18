@@ -121,7 +121,7 @@ class PublishedRecordEditExistingFieldTypeMultiSelectWithDataBaseTest extends Ba
         $recordEditIntAPI->setEmail('test@example.com');
         $recordEditIntAPI->setApproveInstantlyIfAllowed(false);
 
-        $this->assertTrue($internalAPIRecord->savePublishedEdit($recordEditIntAPI));
+        $this->assertTrue($internalAPIRecord->savePublishedEdit($recordEditIntAPI)->getSuccess());
 
 
         # TEST
@@ -239,7 +239,7 @@ class PublishedRecordEditExistingFieldTypeMultiSelectWithDataBaseTest extends Ba
         $recordEditIntAPI->setEmail('test@example.com');
         $recordEditIntAPI->setApproveInstantlyIfAllowed(false);
 
-        $this->assertTrue($internalAPIRecord->savePublishedEdit($recordEditIntAPI));
+        $this->assertTrue($internalAPIRecord->savePublishedEdit($recordEditIntAPI)->getSuccess());
 
 
         # TEST

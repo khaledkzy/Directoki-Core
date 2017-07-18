@@ -91,7 +91,7 @@ class PublishedRecordReportWithDataBaseTest extends BaseTestWithDataBase {
         $recordReportEdit->setDescription('Test    ');
         $recordReportEdit->setEmail('fred@example.com');
 
-        $this->assertTrue($internalAPIRecord->saveReport($recordReportEdit));
+        $this->assertTrue($internalAPIRecord->saveReport($recordReportEdit)->getSuccess());
 
 
         # TEST, got report

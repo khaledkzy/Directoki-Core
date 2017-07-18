@@ -23,6 +23,8 @@ use DirectokiBundle\InternalAPI\V1\Model\RecordEdit;
 
 use DirectokiBundle\InternalAPI\V1\Model\RecordReportEdit;
 use DirectokiBundle\InternalAPI\V1\Model\SelectValue;
+use DirectokiBundle\InternalAPI\V1\Result\EditRecordResult;
+use DirectokiBundle\InternalAPI\V1\Result\ReportRecordResult;
 use DirectokiBundle\Security\ProjectVoter;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -187,10 +189,10 @@ class InternalAPIRecord
                 $action->go($this->record);
             }
 
-            return true;
+            return new EditRecordResult(true);
 
         } else {
-            return false;
+            return new EditRecordResult(false);
         }
     }
 
@@ -230,9 +232,9 @@ class InternalAPIRecord
 
             $doctrine->flush();
 
-            return true;
+            return new ReportRecordResult(true);
         } else {
-            return false;
+            return new ReportRecordResult(false);
         }
 
     }

@@ -28,6 +28,7 @@ use DirectokiBundle\InternalAPI\V1\Model\FieldValueTextEdit;
 use DirectokiBundle\InternalAPI\V1\Model\Record;
 use DirectokiBundle\InternalAPI\V1\Model\RecordCreate;
 use DirectokiBundle\InternalAPI\V1\Model\SelectValue;
+use DirectokiBundle\InternalAPI\V1\Result\CreateRecordResult;
 use DirectokiBundle\Security\ProjectVoter;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -251,10 +252,10 @@ class InternalAPIDirectory
                 $action->go($record);
             }
 
-            return true;
+            return new CreateRecordResult(true);
 
         } else {
-            return false;
+            return new CreateRecordResult(false);
         }
 
     }
