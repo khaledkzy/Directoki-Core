@@ -13,8 +13,9 @@
 
 	<ol class="breadcrumb">
 		<li><a href="{{  path('directoki_project_show', { 'projectId':project.publicId }) }}">Project: {{  project.title }}</a></li>
-		<li><a href="{{  path('directoki_project_directory_show', { 'projectId':project.publicId,'directoryId':directory.publicId }) }}">Directory: {{  directory.titlePlural }}</a></li>
-		<li>Records</li>
+        <li><a href="{{  path('directoki_project_locale_show', { 'projectId':project.publicId,'localeId':locale.publicId }) }}">Locale: {{  locale.title }}</a></li>
+        <li><a href="{{  path('directoki_project_locale_directory_show', { 'projectId':project.publicId,'localeId':locale.publicId,'directoryId':directory.publicId }) }}">Directory: {{  directory.titlePlural }}</a></li>
+        <li class="active">Records</li>
 	</ol>
 
 	<h1>Records</h1>
@@ -48,7 +49,7 @@
                         </td>
                     {%  endif %}
 					<td>
-						<a href="{{  path('directoki_project_directory_record_show', { 'projectId':project.publicId,'directoryId':directory.publicId, 'recordId':record.publicId }) }}" class="btn btn-default">View</a>
+						<a href="{{  path('directoki_project_locale_directory_record_show', { 'projectId':project.publicId,'localeId':locale.publicId,'directoryId':directory.publicId, 'recordId':record.publicId }) }}" class="btn btn-default">View</a>
 					</td>
 				</tr>
 			{%  endfor %}

@@ -3,6 +3,7 @@
 namespace DirectokiBundle\Controller;
 
 use DirectokiBundle\Entity\Project;
+use DirectokiBundle\Entity\Locale;
 use DirectokiBundle\Entity\RecordHasState;
 use DirectokiBundle\Security\ProjectVoter;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -12,22 +13,31 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  *  @license 3-clause BSD
  *  @link https://github.com/Directoki/Directoki-Core/blob/master/LICENSE.txt
  */
-class ProjectDirectoryController extends Controller
+class ProjectLocaleDirectoryController extends Controller
 {
 
 
     /** @var Project */
     protected $project;
 
+    /** @var Locale */
+    protected $locale;
+
     /** @var Directory */
     protected $directory;
 
-    protected function build($projectId, $directoryId) {
+    protected function build($projectId, $localeId, $directoryId) {
         $doctrine = $this->getDoctrine()->getManager();
         // load
         $repository = $doctrine->getRepository('DirectokiBundle:Project');
         $this->project = $repository->findOneByPublicId($projectId);
         if (!$this->project) {
+            throw new  NotFoundHttpException('Not found');
+        }
+        // load
+        $repository = $doctrine->getRepository('DirectokiBundle:Locale');
+        $this->locale = $repository->findOneBy(array('project'=>$this->project,'publicId'=>$localeId));
+        if (!$this->locale) {
             throw new  NotFoundHttpException('Not found');
         }
         // load
@@ -39,25 +49,26 @@ class ProjectDirectoryController extends Controller
     }
 
 
-    public function indexAction($projectId, $directoryId)
+    public function indexAction($projectId, $localeId, $directoryId)
     {
 
         // build
-        $this->build($projectId, $directoryId);
+        $this->build($projectId, $localeId, $directoryId);
         //data
 
-        return $this->render('DirectokiBundle:ProjectDirectory:index.html.twig', array(
+        return $this->render('DirectokiBundle:ProjectLocaleDirectory:index.html.twig', array(
             'project' => $this->project,
+            'locale' => $this->locale,
             'directory' => $this->directory,
         ));
 
     }
 
-    public function recordsAction($projectId, $directoryId)
+    public function recordsAction($projectId, $localeId, $directoryId)
     {
 
         // build
-        $this->build($projectId, $directoryId);
+        $this->build($projectId, $localeId, $directoryId);
         //data
 
         $doctrine = $this->getDoctrine()->getManager();
@@ -76,8 +87,9 @@ class ProjectDirectoryController extends Controller
             $fieldIsMultiple = null;
         }
 
-        return $this->render('DirectokiBundle:ProjectDirectory:records.html.twig', array(
+        return $this->render('DirectokiBundle:ProjectLocaleDirectory:records.html.twig', array(
             'project' => $this->project,
+            'locale' => $this->locale,
             'directory' => $this->directory,
             'records' => $records,
             'field' => $field,

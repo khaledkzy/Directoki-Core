@@ -3,6 +3,7 @@
 namespace DirectokiBundle\Controller;
 
 use DirectokiBundle\Entity\Project;
+use DirectokiBundle\Entity\Locale;
 use DirectokiBundle\Entity\RecordHasState;
 use DirectokiBundle\FieldType\StringFieldType;
 use DirectokiBundle\Security\ProjectVoter;
@@ -13,12 +14,15 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  *  @license 3-clause BSD
  *  @link https://github.com/Directoki/Directoki-Core/blob/master/LICENSE.txt
  */
-class ProjectDirectoryRecordController extends Controller
+class ProjectLocaleDirectoryRecordController extends Controller
 {
 
 
     /** @var Project */
     protected $project;
+
+    /** @var Locale */
+    protected $locale;
 
     /** @var Directory */
     protected $directory;
@@ -26,12 +30,18 @@ class ProjectDirectoryRecordController extends Controller
     /** @var Record */
     protected $record;
 
-    protected function build($projectId, $directoryId, $recordId) {
+    protected function build($projectId, $localeId, $directoryId, $recordId) {
         $doctrine = $this->getDoctrine()->getManager();
         // load
         $repository = $doctrine->getRepository('DirectokiBundle:Project');
         $this->project = $repository->findOneByPublicId($projectId);
         if (!$this->project) {
+            throw new  NotFoundHttpException('Not found');
+        }
+        // load
+        $repository = $doctrine->getRepository('DirectokiBundle:Locale');
+        $this->locale = $repository->findOneBy(array('project'=>$this->project,'publicId'=>$localeId));
+        if (!$this->locale) {
             throw new  NotFoundHttpException('Not found');
         }
         // load
@@ -49,11 +59,11 @@ class ProjectDirectoryRecordController extends Controller
     }
 
 
-    public function indexAction($projectId, $directoryId, $recordId)
+    public function indexAction($projectId, $localeId, $directoryId, $recordId)
     {
 
         // build
-        $this->build($projectId, $directoryId, $recordId);
+        $this->build($projectId, $localeId, $directoryId, $recordId);
         //data
         $doctrine = $this->getDoctrine()->getManager();
 
@@ -64,14 +74,16 @@ class ProjectDirectoryRecordController extends Controller
 
             $fieldType = $this->container->get('directoki_field_type_service')->getByField($field);
 
+            // TODO this should pass $this->locale !!!
             $tmp = $fieldType->getLatestFieldValues($field, $this->record);
             $fieldValues[$field->getPublicId()] = $fieldType->isMultipleType() ? $tmp : (count($tmp) > 0 ? $tmp[0] : null);
 
         }
 
 
-        return $this->render('DirectokiBundle:ProjectDirectoryRecord:index.html.twig', array(
+        return $this->render('DirectokiBundle:ProjectLocaleDirectoryRecord:index.html.twig', array(
             'project' => $this->project,
+            'locale' => $this->locale,
             'directory' => $this->directory,
             'record' => $this->record,
             'fields' => $fields,

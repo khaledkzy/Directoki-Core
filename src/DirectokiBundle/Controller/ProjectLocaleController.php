@@ -3,6 +3,7 @@
 namespace DirectokiBundle\Controller;
 
 use DirectokiBundle\Entity\Project;
+use DirectokiBundle\Entity\Locale;
 use DirectokiBundle\Security\ProjectVoter;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -11,15 +12,17 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  *  @license 3-clause BSD
  *  @link https://github.com/Directoki/Directoki-Core/blob/master/LICENSE.txt
  */
-class ProjectController extends Controller
+class ProjectLocaleController extends Controller
 {
 
 
     /** @var Project */
     protected $project;
 
+    /** @var Locale */
+    protected $locale;
 
-    protected function build($projectId) {
+    protected function build($projectId, $localeId) {
         $doctrine = $this->getDoctrine()->getManager();
         // load
         $repository = $doctrine->getRepository('DirectokiBundle:Project');
@@ -27,22 +30,29 @@ class ProjectController extends Controller
         if (!$this->project) {
             throw new  NotFoundHttpException('Not found');
         }
+        // load
+        $repository = $doctrine->getRepository('DirectokiBundle:Locale');
+        $this->locale = $repository->findOneBy(array('project'=>$this->project,'publicId'=>$localeId));
+        if (!$this->locale) {
+            throw new  NotFoundHttpException('Not found');
+        }
     }
 
-    public function indexAction($projectId)
+    public function indexAction($projectId, $localeId)
     {
 
         // build
-        $this->build($projectId);
+        $this->build($projectId, $localeId);
         //data
 
         $doctrine = $this->getDoctrine()->getManager();
-        $repo = $doctrine->getRepository('DirectokiBundle:Locale');
-        $locales = $repo->findByProject($this->project);
+        $repo = $doctrine->getRepository('DirectokiBundle:Directory');
+        $directories = $repo->findByProject($this->project);
 
-        return $this->render('DirectokiBundle:Project:index.html.twig', array(
+        return $this->render('DirectokiBundle:ProjectLocale:index.html.twig', array(
             'project' => $this->project,
-            'locales' => $locales,
+            'locale' => $this->locale,
+            'directories' => $directories,
         ));
 
     }

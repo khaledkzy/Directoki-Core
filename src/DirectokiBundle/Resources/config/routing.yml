@@ -11,17 +11,21 @@ directoki_project_show:
     path:     /project/{projectId}
     defaults: { _controller: DirectokiBundle:Project:index }
 
-directoki_project_directory_show:
-    path:     /project/{projectId}/directory/{directoryId}
-    defaults: { _controller: DirectokiBundle:ProjectDirectory:index }
+directoki_project_locale_show:
+    path:     /project/{projectId}/locale/{localeId}
+    defaults: { _controller: DirectokiBundle:ProjectLocale:index }
 
-directoki_project_directory_record_list:
-    path:     /project/{projectId}/directory/{directoryId}/record
-    defaults: { _controller: DirectokiBundle:ProjectDirectory:records }
+directoki_project_locale_directory_show:
+    path:     /project/{projectId}/locale/{localeId}/directory/{directoryId}
+    defaults: { _controller: DirectokiBundle:ProjectLocaleDirectory:index }
 
-directoki_project_directory_record_show:
-    path:     /project/{projectId}/directory/{directoryId}/record/{recordId}
-    defaults: { _controller: DirectokiBundle:ProjectDirectoryRecord:index }
+directoki_project_locale_directory_record_list:
+    path:     /project/{projectId}/locale/{localeId}/directory/{directoryId}/record
+    defaults: { _controller: DirectokiBundle:ProjectLocaleDirectory:records }
+
+directoki_project_locale_directory_record_show:
+    path:     /project/{projectId}/locale/{localeId}/directory/{directoryId}/record/{recordId}
+    defaults: { _controller: DirectokiBundle:ProjectLocaleDirectoryRecord:index }
 
 directoki_admin_project_new:
     path:     /admin/newProject
