@@ -64,10 +64,26 @@ class AdminProjectDirectoryController extends Controller
         $repo = $doctrine->getRepository('DirectokiBundle:Record');
         $records = $repo->findByDirectory($this->directory);
 
+        $fields = $doctrine->getRepository('DirectokiBundle:Field')->findForDirectory($this->directory);
+        $field = count($fields) > 0 ? $fields[0] : null;
+        if ($field) {
+            $fieldType = $this->container->get('directoki_field_type_service')->getByField($field);
+            $fieldTemplate = $fieldType->getViewTemplate($field);
+            $fieldIsMultiple = $fieldType->isMultipleType($field);
+        } else {
+            $fieldType = null;
+            $fieldTemplate = null;
+            $fieldIsMultiple = null;
+        }
+
         return $this->render('DirectokiBundle:AdminProjectDirectory:records.html.twig', array(
             'project' => $this->project,
             'directory' => $this->directory,
             'records' => $records,
+            'field' => $field,
+            'fieldType' => $fieldType,
+            'fieldTemplate' => $fieldTemplate,
+            'fieldIsMultilple' => $fieldIsMultiple,
         ));
 
     }
@@ -84,10 +100,26 @@ class AdminProjectDirectoryController extends Controller
         $repo = $doctrine->getRepository('DirectokiBundle:Record');
         $records = $repo->getRecordsNeedingAttention($this->directory);
 
+        $fields = $doctrine->getRepository('DirectokiBundle:Field')->findForDirectory($this->directory);
+        $field = count($fields) > 0 ? $fields[0] : null;
+        if ($field) {
+            $fieldType = $this->container->get('directoki_field_type_service')->getByField($field);
+            $fieldTemplate = $fieldType->getViewTemplate($field);
+            $fieldIsMultiple = $fieldType->isMultipleType($field);
+        } else {
+            $fieldType = null;
+            $fieldTemplate = null;
+            $fieldIsMultiple = null;
+        }
+
         return $this->render('DirectokiBundle:AdminProjectDirectory:recordsNeedingAttention.html.twig', array(
             'project' => $this->project,
             'directory' => $this->directory,
             'records' => $records,
+            'field' => $field,
+            'fieldType' => $fieldType,
+            'fieldTemplate' => $fieldTemplate,
+            'fieldIsMultilple' => $fieldIsMultiple,
         ));
 
     }
