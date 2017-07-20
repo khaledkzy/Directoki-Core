@@ -3,6 +3,7 @@
 namespace DirectokiBundle\InternalAPI\V1;
 
 use DirectokiBundle\Entity\Project;
+use DirectokiBundle\InternalAPI\V1\Model\Locale;
 
 
 /**
@@ -39,7 +40,16 @@ class InternalAPIProject
         return new InternalAPIDirectory($this->container, $this->project, $directory);
     }
 
+    function getLocaleByPublicId($publicId) {
+        $doctrine = $this->container->get('doctrine')->getManager();
 
+        $locale = $doctrine->getRepository('DirectokiBundle:Locale')->findOneBy(array('project'=>$this->project, 'publicId'=>$publicId));
+        if (!$locale) {
+            throw new \Exception("Not Found Locale");
+        }
+
+        return new Locale($locale->getPublicId(), $locale->getTitle());
+    }
 
 
 }

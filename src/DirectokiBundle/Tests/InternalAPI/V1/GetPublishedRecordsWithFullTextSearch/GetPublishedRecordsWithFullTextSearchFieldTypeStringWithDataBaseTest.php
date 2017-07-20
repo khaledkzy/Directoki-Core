@@ -104,9 +104,10 @@ class GetPublishedRecordsWithFullTextSearchFieldTypeStringWithDataBaseTest exten
         # TEST FIND, NO CACHE
 
         $internalAPI = new InternalAPI($this->container);
-        $query = new RecordsInDirectoryQuery($locale);
+        $internalAPIProject = $internalAPI->getProjectAPI('test1');
+        $query = new RecordsInDirectoryQuery($internalAPIProject->getLocaleByPublicId('en_GB'));
         $query->setFullTextSearch('title');
-        $records = $internalAPI->getProjectAPI('test1')->getDirectoryAPI('resource')->getPublishedRecords($query);
+        $records = $internalAPIProject->getDirectoryAPI('resource')->getPublishedRecords($query);
 
         $this->assertEquals(0, count($records));
 
@@ -117,9 +118,10 @@ class GetPublishedRecordsWithFullTextSearchFieldTypeStringWithDataBaseTest exten
 
         # TEST FIND, CACHE
         $internalAPI = new InternalAPI($this->container);
-        $query = new RecordsInDirectoryQuery($locale);
+        $internalAPIProject = $internalAPI->getProjectAPI('test1');
+        $query = new RecordsInDirectoryQuery($internalAPIProject->getLocaleByPublicId('en_GB'));
         $query->setFullTextSearch('title'); // deliberately searching a different case!
-        $records = $internalAPI->getProjectAPI('test1')->getDirectoryAPI('resource')->getPublishedRecords($query);
+        $records = $internalAPIProject->getDirectoryAPI('resource')->getPublishedRecords($query);
 
         $this->assertEquals(1, count($records));
         $this->assertEquals('r1', $records[0]->getPublicId());
@@ -128,9 +130,10 @@ class GetPublishedRecordsWithFullTextSearchFieldTypeStringWithDataBaseTest exten
 
         # TEST NO FIND, CACHE
         $internalAPI = new InternalAPI($this->container);
-        $query = new RecordsInDirectoryQuery($locale);
+        $internalAPIProject = $internalAPI->getProjectAPI('test1');
+        $query = new RecordsInDirectoryQuery($internalAPIProject->getLocaleByPublicId('en_GB'));
         $query->setFullTextSearch('cats');
-        $records = $internalAPI->getProjectAPI('test1')->getDirectoryAPI('resource')->getPublishedRecords($query);
+        $records = $internalAPIProject->getDirectoryAPI('resource')->getPublishedRecords($query);
 
         $this->assertEquals(0, count($records));
 

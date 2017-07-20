@@ -95,16 +95,22 @@ class InternalAPIDirectory
 
     function getPublishedRecords(RecordsInDirectoryQuery $recordsInDirectoryQuery=null) {
 
+        $doctrine = $this->container->get('doctrine')->getManager();
+
+        $locale = null;
+        if ($recordsInDirectoryQuery && $recordsInDirectoryQuery->getLocale()) {
+            $locale = $doctrine->getRepository('DirectokiBundle:Locale')->findOneBy(array('project'=>$this->project, 'publicId'=>$recordsInDirectoryQuery->getLocale()->getId()));
+        }
+
         $internalRecordsInDirectoryQuery = new \DirectokiBundle\RecordsInDirectoryQuery(
             $this->directory,
-            $recordsInDirectoryQuery ? $recordsInDirectoryQuery->getLocale() : null
+            $locale
         );
         $internalRecordsInDirectoryQuery->setPublishedOnly(true);
         if ($recordsInDirectoryQuery) {
             $internalRecordsInDirectoryQuery->setFullTextSearch($recordsInDirectoryQuery->getFullTextSearch());
         }
 
-        $doctrine = $this->container->get('doctrine')->getManager();
 
         // Get data, return
         $out = array();

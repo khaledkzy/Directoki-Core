@@ -2,8 +2,7 @@
 
 namespace DirectokiBundle\InternalAPI\V1\Query;
 
-use DirectokiBundle\Entity\Directory;
-use DirectokiBundle\Entity\Locale;
+use DirectokiBundle\InternalAPI\V1\Model\Locale;
 
 
 /**
