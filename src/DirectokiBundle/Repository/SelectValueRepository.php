@@ -39,7 +39,7 @@ class SelectValueRepository extends EntityRepository {
                        ' WHERE sv.field = :field AND TRIM(LOWER(sv.title)) = :title'
                    )
                    ->setParameter('field', $field)
-                   ->setParameter('title', strtolower(trim($title)))
+                   ->setParameter('title', mb_strtolower(trim($title)))
                    ->getResult();
         return count($s) ? $s[0] : null;
 

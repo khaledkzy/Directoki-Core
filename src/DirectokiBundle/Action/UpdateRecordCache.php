@@ -57,7 +57,7 @@ class UpdateRecordCache
             $fullTextSearch = '';
             foreach($fields as $field) {
                 $fieldType = $this->container->get('directoki_field_type_service')->getByField($field);
-                $fullTextSearch .= ' ' . strtolower($fieldType->getFullTextSearch($field, $record, $locale));
+                $fullTextSearch .= mb_strtolower($fieldType->getFullTextSearch($field, $record, $locale));
             }
             $recordLocaleCache->setFullTextSearch($fullTextSearch);
 

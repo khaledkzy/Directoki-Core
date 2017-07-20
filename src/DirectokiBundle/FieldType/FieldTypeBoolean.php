@@ -118,7 +118,7 @@ class FieldTypeBoolean extends  BaseFieldType {
                 $latestValueObject = $this->getLatestFieldValue($field, $record);
                 $currentValue = $latestValueObject->getValue();
             }
-            $newValue = in_array(trim(strtolower($parameterBag->get('field_'.$field->getPublicId().'_value'))), array('1','y','yes','t','true'));
+            $newValue = in_array(trim(mb_strtolower($parameterBag->get('field_'.$field->getPublicId().'_value'))), array('1','y','yes','t','true'));
             if ($newValue != $currentValue) {
                 $newRecordHasFieldValues = new RecordHasFieldBooleanValue();
                 $newRecordHasFieldValues->setRecord($record);

@@ -34,7 +34,7 @@ class RecordRepository extends EntityRepository {
             $joins[] = " JOIN r.recordLocaleCaches rlc WITH rlc.locale = :locale ";
             $params['locale'] = $recordInDirectoryQuery->getLocale();
             $where[] = ' rlc.fullTextSearch LIKE :fullTextSearch';
-            $params['fullTextSearch'] = '%'.strtolower($recordInDirectoryQuery->getFullTextSearch()).'%';
+            $params['fullTextSearch'] = '%'.mb_strtolower($recordInDirectoryQuery->getFullTextSearch()).'%';
         }
 
         $query =  $this->getEntityManager()
