@@ -5,6 +5,7 @@ namespace DirectokiBundle\FieldType;
 
 use DirectokiBundle\Entity\Directory;
 use DirectokiBundle\Entity\Event;
+use DirectokiBundle\Entity\Locale;
 use DirectokiBundle\Entity\Record;
 use DirectokiBundle\Entity\RecordHasStringField;
 use DirectokiBundle\Entity\Field;
@@ -81,5 +82,7 @@ abstract class  BaseFieldType {
     public abstract function getExportCSVData(Field $field, Record $record);
 
     public abstract function getURLsForExternalCheck(Field $field, Record $record);
+
+    public abstract function getFullTextSearch(Field $field, Record $record, Locale $locale);
 
 }

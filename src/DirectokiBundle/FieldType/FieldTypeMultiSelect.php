@@ -10,6 +10,7 @@ use DirectokiBundle\Entity\RecordHasFieldMultiSelectValue;
 use DirectokiBundle\Entity\Field;
 use DirectokiBundle\Entity\SelectValue;
 use DirectokiBundle\LocaleMode\BaseLocaleMode;
+use Locale;
 use Symfony\Component\Form\Form;
 use DirectokiBundle\ImportCSVLineResult;
 use DirectokiBundle\InternalAPI\V1\Model\BaseFieldValue;
@@ -451,6 +452,15 @@ class FieldTypeMultiSelect extends  BaseFieldType
         return array();
     }
 
+
+    public function getFullTextSearch(Field $field, Record $record, \DirectokiBundle\Entity\Locale $locale)
+    {
+        $out = array();
+        foreach ($this->getLatestFieldValues($field, $record) as $record) {
+            $out[] = $record->getSelectValue()->getTitle();
+        }
+        return implode(' ', $out);
+    }
 
 }
 

@@ -3,6 +3,9 @@
 namespace DirectokiBundle\Repository;
 
 use DirectokiBundle\Entity\Directory;
+use DirectokiBundle\Entity\Locale;
+use DirectokiBundle\Entity\RecordHasState;
+use DirectokiBundle\RecordsInDirectoryQuery;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -12,6 +15,41 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class RecordRepository extends EntityRepository {
 
+
+    public function findByRecordsInDirectoryQuery(RecordsInDirectoryQuery $recordInDirectoryQuery) {
+        $where = array(
+            'r.directory = :directory '
+        );
+        $joins = array();
+        $params = array(
+            'directory'=>$recordInDirectoryQuery->getDirectory(),
+        );
+
+        if ($recordInDirectoryQuery->isPublishedOnly()) {
+            $where[] = 'r.cachedState = :cachedState';
+            $params['cachedState'] = RecordHasState::STATE_PUBLISHED;
+        }
+
+        if ($recordInDirectoryQuery->getFullTextSearch() && $recordInDirectoryQuery->getLocale()) {
+            $joins[] = " JOIN r.recordLocaleCaches rlc WITH rlc.locale = :locale ";
+            $params['locale'] = $recordInDirectoryQuery->getLocale();
+            $where[] = ' rlc.fullTextSearch LIKE :fullTextSearch';
+            $params['fullTextSearch'] = '%'.strtolower($recordInDirectoryQuery->getFullTextSearch()).'%';
+        }
+
+        $query =  $this->getEntityManager()
+            ->createQuery(
+                ' SELECT r FROM DirectokiBundle:Record r '.
+                implode(' ', $joins).
+                ' WHERE '. implode(' AND ', $where)
+            );;
+
+        foreach($params as $k=>$v) {
+            $query->setParameter($k, $v);
+        }
+
+        return $query->getResult();
+    }
 
 
     public function doesPublicIdExist($id, Directory $directory)

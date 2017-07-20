@@ -118,6 +118,11 @@ class Record
      */
     private $recordReports;
 
+    /**
+     * @ORM\OneToMany(targetEntity="DirectokiBundle\Entity\RecordLocaleCache", mappedBy="record")
+     */
+    protected $recordLocaleCaches;
+
 
     /**
      * @return mixed

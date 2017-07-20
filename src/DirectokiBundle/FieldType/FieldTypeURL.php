@@ -5,6 +5,7 @@ namespace DirectokiBundle\FieldType;
 
 use DirectokiBundle\Entity\Directory;
 use DirectokiBundle\Entity\Event;
+use DirectokiBundle\Entity\Locale;
 use DirectokiBundle\Entity\Record;
 use DirectokiBundle\Entity\RecordHasFieldURLValue;
 use DirectokiBundle\Entity\Field;
@@ -190,6 +191,12 @@ class FieldTypeURL extends  BaseFieldType {
     {
         $value = $this->getLatestFieldValue($field, $record);
         return $value->getValue() ? array($value->getValue()) : array();
+    }
+
+    public function getFullTextSearch(Field $field, Record $record, Locale $locale)
+    {
+        $value = $this->getLatestFieldValue($field, $record);
+        return $value ? $value->getValue() : '';
     }
 
 }

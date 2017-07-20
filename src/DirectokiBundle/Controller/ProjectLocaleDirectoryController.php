@@ -2,12 +2,15 @@
 
 namespace DirectokiBundle\Controller;
 
+use DirectokiBundle\Entity\Directory;
 use DirectokiBundle\Entity\Project;
 use DirectokiBundle\Entity\Locale;
 use DirectokiBundle\Entity\RecordHasState;
+use DirectokiBundle\RecordsInDirectoryQuery;
 use DirectokiBundle\Security\ProjectVoter;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  *  @license 3-clause BSD
@@ -64,7 +67,7 @@ class ProjectLocaleDirectoryController extends Controller
 
     }
 
-    public function recordsAction($projectId, $localeId, $directoryId)
+    public function recordsAction($projectId, $localeId, $directoryId, Request $request)
     {
 
         // build
@@ -72,8 +75,6 @@ class ProjectLocaleDirectoryController extends Controller
         //data
 
         $doctrine = $this->getDoctrine()->getManager();
-        $repo = $doctrine->getRepository('DirectokiBundle:Record');
-        $records = $repo->findBy(array('directory'=>$this->directory,'cachedState'=>RecordHasState::STATE_PUBLISHED));
 
         $fields = $doctrine->getRepository('DirectokiBundle:Field')->findForDirectory($this->directory);
         $field = count($fields) > 0 ? $fields[0] : null;
@@ -87,6 +88,15 @@ class ProjectLocaleDirectoryController extends Controller
             $fieldIsMultiple = null;
         }
 
+
+        $recordSearchQuery = new RecordsInDirectoryQuery($this->directory, $this->locale);
+        $recordSearchQuery->setPublishedOnly(true);
+        if ($request->query->get('search')) {
+            $recordSearchQuery->setFullTextSearch($request->query->get('search'));
+        }
+
+        $repo = $doctrine->getRepository('DirectokiBundle:Record');
+        $records = $repo->findByRecordsInDirectoryQuery($recordSearchQuery);
         return $this->render('DirectokiBundle:ProjectLocaleDirectory:records.html.twig', array(
             'project' => $this->project,
             'locale' => $this->locale,
@@ -96,6 +106,7 @@ class ProjectLocaleDirectoryController extends Controller
             'fieldType' => $fieldType,
             'fieldTemplate' => $fieldTemplate,
             'fieldIsMultilple' => $fieldIsMultiple,
+            'search' => $recordSearchQuery->getFullTextSearch(),
         ));
 
     }

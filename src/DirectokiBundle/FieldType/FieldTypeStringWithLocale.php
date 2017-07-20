@@ -415,4 +415,10 @@ class FieldTypeStringWithLocale extends BaseFieldType {
         return array();
     }
 
+    public function getFullTextSearch(Field $field, Record $record, Locale $locale)
+    {
+        $value = $this->getLatestFieldValueForLocale($field, $record, $locale);
+        return $value ? $value->getValue() : '';
+    }
+
 }

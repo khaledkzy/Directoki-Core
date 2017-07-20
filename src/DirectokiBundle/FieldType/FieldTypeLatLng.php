@@ -5,6 +5,7 @@ namespace DirectokiBundle\FieldType;
 
 use DirectokiBundle\Entity\Directory;
 use DirectokiBundle\Entity\Event;
+use DirectokiBundle\Entity\Locale;
 use DirectokiBundle\Entity\Record;
 use DirectokiBundle\Entity\RecordHasFieldLatLngValue;
 use DirectokiBundle\Entity\Field;
@@ -261,6 +262,11 @@ class FieldTypeLatLng extends  BaseFieldType {
     public function getURLsForExternalCheck(Field $field, Record $record)
     {
         return array();
+    }
+
+    public function getFullTextSearch(Field $field, Record $record, Locale $locale)
+    {
+        return '';
     }
 
 }

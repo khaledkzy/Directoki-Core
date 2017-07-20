@@ -20,6 +20,11 @@
 
 	<h1>Records</h1>
 
+    <form action="" method="get">
+        Search: <input type="text" name="search" value="{{  search|e('html_attr') }}">
+        <input type="Submit" value="Search">
+    </form>
+
 
 
 	{%  if  records %}

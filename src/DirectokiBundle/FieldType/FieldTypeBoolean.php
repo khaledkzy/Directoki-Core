@@ -5,6 +5,7 @@ namespace DirectokiBundle\FieldType;
 
 use DirectokiBundle\Entity\Directory;
 use DirectokiBundle\Entity\Event;
+use DirectokiBundle\Entity\Locale;
 use DirectokiBundle\Entity\Record;
 use DirectokiBundle\Entity\RecordHasBooleanFieldValue;
 use DirectokiBundle\Entity\Field;
@@ -178,6 +179,11 @@ class FieldTypeBoolean extends  BaseFieldType {
     public function getURLsForExternalCheck(Field $field, Record $record)
     {
         return array();
+    }
+
+    public function getFullTextSearch(Field $field, Record $record, Locale $locale)
+    {
+        return '';
     }
 
 }

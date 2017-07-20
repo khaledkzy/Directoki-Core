@@ -5,6 +5,7 @@ namespace DirectokiBundle\FieldType;
 
 use DirectokiBundle\Entity\Directory;
 use DirectokiBundle\Entity\Event;
+use DirectokiBundle\Entity\Locale;
 use DirectokiBundle\Entity\Record;
 use DirectokiBundle\Entity\RecordHasFieldEmailValue;
 use DirectokiBundle\Entity\Field;
@@ -223,6 +224,12 @@ class FieldTypeEmail extends  BaseFieldType {
     public function getURLsForExternalCheck(Field $field, Record $record)
     {
         return array();
+    }
+
+    public function getFullTextSearch(Field $field, Record $record, Locale $locale)
+    {
+        $value = $this->getLatestFieldValue($field, $record);
+        return $value ? $value->getValue() : '';
     }
 
 }

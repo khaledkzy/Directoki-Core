@@ -28,6 +28,7 @@ use DirectokiBundle\InternalAPI\V1\Model\FieldValueTextEdit;
 use DirectokiBundle\InternalAPI\V1\Model\Record;
 use DirectokiBundle\InternalAPI\V1\Model\RecordCreate;
 use DirectokiBundle\InternalAPI\V1\Model\SelectValue;
+use DirectokiBundle\InternalAPI\V1\Query\RecordsInDirectoryQuery;
 use DirectokiBundle\InternalAPI\V1\Result\CreateRecordResult;
 use DirectokiBundle\Security\ProjectVoter;
 use Symfony\Component\HttpFoundation\Request;
@@ -92,7 +93,16 @@ class InternalAPIDirectory
     }
 
 
-    function getPublishedRecords() {
+    function getPublishedRecords(RecordsInDirectoryQuery $recordsInDirectoryQuery=null) {
+
+        $internalRecordsInDirectoryQuery = new \DirectokiBundle\RecordsInDirectoryQuery(
+            $this->directory,
+            $recordsInDirectoryQuery ? $recordsInDirectoryQuery->getLocale() : null
+        );
+        $internalRecordsInDirectoryQuery->setPublishedOnly(true);
+        if ($recordsInDirectoryQuery) {
+            $internalRecordsInDirectoryQuery->setFullTextSearch($recordsInDirectoryQuery->getFullTextSearch());
+        }
 
         $doctrine = $this->container->get('doctrine')->getManager();
 
@@ -100,7 +110,7 @@ class InternalAPIDirectory
         $out = array();
         $fields = $doctrine->getRepository('DirectokiBundle:Field')->findForDirectory($this->directory);
 
-        foreach($doctrine->getRepository('DirectokiBundle:Record')->findBy(array('directory'=>$this->directory,'cachedState'=>RecordHasState::STATE_PUBLISHED)) as $record) {
+        foreach($doctrine->getRepository('DirectokiBundle:Record')->findByRecordsInDirectoryQuery($internalRecordsInDirectoryQuery) as $record) {
 
             $fieldValues = array();
             foreach($fields as $field) {
