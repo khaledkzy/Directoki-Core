@@ -43,6 +43,10 @@ directoki_admin_project_user_list:
     path:     /admin/project/{projectId}/user
     defaults: { _controller: DirectokiBundle:AdminProject:user }
 
+directoki_admin_project_stats:
+    path:     /admin/project/{projectId}/stats
+    defaults: { _controller: DirectokiBundle:AdminProject:stats }
+
 directoki_admin_project_contact_list:
     path:     /admin/project/{projectId}/contact
     defaults: { _controller: DirectokiBundle:AdminProject:contact }
@@ -74,6 +78,10 @@ directoki_admin_project_directory_show:
 directoki_admin_project_directory_new_string_field:
     path:     /admin/project/{projectId}/directory/{directoryId}/newField/string
     defaults: { _controller: DirectokiBundle:AdminProjectDirectoryEdit:newStringField }
+
+directoki_admin_project_directory_stats:
+    path:     /admin/project/{projectId}/directory/{directoryId}/stats
+    defaults: { _controller: DirectokiBundle:AdminProjectDirectory:stats }
 
 directoki_admin_project_directory_new_string_with_locale_field:
     path:     /admin/project/{projectId}/directory/{directoryId}/newField/stringWithLocale

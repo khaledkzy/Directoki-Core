@@ -105,6 +105,25 @@ class AdminProjectController extends Controller
     }
 
 
+    public function statsAction($projectId)
+    {
+
+        // build
+        $this->build($projectId);
+        //data
+
+        $doctrine = $this->getDoctrine()->getManager();
+        $repo = $doctrine->getRepository('DirectokiBundle:Event');
+        $histories = count($repo->findBy(array('project'=>$this->project),array('createdAt'=>'desc')));
+
+        return $this->render('DirectokiBundle:AdminProject:stats.html.twig', array(
+            'project' => $this->project,
+            'histories' => $histories,
+        ));
+
+    }
+
+
 
     public function localeAction($projectId)
     {

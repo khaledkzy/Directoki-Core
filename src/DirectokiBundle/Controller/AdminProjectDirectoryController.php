@@ -3,6 +3,7 @@
 namespace DirectokiBundle\Controller;
 
 use DirectokiBundle\Entity\Project;
+use DirectokiBundle\Entity\RecordHasState;
 use DirectokiBundle\Security\ProjectVoter;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -49,6 +50,30 @@ class AdminProjectDirectoryController extends Controller
         return $this->render('DirectokiBundle:AdminProjectDirectory:index.html.twig', array(
             'project' => $this->project,
             'directory' => $this->directory,
+        ));
+
+    }
+
+    public function statsAction($projectId, $directoryId)
+    {
+
+        // build
+        $this->build($projectId, $directoryId);
+        //data
+
+        $doctrine = $this->getDoctrine()->getManager();
+        $repo = $doctrine->getRepository('DirectokiBundle:Record');
+        $recordsPublished = count($repo->findBy(array('directory'=>$this->directory, 'cachedState'=>RecordHasState::STATE_PUBLISHED)));
+        $recordsDeleted = count($repo->findBy(array('directory'=>$this->directory, 'cachedState'=>RecordHasState::STATE_DELETED)));
+        $recordsDraft= count($repo->findBy(array('directory'=>$this->directory, 'cachedState'=>RecordHasState::STATE_DRAFT)));
+
+
+        return $this->render('DirectokiBundle:AdminProjectDirectory:stats.html.twig', array(
+            'project' => $this->project,
+            'directory' => $this->directory,
+            'recordsPublished' => $recordsPublished,
+            'recordsDeleted' => $recordsDeleted,
+            'recordsDraft' => $recordsDraft,
         ));
 
     }
