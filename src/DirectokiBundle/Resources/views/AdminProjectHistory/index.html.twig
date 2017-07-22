@@ -59,6 +59,33 @@
     </table>
 
 
+    <h2>Directories Created</h2>
+
+    {%  if  directoriesCreated %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Directory</th>
+                </tr>
+            </thead>
+            <tbody>
+                {%  for directoryCreated in directoriesCreated %}
+                    <tr>
+                        <td>
+                            {{  directoryCreated.publicId }}
+                        </td>
+                        <td>
+                            {{ directoryCreated.titleSingular  }}
+                        </td>
+                    </tr>
+                {%  endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>There were no directories created during this history change.</p>
+    {% endif %}
+
     <h2>Records Created</h2>
 
     {%  if  recordsCreated %}
