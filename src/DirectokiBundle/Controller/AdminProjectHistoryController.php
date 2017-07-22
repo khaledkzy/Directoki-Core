@@ -3,6 +3,7 @@
 namespace DirectokiBundle\Controller;
 
 use DirectokiBundle\Entity\Project;
+use DirectokiBundle\Entity\Event;
 use DirectokiBundle\Security\ProjectVoter;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -19,7 +20,7 @@ class AdminProjectHistoryController extends Controller
     protected $project;
 
     /** @var Event */
-    protected $directory;
+    protected $event;
 
     protected function build($projectId, $historyId) {
         $doctrine = $this->getDoctrine()->getManager();
