@@ -262,10 +262,14 @@ class FieldTypeMultiSelect extends  BaseFieldType
         $repoRecordHasFieldMultiSelectValue = $this->container->get('doctrine')->getManager()->getRepository('DirectokiBundle:RecordHasFieldMultiSelectValue');
 
         if ($record && $repoRecordHasFieldMultiSelectValue->doesRecordHaveFieldHaveValue($record, $field, $selectValue)) {
-            return array(); // TODO Value is already set!
+            // Value is already set!
+            return array();
         }
 
-        // TODO check someone else has not already tried to add value!
+        if ($record && $repoRecordHasFieldMultiSelectValue->doesRecordHaveFieldHaveValueAwaitingModeration($record, $field, $selectValue)) {
+            // check someone else has not already tried to add value!
+            return array();
+        }
 
         $newRecordHasFieldValues = new RecordHasFieldMultiSelectValue();
         $newRecordHasFieldValues->setRecord($record);

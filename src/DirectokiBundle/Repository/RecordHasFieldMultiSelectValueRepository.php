@@ -49,6 +49,28 @@ class RecordHasFieldMultiSelectValueRepository extends EntityRepository {
 
     }
 
+    public function doesRecordHaveFieldHaveValueAwaitingModeration(Record $record, Field $field,  SelectValue $selectValue) {
+
+        if (!$record->getId()) {
+            // if Record is not saved yet, we just have to assume no values are there.
+            return false;
+        }
+
+        $s = $this->getEntityManager()
+                    ->createQuery(
+                        ' SELECT fv FROM DirectokiBundle:RecordHasFieldMultiSelectValue fv '.
+                        ' WHERE fv.field = :field AND fv.record = :record AND fv.selectValue = :selectValue '.
+                        ' AND fv.additionApprovedAt IS NULL AND fv.additionRefusedAt IS NULL'
+                    )
+                    ->setParameter('field', $field)
+                    ->setParameter('record', $record)
+                    ->setParameter('selectValue', $selectValue)
+                    ->getResult();
+
+        return count($s)  > 0;
+
+    }
+
     public function getRecordFieldHasValue(Record $record, Field $field,  SelectValue $selectValue) {
 
         $s = $this->getEntityManager()
