@@ -45,14 +45,25 @@ class AdminProjectHistoryController extends Controller
 
         // build
         $this->build($projectId, $historyId);
+
         //data
+
+        $doctrine = $this->getDoctrine()->getManager();
+        $recordRepo = $doctrine->getRepository('DirectokiBundle:Record');
+
+
+        $recordsCreated = $recordRepo->findBy(array('creationEvent'=>$this->event));
+
+
 
         return $this->render('DirectokiBundle:AdminProjectHistory:index.html.twig', array(
             'project' => $this->project,
             'event' => $this->event,
+            'recordsCreated' => $recordsCreated,
         ));
 
     }
+
 
 
 

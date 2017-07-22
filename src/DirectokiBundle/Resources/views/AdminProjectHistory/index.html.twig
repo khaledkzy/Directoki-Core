@@ -59,5 +59,35 @@
     </table>
 
 
+    <h2>Records Created</h2>
+
+    {%  if  recordsCreated %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Directory</th>
+                    <th>Id</th>
+                    <th>&nbsp;</th>
+                </tr>
+            </thead>
+            <tbody>
+                {%  for recordCreated in recordsCreated %}
+                    <tr>
+                        <td>
+                            {{ recordCreated.directory.titleSingular  }}
+                        </td>
+                        <td>
+                            {{  recordCreated.publicId }}
+                        </td>
+                        <td>
+                            <a href="{{  path('directoki_admin_project_directory_record_show', { 'projectId':project.publicId,'directoryId':recordCreated.directory.publicId, 'recordId':recordCreated.publicId }) }}" class="btn btn-default">View</a>
+                        </td>
+                    </tr>
+                {%  endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>There were no records created during this history change.</p>
+    {% endif %}
 
 {%  endblock %}
