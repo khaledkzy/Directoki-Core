@@ -52,11 +52,13 @@ class AdminProjectHistoryController extends Controller
         $recordRepo = $doctrine->getRepository('DirectokiBundle:Record');
         $directoryRepo = $doctrine->getRepository('DirectokiBundle:Directory');
         $fieldRepo = $doctrine->getRepository('DirectokiBundle:Field');
+        $localeRepo = $doctrine->getRepository('DirectokiBundle:Locale');
 
 
         $recordsCreated = $recordRepo->findBy(array('creationEvent'=>$this->event));
         $directoriesCreated = $directoryRepo->findBy(array('creationEvent'=>$this->event));
         $fieldsCreated = $fieldRepo->findBy(array('creationEvent'=>$this->event));
+        $localesCreated = $localeRepo->findBy(array('creationEvent'=>$this->event));
 
 
 
@@ -66,6 +68,7 @@ class AdminProjectHistoryController extends Controller
             'recordsCreated' => $recordsCreated,
             'directoriesCreated' => $directoriesCreated,
             'fieldsCreated' => $fieldsCreated,
+            'localesCreated' => $localesCreated,
         ));
 
     }

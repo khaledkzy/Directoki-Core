@@ -60,6 +60,30 @@
 
 
 
+    {%  if  localesCreated %}
+        <h2>Locales Created</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Locale</th>
+                </tr>
+            </thead>
+            <tbody>
+                {%  for localeCreated in localesCreated %}
+                    <tr>
+                        <td>
+                            {{  localeCreated.publicId }}
+                        </td>
+                        <td>
+                            {{ localeCreated.title  }}
+                        </td>
+                    </tr>
+                {%  endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+
     {%  if  directoriesCreated %}
         <h2>Directories Created</h2>
         <table class="table table-striped">
