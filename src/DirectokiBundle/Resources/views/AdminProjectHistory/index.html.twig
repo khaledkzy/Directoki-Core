@@ -59,9 +59,9 @@
     </table>
 
 
-    <h2>Directories Created</h2>
 
     {%  if  directoriesCreated %}
+        <h2>Directories Created</h2>
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -82,13 +82,40 @@
                 {%  endfor %}
             </tbody>
         </table>
-    {% else %}
-        <p>There were no directories created during this history change.</p>
     {% endif %}
 
-    <h2>Records Created</h2>
+
+    {%  if  fieldsCreated %}
+        <h2>Fields Created</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Directory</th>
+                    <th>Id</th>
+                    <th>Title</th>
+                </tr>
+            </thead>
+            <tbody>
+                {%  for fieldCreated in fieldsCreated %}
+                    <tr>
+                        <td>
+                            {{  fieldCreated.directory.titleSingular }}
+                        </td>
+                        <td>
+                            {{ fieldCreated.publicId  }}
+                        </td>
+                        <td>
+                            {{ fieldCreated.title  }}
+                        </td>
+                    </tr>
+                {%  endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+
 
     {%  if  recordsCreated %}
+        <h2>Records Created</h2>
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -113,8 +140,6 @@
                 {%  endfor %}
             </tbody>
         </table>
-    {% else %}
-        <p>There were no records created during this history change.</p>
     {% endif %}
 
 {%  endblock %}
