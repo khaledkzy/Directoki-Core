@@ -128,7 +128,7 @@ class FieldTypeLatLng extends  BaseFieldType {
             }
             $newValueLat = floatval($parameterBag->get('field_'.$field->getPublicId().'_lat'));
             $newValueLng = floatval($parameterBag->get('field_'.$field->getPublicId().'_lng'));
-            if ($newValueLat != $currentValueLat || $newValueLng != $currentValueLng) {
+            if ($this->areOldAndNewValuesDifferent($currentValueLat, $currentValueLng, $newValueLat, $newValueLng)) {
                 $newRecordHasFieldValues = new RecordHasFieldLatLngValue();
                 $newRecordHasFieldValues->setRecord($record);
                 $newRecordHasFieldValues->setField($field);
@@ -153,7 +153,7 @@ class FieldTypeLatLng extends  BaseFieldType {
             }
             $newValueLat = $fieldValueEdit->getNewLat();
             $newValueLng = $fieldValueEdit->getNewLng();
-            if ($newValueLat != $currentValueLat || $newValueLng != $currentValueLng) {
+            if ($this->areOldAndNewValuesDifferent($currentValueLat, $currentValueLng, $newValueLat, $newValueLng)) {
                 $newRecordHasFieldValues = new RecordHasFieldLatLngValue();
                 $newRecordHasFieldValues->setRecord($record);
                 $newRecordHasFieldValues->setField($field);
@@ -167,6 +167,10 @@ class FieldTypeLatLng extends  BaseFieldType {
             }
         }
         return array();
+    }
+
+    protected function areOldAndNewValuesDifferent($oldValueLat, $oldValueLng, $newValueLat, $newValueLng) {
+        return round($oldValueLat, 10) != round($newValueLat, 10) || round($oldValueLng, 10) != round($newValueLng, 10);
     }
 
     public function parseCSVLineData( Field $field, $fieldConfig, $lineData,  Record $record, Event $creationEvent, $published=false ) {
