@@ -91,6 +91,7 @@
                 <tr>
                     <th>Id</th>
                     <th>Directory</th>
+                    <th>&nbsp;</th>
                 </tr>
             </thead>
             <tbody>
@@ -101,6 +102,9 @@
                         </td>
                         <td>
                             {{ directoryCreated.titleSingular  }}
+                        </td>
+                        <td>
+                            <a href="{{  path('directoki_admin_project_directory_show', { 'projectId':project.publicId,'directoryId':directoryCreated.publicId }) }}" class="btn btn-default">View</a>
                         </td>
                     </tr>
                 {%  endfor %}
