@@ -12,10 +12,18 @@ class CreateRecordResult
 
     protected $success;
 
+    protected $approved;
+
+    protected $id;
+
     function __construct(
-        $success = false
+        $success = false,
+        $approved = false,
+        $id = null
     ) {
         $this->success = $success;
+        $this->approved = $approved;
+        $this->id = $id;
     }
 
     /**
@@ -25,5 +33,23 @@ class CreateRecordResult
     {
         return $this->success;
     }
+
+    /**
+     * @return boolean
+     */
+    public function isApproved()
+    {
+        return $this->approved;
+    }
+
+    /**
+     * @return null
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+
 
 }

@@ -89,7 +89,9 @@ class RecordCreateFieldTypeStringWithLocaleWithDataBaseTest extends BaseTestWith
         $recordCreate->setEmail('test@example.com');
         $recordCreate->setApproveInstantlyIfAllowed(false);
 
-        $this->assertTrue($internalAPIDirectory->saveRecordCreate($recordCreate)->getSuccess());
+        $result = $internalAPIDirectory->saveRecordCreate($recordCreate);
+        $this->assertTrue($result->getSuccess());
+        $this->assertFalse($result->isApproved());
 
 
         # TEST

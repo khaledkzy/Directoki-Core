@@ -76,8 +76,9 @@ class RecordCreateFieldTypeStringWithDataBaseTest extends BaseTestWithDataBase {
         $recordCreate->setComment('Test');
         $recordCreate->setEmail('test@example.com');
 
-        $this->assertTrue($internalAPIDirectory->saveRecordCreate($recordCreate)->getSuccess());
-
+        $result = $internalAPIDirectory->saveRecordCreate($recordCreate);
+        $this->assertTrue($result->getSuccess());
+        $this->assertFalse($result->isApproved());
 
 
 
@@ -156,7 +157,9 @@ class RecordCreateFieldTypeStringWithDataBaseTest extends BaseTestWithDataBase {
         $recordCreate->setEmail('test@example.com');
         $recordCreate->setApproveInstantlyIfAllowed(true);
 
-        $this->assertTrue($internalAPIDirectory->saveRecordCreate($recordCreate)->getSuccess());
+        $result = $internalAPIDirectory->saveRecordCreate($recordCreate);
+        $this->assertTrue($result->getSuccess());
+        $this->assertFalse($result->isApproved());
 
 
 
@@ -232,7 +235,10 @@ class RecordCreateFieldTypeStringWithDataBaseTest extends BaseTestWithDataBase {
         $recordCreate->setUser($user);
         $recordCreate->setApproveInstantlyIfAllowed(true);
 
-        $this->assertTrue($internalAPIDirectory->saveRecordCreate($recordCreate)->getSuccess());
+        $result = $internalAPIDirectory->saveRecordCreate($recordCreate);
+        $this->assertTrue($result->getSuccess());
+        $this->assertTrue($result->isApproved());
+        $this->assertTrue(is_string($result->getId()));
 
 
 

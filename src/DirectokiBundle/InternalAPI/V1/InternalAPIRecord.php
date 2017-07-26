@@ -189,10 +189,10 @@ class InternalAPIRecord
                 $action->go($this->record);
             }
 
-            return new EditRecordResult(true);
+            return new EditRecordResult(true, $approve);
 
         } else {
-            return new EditRecordResult(false);
+            return new EditRecordResult(false, false);
         }
     }
 

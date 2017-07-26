@@ -13,10 +13,14 @@ class EditRecordResult
 
     protected $success;
 
+    protected $approved;
+
     function __construct(
-        $success = false
+        $success = false,
+        $approved = false
     ) {
         $this->success = $success;
+        $this->approved = $approved;
     }
 
     /**
@@ -26,5 +30,15 @@ class EditRecordResult
     {
         return $this->success;
     }
+
+    /**
+     * @return boolean
+     */
+    public function isApproved()
+    {
+        return $this->approved;
+    }
+
+
 
 }

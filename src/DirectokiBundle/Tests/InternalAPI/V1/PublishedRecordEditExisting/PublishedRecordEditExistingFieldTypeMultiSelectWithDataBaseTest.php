@@ -121,7 +121,9 @@ class PublishedRecordEditExistingFieldTypeMultiSelectWithDataBaseTest extends Ba
         $recordEditIntAPI->setEmail('test@example.com');
         $recordEditIntAPI->setApproveInstantlyIfAllowed(false);
 
-        $this->assertTrue($internalAPIRecord->savePublishedEdit($recordEditIntAPI)->getSuccess());
+        $result = $internalAPIRecord->savePublishedEdit($recordEditIntAPI);
+        $this->assertTrue($result->getSuccess());
+        $this->assertFalse($result->isApproved());
 
 
         # TEST
@@ -239,7 +241,9 @@ class PublishedRecordEditExistingFieldTypeMultiSelectWithDataBaseTest extends Ba
         $recordEditIntAPI->setEmail('test@example.com');
         $recordEditIntAPI->setApproveInstantlyIfAllowed(false);
 
-        $this->assertTrue($internalAPIRecord->savePublishedEdit($recordEditIntAPI)->getSuccess());
+        $result = $internalAPIRecord->savePublishedEdit($recordEditIntAPI);
+        $this->assertTrue($result->getSuccess());
+        $this->assertFalse($result->isApproved());
 
 
         # TEST
@@ -358,7 +362,9 @@ class PublishedRecordEditExistingFieldTypeMultiSelectWithDataBaseTest extends Ba
         $recordEditIntAPI->setEmail('test@example.com');
         $recordEditIntAPI->setApproveInstantlyIfAllowed(false);
 
-        $this->assertFalse($internalAPIRecord->savePublishedEdit($recordEditIntAPI)->getSuccess());
+        $result = $internalAPIRecord->savePublishedEdit($recordEditIntAPI);
+        $this->assertFalse($result->getSuccess());
+        $this->assertFalse($result->isApproved());
 
 
         # TEST
@@ -453,7 +459,9 @@ class PublishedRecordEditExistingFieldTypeMultiSelectWithDataBaseTest extends Ba
         $recordEditIntAPI->setApproveInstantlyIfAllowed(false);
 
         // first time it saves
-        $this->assertTrue($internalAPIRecord->savePublishedEdit($recordEditIntAPI)->getSuccess());
+        $result = $internalAPIRecord->savePublishedEdit($recordEditIntAPI);
+        $this->assertTrue($result->getSuccess());
+        $this->assertFalse($result->isApproved());
 
         # Edit TWICE
 
@@ -468,7 +476,9 @@ class PublishedRecordEditExistingFieldTypeMultiSelectWithDataBaseTest extends Ba
         $recordEditIntAPI->setApproveInstantlyIfAllowed(false);
 
         // it is already saved so returns false. Maybe it should return true tho?
-        $this->assertFalse($internalAPIRecord->savePublishedEdit($recordEditIntAPI)->getSuccess());
+        $result = $internalAPIRecord->savePublishedEdit($recordEditIntAPI);
+        $this->assertFalse($result->getSuccess());
+        $this->assertFalse($result->isApproved());
 
 
         # TEST IT is only there once

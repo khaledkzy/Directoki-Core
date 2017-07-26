@@ -268,10 +268,10 @@ class InternalAPIDirectory
                 $action->go($record);
             }
 
-            return new CreateRecordResult(true);
+            return new CreateRecordResult(true, $approve, $record->getPublicId());
 
         } else {
-            return new CreateRecordResult(false);
+            return new CreateRecordResult(false, false, null);
         }
 
     }
