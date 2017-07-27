@@ -3,4 +3,7 @@
 #  @link https://github.com/Directoki/Directoki-Core/blob/master/LICENSE.txt
 ##}
 
-{{  value.value|nl2br }}
+
+{% if value is not null  %}
+    {{  value.value|nl2br }}
+{%  endif %}

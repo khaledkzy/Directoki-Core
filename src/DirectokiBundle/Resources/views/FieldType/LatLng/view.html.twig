@@ -3,7 +3,7 @@
 #  @link https://github.com/Directoki/Directoki-Core/blob/master/LICENSE.txt
 ##}
 
-{%  if value.lat != null and value.lng != null %}
+{%  if value is not null and value.lat != null and value.lng != null %}
 
 	{{  value.lat }},{{  value.lng }}
 

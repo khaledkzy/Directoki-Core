@@ -3,5 +3,8 @@
 #  @link https://github.com/Directoki/Directoki-Core/blob/master/LICENSE.txt
 ##}
 
-{{  value.value }} ({{ value.locale.title }})
+
+{% if value is not null  %}
+    {{  value.value }} ({{ value.locale.title }})
+{%  endif %}
 
