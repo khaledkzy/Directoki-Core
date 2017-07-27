@@ -1,8 +1,10 @@
 <?php
 
 namespace DirectokiBundle\Controller;
+
 use DirectokiBundle\Action\UpdateRecordCache;
 use DirectokiBundle\Entity\Event;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 /**
  *  @license 3-clause BSD
@@ -14,6 +16,9 @@ class AdminProjectDirectoryRecordFieldEditController extends AdminProjectDirecto
     protected function build($projectId, $directoryId, $recordId, $fieldId) {
         parent::build($projectId, $directoryId, $recordId, $fieldId);
         // parent function will do security
+        if ($this->container->getParameter('directoki.read_only')) {
+            throw new HttpException(503, 'Directoki is in Read Only mode.');
+        }
     }
 
 

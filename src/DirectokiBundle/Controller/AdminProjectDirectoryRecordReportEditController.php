@@ -7,6 +7,7 @@ use DirectokiBundle\Entity\RecordReport;
 use DirectokiBundle\FieldType\StringFieldType;
 use DirectokiBundle\Form\Type\RecordReportResolveType;
 use DirectokiBundle\Security\ProjectVoter;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -21,6 +22,9 @@ class AdminProjectDirectoryRecordReportEditController extends AdminProjectDirect
     {
         parent::build($projectId, $directoryId, $recordId, $reportId);
         $this->denyAccessUnlessGranted(ProjectVoter::ADMIN, $this->project);
+        if ($this->container->getParameter('directoki.read_only')) {
+            throw new HttpException(503, 'Directoki is in Read Only mode.');
+        }
     }
 
     public function resolveAction($projectId, $directoryId, $recordId, $reportId, Request $request) {

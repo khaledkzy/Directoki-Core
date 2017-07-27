@@ -24,6 +24,7 @@ use DirectokiBundle\Form\Type\FieldNewTextType;
 use DirectokiBundle\Form\Type\FieldNewURLType;
 use DirectokiBundle\Form\Type\RecordNewType;
 use DirectokiBundle\Security\ProjectVoter;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -37,6 +38,9 @@ class AdminProjectDirectoryEditController extends AdminProjectDirectoryControlle
     protected function build($projectId, $directoryId) {
         parent::build($projectId, $directoryId);
         $this->denyAccessUnlessGranted(ProjectVoter::ADMIN, $this->project);
+        if ($this->container->getParameter('directoki.read_only')) {
+            throw new HttpException(503, 'Directoki is in Read Only mode.');
+        }
     }
 
     public function newStringFieldAction($projectId, $directoryId)

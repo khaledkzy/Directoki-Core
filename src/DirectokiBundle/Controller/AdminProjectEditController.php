@@ -8,6 +8,7 @@ use DirectokiBundle\Entity\Locale;
 use DirectokiBundle\Form\Type\DirectoryNewType;
 use DirectokiBundle\Form\Type\LocaleNewType;
 use DirectokiBundle\Security\ProjectVoter;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 /**
  *  @license 3-clause BSD
@@ -21,6 +22,9 @@ class AdminProjectEditController extends AdminProjectController
     protected function build($projectId) {
         parent::build($projectId);
         $this->denyAccessUnlessGranted(ProjectVoter::ADMIN, $this->project);
+        if ($this->container->getParameter('directoki.read_only')) {
+            throw new HttpException(503, 'Directoki is in Read Only mode.');
+        }
     }
 
 

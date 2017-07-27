@@ -7,6 +7,7 @@ use DirectokiBundle\Entity\SelectValue;
 use DirectokiBundle\FieldType\FieldTypeMultiSelect;
 use DirectokiBundle\Form\Type\SelectValueNewType;
 use DirectokiBundle\Security\ProjectVoter;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -20,6 +21,9 @@ class AdminProjectDirectoryFieldEditController extends AdminProjectDirectoryFiel
     protected function build( $projectId, $directoryId, $fieldId ) {
         parent::build( $projectId, $directoryId, $fieldId );
         $this->denyAccessUnlessGranted(ProjectVoter::ADMIN, $this->project);
+        if ($this->container->getParameter('directoki.read_only')) {
+            throw new HttpException(503, 'Directoki is in Read Only mode.');
+        }
     }
 
 
