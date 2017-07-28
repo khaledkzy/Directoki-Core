@@ -19,7 +19,6 @@ cd /home/vagrant/bin
 wget -q https://getcomposer.org/composer.phar
 
 cp /vagrant/vagrant/tests/parameters_test.yml /vagrant/app/config/parameters_test.yml
-cp /vagrant/vagrant/tests/parameters_test.yml /vagrant/app/config/parameters.yml
 
 cd /vagrant
 php /home/vagrant/bin/composer.phar  install
