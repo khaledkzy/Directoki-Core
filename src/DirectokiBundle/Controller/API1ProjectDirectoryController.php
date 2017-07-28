@@ -159,7 +159,7 @@ class API1ProjectDirectoryController extends Controller
                         'id'    => $field->getPublicId(),
                         'type'  => $fieldType::FIELD_TYPE_API1,
                         'title' => $field->getTitle(),
-                        'value' => $fieldType->getAPIJSON( $field, $record, true ),
+                        'value' => $fieldType->getAPIJSON( $field, $record, $this->localeMode, true ),
                     );
 
                 }
