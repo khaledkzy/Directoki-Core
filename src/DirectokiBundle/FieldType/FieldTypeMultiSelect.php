@@ -204,6 +204,16 @@ class FieldTypeMultiSelect extends  BaseFieldType
                 $out = array_merge($out, $this->processAPI1RecordAddStringValue($newValue, $field, $record, $event));
             }
         }
+        if ($parameterBag->has('field_' . $field->getPublicId() . '_add_id')) {
+            $newValue = $parameterBag->get('field_' . $field->getPublicId() . '_add_id');
+            if (is_array($newValue)) {
+                foreach ($newValue as $nv) {
+                    $out = array_merge($out, $this->processAPI1RecordAddPublicIdValue($nv, $field, $record, $event));
+                }
+            } else {
+                $out = array_merge($out, $this->processAPI1RecordAddPublicIdValue($newValue, $field, $record, $event));
+            }
+        }
         if ($parameterBag->has('field_' . $field->getPublicId() . '_remove_id')) {
             $removeIdValue = $parameterBag->get('field_' . $field->getPublicId() . '_remove_id');
             if (is_array($removeIdValue)) {
@@ -247,6 +257,21 @@ class FieldTypeMultiSelect extends  BaseFieldType
         $repoSelectValue = $this->container->get('doctrine')->getManager()->getRepository('DirectokiBundle:SelectValue');
 
         $valueObject = $repoSelectValue->findByTitleFromUser($field, $value);
+
+        if (!$valueObject) {
+            return array(); // TODO We can't find the value the user passed.
+        }
+
+        return $this->processAPI1RecordAddSelectValue($valueObject, $field, $record, $event, $approve);
+
+    }
+
+    protected function processAPI1RecordAddPublicIdValue($publicId, Field $field, Record $record = null, Event $event, $approve = false)
+    {
+
+        $repoSelectValue = $this->container->get('doctrine')->getManager()->getRepository('DirectokiBundle:SelectValue');
+
+        $valueObject = $repoSelectValue->findOneBy(array('field'=>$field, 'publicId'=>$publicId));
 
         if (!$valueObject) {
             return array(); // TODO We can't find the value the user passed.
