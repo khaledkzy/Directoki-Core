@@ -195,6 +195,22 @@ directoki_api1_project_directory_field_list_jsonp:
     path:     /api1/project/{projectId}/directory/{directoryId}/fields.jsonp
     defaults: { _controller: DirectokiBundle:API1ProjectDirectory:fieldsJSONP }
 
+directoki_api1_project_directory_field_show_json:
+    path:     /api1/project/{projectId}/directory/{directoryId}/field/{fieldId}/index.json
+    defaults: { _controller: DirectokiBundle:API1ProjectDirectoryField:indexJSON }
+
+directoki_api1_project_directory_field_show_jsonp:
+    path:     /api1/project/{projectId}/directory/{directoryId}/field/{fieldId}/index.jsonp
+    defaults: { _controller: DirectokiBundle:API1ProjectDirectoryField:indexJSONP }
+
+directoki_api1_project_directory_field_select_values_json:
+    path:     /api1/project/{projectId}/directory/{directoryId}/field/{fieldId}/selectValues.json
+    defaults: { _controller: DirectokiBundle:API1ProjectDirectoryField:selectValuesJSON }
+
+directoki_api1_project_directory_field_select_values_jsonp:
+    path:     /api1/project/{projectId}/directory/{directoryId}/field/{fieldId}/selectValues.jsonp
+    defaults: { _controller: DirectokiBundle:API1ProjectDirectoryField:selectValuesJSONP }
+
 directoki_api1_project_directory_record_list_json:
     path:     /api1/project/{projectId}/directory/{directoryId}/records.json
     defaults: { _controller: DirectokiBundle:API1ProjectDirectory:recordsJSON }
