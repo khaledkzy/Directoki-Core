@@ -8,6 +8,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\CallbackValidator;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 
 /**
@@ -28,7 +30,7 @@ class RecordEditStateType extends AbstractType {
     public function buildForm(FormBuilderInterface $builder, array $options) {
 
 
-        $builder->add('state', 'choice', array(
+        $builder->add('state', ChoiceType::class, array(
             'required' => true,
             'label'=>'State',
             'choices_as_values' => true,
@@ -45,7 +47,7 @@ class RecordEditStateType extends AbstractType {
             'data' =>true,
         ));
 
-        $builder->add('createdComment', 'textarea', array(
+        $builder->add('createdComment', TextareaType::class, array(
             'required' => false,
             'label' => 'Comment on change'
         ));

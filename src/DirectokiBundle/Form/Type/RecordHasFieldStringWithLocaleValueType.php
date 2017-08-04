@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\CallbackValidator;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 
 /**
@@ -29,7 +30,7 @@ class RecordHasFieldStringWithLocaleValueType extends BaseRecordHasFieldValueTyp
 
         foreach($this->locales as $locale) {
 
-            $builder->add('value_'.$locale->getPublicId(), 'text', array(
+            $builder->add('value_'.$locale->getPublicId(), TextType::class, array(
                 'required' => false,
                 'label' => 'Value ('.$locale->getTitle().')',
                 'data' => $this->values[$locale->getPublicId()],

@@ -6,7 +6,7 @@ use DirectokiBundle\Entity\DataHasStringField;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\CallbackValidator;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 
 /**
@@ -18,7 +18,7 @@ class SelectValueNewType extends AbstractType {
     public function buildForm(FormBuilderInterface $builder, array $options) {
 
 
-        $builder->add('title', 'text', array(
+        $builder->add('title', TextType::class, array(
             'required' => true,
             'label'=>'Title',
         ));

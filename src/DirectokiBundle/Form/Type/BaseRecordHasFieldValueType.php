@@ -8,6 +8,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\CallbackValidator;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 
 /**
@@ -27,7 +28,7 @@ abstract class BaseRecordHasFieldValueType extends AbstractType {
             'data' =>true,
         ));
 
-        $builder->add('createdComment', 'textarea', array(
+        $builder->add('createdComment', TextareaType::class, array(
             'required' => false,
             'label' => 'Comment on change'
         ));

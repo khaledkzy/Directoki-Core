@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\CallbackValidator;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 
 /**
@@ -18,13 +19,13 @@ class FieldNewStringType extends AbstractType {
     public function buildForm(FormBuilderInterface $builder, array $options) {
 
 
-        $builder->add('title', 'text', array(
+        $builder->add('title', TextType::class, array(
             'required' => true,
             'label'=>'Title',
         ));
 
 
-        $builder->add('publicId', 'text', array(
+        $builder->add('publicId', TextType::class, array(
             'required' => true,
             'label'=>'Public Id',
         ));
