@@ -18,6 +18,7 @@ use DirectokiBundle\FieldType\FieldTypeURL;
 use DirectokiBundle\Form\Type\FieldNewBooleanType;
 use DirectokiBundle\Form\Type\FieldNewEmailType;
 use DirectokiBundle\Form\Type\FieldNewLatLngType;
+use DirectokiBundle\Form\Type\FieldNewMultiSelectType;
 use DirectokiBundle\Form\Type\FieldNewStringType;
 use DirectokiBundle\Form\Type\FieldNewStringWithLocaleType;
 use DirectokiBundle\Form\Type\FieldNewTextType;
@@ -419,7 +420,7 @@ class AdminProjectDirectoryEditController extends AdminProjectDirectoryControlle
         $field->setDirectory($this->directory);
         $field->setFieldType(FieldTypeMultiSelect::FIELD_TYPE_INTERNAL);
 
-        $form = $this->createForm(new FieldNewLatLngType(), $field);
+        $form = $this->createForm(new FieldNewMultiSelectType(), $field);
         $request = $this->getRequest();
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
