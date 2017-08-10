@@ -19,7 +19,7 @@ class ProjectController extends Controller
     protected $project;
 
 
-    protected function build($projectId) {
+    protected function build(string $projectId) {
         $doctrine = $this->getDoctrine()->getManager();
         // load
         $repository = $doctrine->getRepository('DirectokiBundle:Project');
@@ -29,7 +29,7 @@ class ProjectController extends Controller
         }
     }
 
-    public function indexAction($projectId)
+    public function indexAction(string $projectId)
     {
 
         // build

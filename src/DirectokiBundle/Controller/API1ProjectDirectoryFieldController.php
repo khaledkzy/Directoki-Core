@@ -29,7 +29,7 @@ class API1ProjectDirectoryFieldController extends Controller
     /** @var Field */
     protected $field;
 
-    protected function build($projectId, $directoryId, $fieldId, Request $request) {
+    protected function build(string $projectId, string $directoryId, string $fieldId, Request $request) {
         $doctrine = $this->getDoctrine()->getManager();
         // load
         $repository = $doctrine->getRepository('DirectokiBundle:Project');
@@ -56,7 +56,7 @@ class API1ProjectDirectoryFieldController extends Controller
     }
 
 
-    protected function indexData($projectId, $directoryId, $fieldId, Request $request) {
+    protected function indexData(string $projectId, string $directoryId, string $fieldId, Request $request) {
 
         // build
         $this->build( $projectId, $directoryId, $fieldId, $request );
@@ -83,7 +83,7 @@ class API1ProjectDirectoryFieldController extends Controller
     }
 
 
-    public function indexJSONAction($projectId, $directoryId, $fieldId, Request $request)
+    public function indexJSONAction(string $projectId, string $directoryId, string $fieldId, Request $request)
     {
         $response = new Response(json_encode($this->indexData($projectId, $directoryId, $fieldId, $request)));
         $response->headers->set('Content-Type', 'application/json');
@@ -91,7 +91,7 @@ class API1ProjectDirectoryFieldController extends Controller
 
     }
 
-    public function indexJSONPAction($projectId, $directoryId, $fieldId, Request $request)
+    public function indexJSONPAction(string $projectId, string $directoryId, string $fieldId, Request $request)
     {
         $callback = $request->get('q') ? $request->get('q') : 'callback';
         $response = new Response($callback."(".json_encode($this->indexData($projectId, $directoryId, $fieldId, $request)).");");
@@ -99,7 +99,7 @@ class API1ProjectDirectoryFieldController extends Controller
         return $response;
     }
 
-    protected function selectValuesData($projectId, $directoryId, $fieldId, Request $request) {
+    protected function selectValuesData(string $projectId, string $directoryId, string $fieldId, Request $request) {
 
         // build
         $this->build( $projectId, $directoryId, $fieldId, $request );
@@ -137,7 +137,7 @@ class API1ProjectDirectoryFieldController extends Controller
     }
 
 
-    public function selectValuesJSONAction($projectId, $directoryId, $fieldId, Request $request)
+    public function selectValuesJSONAction(string $projectId, string $directoryId, string $fieldId, Request $request)
     {
         $response = new Response(json_encode($this->selectValuesData($projectId, $directoryId, $fieldId, $request)));
         $response->headers->set('Content-Type', 'application/json');
@@ -145,7 +145,7 @@ class API1ProjectDirectoryFieldController extends Controller
 
     }
 
-    public function selectValuesJSONPAction($projectId, $directoryId, $fieldId, Request $request)
+    public function selectValuesJSONPAction(string $projectId, string $directoryId, string $fieldId, Request $request)
     {
         $callback = $request->get('q') ? $request->get('q') : 'callback';
         $response = new Response($callback."(".json_encode($this->selectValuesData($projectId, $directoryId, $fieldId, $request)).");");

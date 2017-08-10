@@ -29,7 +29,7 @@ class AdminProjectDirectoryRecordReportController extends Controller
     /** @var RecordReport */
     protected $report;
 
-    protected function build($projectId, $directoryId, $recordId, $reportId)
+    protected function build(string $projectId, string $directoryId, string $recordId, string $reportId)
     {
         $doctrine = $this->getDoctrine()->getManager();
         // load

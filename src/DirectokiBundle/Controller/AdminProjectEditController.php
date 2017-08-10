@@ -19,7 +19,7 @@ class AdminProjectEditController extends AdminProjectController
 
 
 
-    protected function build($projectId) {
+    protected function build(string $projectId) {
         parent::build($projectId);
         $this->denyAccessUnlessGranted(ProjectVoter::ADMIN, $this->project);
         if ($this->container->getParameter('directoki.read_only')) {
@@ -28,7 +28,7 @@ class AdminProjectEditController extends AdminProjectController
     }
 
 
-    public function newDirectoryAction($projectId)
+    public function newDirectoryAction(string $projectId)
     {
 
         // build
@@ -75,7 +75,7 @@ class AdminProjectEditController extends AdminProjectController
 
     }
 
-    public function newLocaleAction($projectId)
+    public function newLocaleAction(string $projectId)
     {
 
         // build

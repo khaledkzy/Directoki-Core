@@ -112,7 +112,7 @@ class FieldTypeStringWithLocale extends BaseFieldType {
                 $newRecordHasFieldValues->setRecord($record);
                 $newRecordHasFieldValues->setField($field);
                 $newRecordHasFieldValues->setLocale($locale);
-                $newRecordHasFieldValues->setValue($v['value']);
+                $newRecordHasFieldValues->setValue($v['value'] ? $v['value'] : '');
                 $out[] = $newRecordHasFieldValues;
 
             }

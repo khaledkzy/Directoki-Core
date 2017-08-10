@@ -18,7 +18,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class AdminProjectDirectoryFieldEditController extends AdminProjectDirectoryFieldController {
 
-    protected function build( $projectId, $directoryId, $fieldId ) {
+    protected function build( string $projectId, string $directoryId, string $fieldId ) {
         parent::build( $projectId, $directoryId, $fieldId );
         $this->denyAccessUnlessGranted(ProjectVoter::ADMIN, $this->project);
         if ($this->container->getParameter('directoki.read_only')) {
@@ -27,7 +27,7 @@ class AdminProjectDirectoryFieldEditController extends AdminProjectDirectoryFiel
     }
 
 
-    public function newSelectValueAction($projectId, $directoryId, $fieldId)
+    public function newSelectValueAction(string $projectId, string $directoryId, string $fieldId)
     {
 
         // build

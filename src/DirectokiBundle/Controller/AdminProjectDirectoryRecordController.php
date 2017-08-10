@@ -25,7 +25,7 @@ class AdminProjectDirectoryRecordController extends Controller
     /** @var Record */
     protected $record;
 
-    protected function build($projectId, $directoryId, $recordId) {
+    protected function build(string $projectId, string $directoryId, string $recordId) {
         $doctrine = $this->getDoctrine()->getManager();
         // load
         $repository = $doctrine->getRepository('DirectokiBundle:Project');
@@ -49,7 +49,7 @@ class AdminProjectDirectoryRecordController extends Controller
     }
 
 
-    public function indexAction($projectId, $directoryId, $recordId)
+    public function indexAction(string $projectId, string $directoryId, string $recordId)
     {
 
         // build
@@ -87,7 +87,7 @@ class AdminProjectDirectoryRecordController extends Controller
     }
 
 
-    public function contactsAction($projectId, $directoryId, $recordId)
+    public function contactsAction(string $projectId, string $directoryId, string $recordId)
     {
 
         // build

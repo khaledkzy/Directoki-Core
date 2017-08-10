@@ -22,7 +22,7 @@ class AdminProjectHistoryController extends Controller
     /** @var Event */
     protected $event;
 
-    protected function build($projectId, $historyId) {
+    protected function build(string $projectId, string $historyId) {
         $doctrine = $this->getDoctrine()->getManager();
         // load
         $repository = $doctrine->getRepository('DirectokiBundle:Project');
@@ -40,7 +40,7 @@ class AdminProjectHistoryController extends Controller
     }
 
 
-    public function indexAction($projectId, $historyId)
+    public function indexAction(string $projectId, string $historyId)
     {
 
         // build

@@ -52,7 +52,7 @@ class RecordRepository extends EntityRepository {
     }
 
 
-    public function doesPublicIdExist($id, Directory $directory)
+    public function doesPublicIdExist(string $id, Directory $directory)
     {
         if ($directory->getId()) {
             $s =  $this->getEntityManager()

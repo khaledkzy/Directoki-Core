@@ -24,7 +24,7 @@ class API1ProjectDirectoryController extends Controller
     /** @var Directory */
     protected $directory;
 
-    protected function build($projectId, $directoryId, Request $request) {
+    protected function build(string $projectId, string $directoryId, Request $request) {
         $doctrine = $this->getDoctrine()->getManager();
         // load
         $repository = $doctrine->getRepository('DirectokiBundle:Project');
@@ -45,7 +45,7 @@ class API1ProjectDirectoryController extends Controller
     }
 
 
-    public function indexJSONAction($projectId, $directoryId, Request $request)
+    public function indexJSONAction(string $projectId, string $directoryId, Request $request)
     {
 
         // build
@@ -70,7 +70,7 @@ class API1ProjectDirectoryController extends Controller
 
     }
 
-    protected  function fieldsData($projectId, $directoryId, Request $request)
+    protected  function fieldsData(string $projectId, string $directoryId, Request $request)
     {
 
         // build
@@ -106,7 +106,7 @@ class API1ProjectDirectoryController extends Controller
 
     }
 
-    public function fieldsJSONAction($projectId, $directoryId, Request $request)
+    public function fieldsJSONAction(string $projectId, string $directoryId, Request $request)
     {
         $response = new Response(json_encode($this->fieldsData($projectId, $directoryId, $request)));
         $response->headers->set('Content-Type', 'application/json');
@@ -114,7 +114,7 @@ class API1ProjectDirectoryController extends Controller
     }
 
 
-    public function fieldsJSONPAction($projectId, $directoryId, Request $request)
+    public function fieldsJSONPAction(string $projectId, string $directoryId, Request $request)
     {
         $callback = $request->get('q') ? $request->get('q') : 'callback';
         $response = new Response($callback."(".json_encode($this->fieldsData($projectId, $directoryId, $request)).");");
@@ -122,7 +122,7 @@ class API1ProjectDirectoryController extends Controller
         return $response;
     }
 
-    public function recordsJSONAction($projectId, $directoryId, Request $request)
+    public function recordsJSONAction(string $projectId, string $directoryId, Request $request)
     {
 
         // build

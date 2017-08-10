@@ -29,7 +29,7 @@ class API1ProjectDirectoryRecordController extends Controller
     /** @var Record */
     protected $record;
 
-    protected function build($projectId, $directoryId, $recordId, Request $request) {
+    protected function build(string $projectId, string $directoryId, string $recordId, Request $request) {
         $doctrine = $this->getDoctrine()->getManager();
         // load
         $repository = $doctrine->getRepository('DirectokiBundle:Project');
@@ -56,7 +56,7 @@ class API1ProjectDirectoryRecordController extends Controller
     }
 
 
-    protected function indexData($projectId, $directoryId, $recordId, Request $request) {
+    protected function indexData(string $projectId, string $directoryId, string $recordId, Request $request) {
 
         // build
         $this->build( $projectId, $directoryId, $recordId, $request );
@@ -104,7 +104,7 @@ class API1ProjectDirectoryRecordController extends Controller
     }
 
 
-    public function indexJSONAction($projectId, $directoryId, $recordId, Request $request)
+    public function indexJSONAction(string $projectId, string $directoryId, string $recordId, Request $request)
     {
         $response = new Response(json_encode($this->indexData($projectId, $directoryId, $recordId, $request)));
         $response->headers->set('Content-Type', 'application/json');
@@ -112,7 +112,7 @@ class API1ProjectDirectoryRecordController extends Controller
 
     }
 
-    public function indexJSONPAction($projectId, $directoryId, $recordId, Request $request)
+    public function indexJSONPAction(string $projectId, string $directoryId, string $recordId, Request $request)
     {
         $callback = $request->get('q') ? $request->get('q') : 'callback';
         $response = new Response($callback."(".json_encode($this->indexData($projectId, $directoryId, $recordId, $request)).");");

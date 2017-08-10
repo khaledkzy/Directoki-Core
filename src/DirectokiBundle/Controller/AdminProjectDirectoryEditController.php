@@ -36,7 +36,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class AdminProjectDirectoryEditController extends AdminProjectDirectoryController
 {
 
-    protected function build($projectId, $directoryId) {
+    protected function build(string $projectId, string $directoryId) {
         parent::build($projectId, $directoryId);
         $this->denyAccessUnlessGranted(ProjectVoter::ADMIN, $this->project);
         if ($this->container->getParameter('directoki.read_only')) {
@@ -44,7 +44,7 @@ class AdminProjectDirectoryEditController extends AdminProjectDirectoryControlle
         }
     }
 
-    public function newStringFieldAction($projectId, $directoryId)
+    public function newStringFieldAction(string $projectId, string $directoryId)
     {
 
         // build
@@ -96,7 +96,7 @@ class AdminProjectDirectoryEditController extends AdminProjectDirectoryControlle
     }
 
 
-    public function newStringWithLocaleFieldAction($projectId, $directoryId)
+    public function newStringWithLocaleFieldAction(string $projectId, string $directoryId)
     {
 
         // build
@@ -148,7 +148,7 @@ class AdminProjectDirectoryEditController extends AdminProjectDirectoryControlle
     }
 
 
-    public function newEmailFieldAction($projectId, $directoryId)
+    public function newEmailFieldAction(string $projectId, string $directoryId)
     {
 
         // build
@@ -200,7 +200,7 @@ class AdminProjectDirectoryEditController extends AdminProjectDirectoryControlle
     }
 
 
-    public function newURLFieldAction($projectId, $directoryId)
+    public function newURLFieldAction(string $projectId, string $directoryId)
     {
 
         // build
@@ -253,7 +253,7 @@ class AdminProjectDirectoryEditController extends AdminProjectDirectoryControlle
 
 
 
-    public function newTextFieldAction($projectId, $directoryId)
+    public function newTextFieldAction(string $projectId, string $directoryId)
     {
 
         // build
@@ -304,7 +304,7 @@ class AdminProjectDirectoryEditController extends AdminProjectDirectoryControlle
 
     }
 
-    public function newBooleanFieldAction($projectId, $directoryId)
+    public function newBooleanFieldAction(string $projectId, string $directoryId)
     {
 
         // build
@@ -355,7 +355,7 @@ class AdminProjectDirectoryEditController extends AdminProjectDirectoryControlle
 
     }
 
-    public function newLatLngFieldAction($projectId, $directoryId)
+    public function newLatLngFieldAction(string $projectId, string $directoryId)
     {
 
         // build
@@ -406,7 +406,7 @@ class AdminProjectDirectoryEditController extends AdminProjectDirectoryControlle
 
     }
 
-    public function newMultiSelectFieldAction($projectId, $directoryId)
+    public function newMultiSelectFieldAction(string $projectId, string $directoryId)
     {
 
         // build
@@ -458,7 +458,7 @@ class AdminProjectDirectoryEditController extends AdminProjectDirectoryControlle
     }
 
 
-    public function newRecordAction($projectId, $directoryId) {
+    public function newRecordAction(string $projectId, string $directoryId) {
 
         // build
         $this->build($projectId, $directoryId);

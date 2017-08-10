@@ -64,7 +64,7 @@ class InternalAPIDirectory
      * @return InternalAPIRecord
      * @throws \Exception
      */
-    function getRecordAPI( $recordId ) {
+    function getRecordAPI( string $recordId ) {
         $doctrine = $this->container->get('doctrine')->getManager();
 
         $record = $doctrine->getRepository('DirectokiBundle:Record')->findOneBy(array('directory'=>$this->directory, 'publicId'=>$recordId));
@@ -81,7 +81,7 @@ class InternalAPIDirectory
      * @return InternalAPIField
      * @throws \Exception
      */
-    function getFieldAPI( $fieldId ) {
+    function getFieldAPI( string $fieldId ) {
         $doctrine = $this->container->get('doctrine')->getManager();
 
         $field = $doctrine->getRepository('DirectokiBundle:Field')->findOneBy(array('directory'=>$this->directory, 'publicId'=>$fieldId));

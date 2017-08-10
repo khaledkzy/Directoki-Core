@@ -41,7 +41,7 @@ class RecordHasFieldLatLngValue extends BaseRecordHasFieldValue
     /**
      * @param string $lat
      */
-    public function setLat( $lat ) {
+    public function setLat( float $lat  = null) {
         $this->lat = $lat;
     }
 
@@ -55,7 +55,7 @@ class RecordHasFieldLatLngValue extends BaseRecordHasFieldValue
     /**
      * @param string $lng
      */
-    public function setLng( $lng ) {
+    public function setLng( float $lng  = null) {
         $this->lng = $lng;
     }
 

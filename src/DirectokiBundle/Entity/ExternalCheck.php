@@ -69,7 +69,7 @@ class ExternalCheck
     /**
      * @param mixed $id
      */
-    public function setId($id)
+    public function setId(int $id)
     {
         $this->id = $id;
     }
@@ -117,7 +117,7 @@ class ExternalCheck
     /**
      * @param string $url
      */
-    public function setUrl($url)
+    public function setUrl(string $url)
     {
         $this->url = $url;
     }

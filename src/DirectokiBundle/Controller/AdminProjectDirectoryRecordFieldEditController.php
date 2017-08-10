@@ -13,7 +13,7 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 class AdminProjectDirectoryRecordFieldEditController extends AdminProjectDirectoryRecordFieldController
 {
 
-    protected function build($projectId, $directoryId, $recordId, $fieldId) {
+    protected function build(string $projectId, string $directoryId, string $recordId, string $fieldId) {
         parent::build($projectId, $directoryId, $recordId, $fieldId);
         // parent function will do security
         if ($this->container->getParameter('directoki.read_only')) {
@@ -22,7 +22,7 @@ class AdminProjectDirectoryRecordFieldEditController extends AdminProjectDirecto
     }
 
 
-    public function editAction($projectId, $directoryId, $recordId, $fieldId)
+    public function editAction(string $projectId, string $directoryId, string $recordId, string $fieldId)
     {
 
         // build

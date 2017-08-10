@@ -76,7 +76,7 @@ class Contact {
     /**
      * @param string $email
      */
-    public function setEmail( $email ) {
+    public function setEmail( string $email ) {
         $this->email = $email;
     }
 
@@ -90,7 +90,7 @@ class Contact {
     /**
      * @param mixed $id
      */
-    public function setId( $id ) {
+    public function setId( int $id ) {
         $this->id = $id;
     }
 
@@ -118,7 +118,7 @@ class Contact {
     /**
      * @param mixed $publicId
      */
-    public function setPublicId( $publicId ) {
+    public function setPublicId( string  $publicId ) {
         $this->publicId = $publicId;
     }
 

@@ -20,7 +20,7 @@ class API1ProjectController extends Controller
     /** @var Project */
     protected $project;
 
-    protected function build($projectId, Request $request) {
+    protected function build(string $projectId, Request $request) {
         $doctrine = $this->getDoctrine()->getManager();
         // Project
         $projectRepository = $doctrine->getRepository('DirectokiBundle:Project');
@@ -36,7 +36,7 @@ class API1ProjectController extends Controller
     }
 
 
-    public function indexJSONAction($projectId, Request $request)
+    public function indexJSONAction(string $projectId, Request $request)
     {
 
         // build
@@ -62,7 +62,7 @@ class API1ProjectController extends Controller
 
 
 
-    public function directoriesJSONAction($projectId, Request $request)
+    public function directoriesJSONAction(string $projectId, Request $request)
     {
 
         // build

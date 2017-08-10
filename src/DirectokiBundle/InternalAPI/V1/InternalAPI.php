@@ -41,7 +41,7 @@ class InternalAPI {
      * @return InternalAPIProject
      * @throws \Exception
      */
-    function getProjectAPI( $projectID ) {
+    function getProjectAPI( string $projectID ) {
         $doctrine = $this->container->get('doctrine')->getManager();
 
         $project = $doctrine->getRepository('DirectokiBundle:Project')->findOneByPublicId($projectID);

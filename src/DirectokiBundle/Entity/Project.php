@@ -83,7 +83,7 @@ class Project
     /**
      * @param mixed $id
      */
-    public function setId($id)
+    public function setId(int $id)
     {
         $this->id = $id;
     }
@@ -91,7 +91,7 @@ class Project
     /**
      * @param string $title
      */
-    public function setTitle($title)
+    public function setTitle(string $title)
     {
         $this->title = $title;
     }
@@ -107,7 +107,7 @@ class Project
     /**
      * @param mixed $publicId
      */
-    public function setPublicId($publicId)
+    public function setPublicId(string $publicId)
     {
         $this->publicId = $publicId;
     }

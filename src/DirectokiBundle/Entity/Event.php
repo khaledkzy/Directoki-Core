@@ -99,7 +99,7 @@ class Event {
     /**
      * @param mixed $comment
      */
-    public function setComment( $comment ) {
+    public function setComment( string $comment = null ) {
         $this->comment = $comment;
     }
 
@@ -127,7 +127,7 @@ class Event {
     /**
      * @param mixed $id
      */
-    public function setId( $id ) {
+    public function setId( int $id ) {
         $this->id = $id;
     }
 

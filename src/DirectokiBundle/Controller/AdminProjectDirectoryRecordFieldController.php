@@ -28,7 +28,7 @@ class AdminProjectDirectoryRecordFieldController extends Controller
 
     protected $field;
 
-    protected function build($projectId, $directoryId, $recordId, $fieldId) {
+    protected function build(string $projectId, string $directoryId, string $recordId, string $fieldId) {
         $doctrine = $this->getDoctrine()->getManager();
         // load
         $repository = $doctrine->getRepository('DirectokiBundle:Project');

@@ -22,7 +22,7 @@ class ProjectLocaleController extends Controller
     /** @var Locale */
     protected $locale;
 
-    protected function build($projectId, $localeId) {
+    protected function build(string $projectId, string $localeId) {
         $doctrine = $this->getDoctrine()->getManager();
         // load
         $repository = $doctrine->getRepository('DirectokiBundle:Project');
@@ -38,7 +38,7 @@ class ProjectLocaleController extends Controller
         }
     }
 
-    public function indexAction($projectId, $localeId)
+    public function indexAction(string $projectId, string $localeId)
     {
 
         // build

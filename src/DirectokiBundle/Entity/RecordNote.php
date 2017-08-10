@@ -92,7 +92,7 @@ class RecordNote
     /**
      * @param mixed $id
      */
-    public function setId( $id ) {
+    public function setId( int $id ) {
         $this->id = $id;
     }
 
@@ -106,7 +106,7 @@ class RecordNote
     /**
      * @param string $note
      */
-    public function setNote( $note ) {
+    public function setNote( string $note ) {
         $this->note = $note;
     }
 

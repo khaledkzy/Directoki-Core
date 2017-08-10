@@ -39,7 +39,7 @@ class RecordHasFieldStringValue extends BaseRecordHasFieldValue
     /**
      * @param string $value
      */
-    public function setValue($value)
+    public function setValue(string $value)
     {
         $this->value = $value;
     }

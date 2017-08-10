@@ -82,7 +82,7 @@ class Field
     /**
      * @param mixed $id
      */
-    public function setId($id)
+    public function setId(int $id)
     {
         $this->id = $id;
     }
@@ -114,7 +114,7 @@ class Field
     /**
      * @param mixed $publicId
      */
-    public function setPublicId($publicId)
+    public function setPublicId(string $publicId)
     {
         $this->publicId = $publicId;
     }
@@ -146,7 +146,7 @@ class Field
     /**
      * @param string $title
      */
-    public function setTitle($title)
+    public function setTitle(string $title)
     {
         $this->title = $title;
     }
@@ -178,7 +178,7 @@ class Field
     /**
      * @param string $fieldType
      */
-    public function setFieldType($fieldType)
+    public function setFieldType(string $fieldType)
     {
         $this->fieldType = $fieldType;
     }

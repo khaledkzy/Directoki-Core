@@ -65,7 +65,7 @@ class InternalAPIField
 
     }
 
-    function getPublishedSelectValue($valueId) {
+    function getPublishedSelectValue(string $valueId) {
 
         if ($this->field->getFieldType() != FieldTypeMultiSelect::FIELD_TYPE_INTERNAL) {
             throw new \Exception('Not a Select Field!');

@@ -135,7 +135,7 @@ class Record
     /**
      * @param mixed $id
      */
-    public function setId($id)
+    public function setId(int $id)
     {
         $this->id = $id;
     }
@@ -166,7 +166,7 @@ class Record
     /**
      * @param mixed $publicId
      */
-    public function setPublicId($publicId)
+    public function setPublicId(string $publicId)
     {
         $this->publicId = $publicId;
     }

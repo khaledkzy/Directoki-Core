@@ -25,7 +25,7 @@ class AdminProjectDirectoryFieldController extends Controller
     /** @var Field */
     protected $field;
 
-    protected function build($projectId, $directoryId, $fieldId) {
+    protected function build(string $projectId, string $directoryId, string $fieldId) {
         $doctrine = $this->getDoctrine()->getManager();
         // load
         $repository = $doctrine->getRepository('DirectokiBundle:Project');
@@ -48,7 +48,7 @@ class AdminProjectDirectoryFieldController extends Controller
         }
     }
 
-    public function selectValuesAction($projectId, $directoryId, $fieldId)
+    public function selectValuesAction(string $projectId, string $directoryId, string $fieldId)
     {
 
         // build

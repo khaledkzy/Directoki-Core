@@ -22,7 +22,7 @@ class AdminProjectDirectoryController extends Controller
     /** @var Directory */
     protected $directory;
 
-    protected function build($projectId, $directoryId) {
+    protected function build(string $projectId, string $directoryId) {
         $doctrine = $this->getDoctrine()->getManager();
         // load
         $repository = $doctrine->getRepository('DirectokiBundle:Project');
@@ -40,7 +40,7 @@ class AdminProjectDirectoryController extends Controller
     }
 
 
-    public function indexAction($projectId, $directoryId)
+    public function indexAction(string $projectId, string $directoryId)
     {
 
         // build
@@ -54,7 +54,7 @@ class AdminProjectDirectoryController extends Controller
 
     }
 
-    public function statsAction($projectId, $directoryId)
+    public function statsAction(string $projectId, string $directoryId)
     {
 
         // build
@@ -78,7 +78,7 @@ class AdminProjectDirectoryController extends Controller
 
     }
 
-    public function recordsAction($projectId, $directoryId)
+    public function recordsAction(string $projectId, string $directoryId)
     {
 
         // build
@@ -114,7 +114,7 @@ class AdminProjectDirectoryController extends Controller
     }
 
 
-    public function recordsNeedingAttentionAction($projectId, $directoryId)
+    public function recordsNeedingAttentionAction(string $projectId, string $directoryId)
     {
 
         // build
@@ -149,7 +149,7 @@ class AdminProjectDirectoryController extends Controller
 
     }
 
-    public function fieldsAction($projectId, $directoryId)
+    public function fieldsAction(string $projectId, string $directoryId)
     {
 
         // build

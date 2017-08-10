@@ -29,7 +29,7 @@ class InternalAPIProject
      * @return InternalAPIDirectory
      * @throws \Exception
      */
-    function getDirectoryAPI( $directoryID ) {
+    function getDirectoryAPI( string $directoryID ) {
         $doctrine = $this->container->get('doctrine')->getManager();
 
         $directory = $doctrine->getRepository('DirectokiBundle:Directory')->findOneBy(array('project'=>$this->project, 'publicId'=>$directoryID));
@@ -40,7 +40,7 @@ class InternalAPIProject
         return new InternalAPIDirectory($this->container, $this->project, $directory);
     }
 
-    function getLocaleByPublicId($publicId) {
+    function getLocaleByPublicId(string $publicId) {
         $doctrine = $this->container->get('doctrine')->getManager();
 
         $locale = $doctrine->getRepository('DirectokiBundle:Locale')->findOneBy(array('project'=>$this->project, 'publicId'=>$publicId));

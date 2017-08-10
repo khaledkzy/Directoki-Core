@@ -22,7 +22,7 @@ class API1ProjectDirectoryRecordEditController extends API1ProjectDirectoryRecor
 
     use API1TraitLocale;
 
-    protected function build($projectId, $directoryId, $recordId, Request $request) {
+    protected function build(string $projectId, string $directoryId, string $recordId, Request $request) {
         parent::build($projectId, $directoryId, $recordId, $request);
         // TODO check isAPIModeratedEditAllowed
 
@@ -35,7 +35,7 @@ class API1ProjectDirectoryRecordEditController extends API1ProjectDirectoryRecor
     }
 
 
-    protected function editData($projectId, $directoryId, $recordId, ParameterBag $parameterBag, Request $request) {
+    protected function editData(string $projectId, string $directoryId, string $recordId, ParameterBag $parameterBag, Request $request) {
 
         // build
         $this->build( $projectId, $directoryId, $recordId , $request );
@@ -89,7 +89,7 @@ class API1ProjectDirectoryRecordEditController extends API1ProjectDirectoryRecor
     }
 
 
-    public function editJSONAction($projectId, $directoryId, $recordId, Request $request)
+    public function editJSONAction(string $projectId, string $directoryId, string $recordId, Request $request)
     {
         $response = new Response(json_encode($this->editData($projectId, $directoryId, $recordId, $request->request, $request)));
         $response->headers->set('Content-Type', 'application/json');
@@ -97,7 +97,7 @@ class API1ProjectDirectoryRecordEditController extends API1ProjectDirectoryRecor
 
     }
 
-    public function editJSONPAction($projectId, $directoryId, $recordId, Request $request)
+    public function editJSONPAction(string $projectId, string $directoryId, string $recordId, Request $request)
     {
         $callback = $request->get('q') ? $request->get('q') : 'callback';
         $response = new Response($callback."(".json_encode($this->editData($projectId, $directoryId, $recordId, $request->query, $request)).");");
@@ -107,7 +107,7 @@ class API1ProjectDirectoryRecordEditController extends API1ProjectDirectoryRecor
 
 
 
-    protected function newReportData($projectId, $directoryId, $recordId, ParameterBag $parameterBag, Request $request) {
+    protected function newReportData(string $projectId, string $directoryId, string $recordId, ParameterBag $parameterBag, Request $request) {
 
         // build
         $this->build( $projectId, $directoryId, $recordId, $request );
@@ -149,7 +149,7 @@ class API1ProjectDirectoryRecordEditController extends API1ProjectDirectoryRecor
 
     // TODO newReportJSONAction
 
-    public function newReportJSONPAction($projectId, $directoryId, $recordId, Request $request) {
+    public function newReportJSONPAction(string $projectId, string $directoryId, string $recordId, Request $request) {
         $callback = $request->get('q') ? $request->get('q') : 'callback';
         $response = new Response($callback."(".json_encode($this->newReportData($projectId, $directoryId, $recordId, $request->query, $request)).");");
         $response->headers->set('Content-Type', 'application/javascript');

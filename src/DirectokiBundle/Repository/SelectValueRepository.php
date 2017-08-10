@@ -15,7 +15,7 @@ use Doctrine\ORM\Mapping as ORM;
 class SelectValueRepository extends EntityRepository {
 
 
-    public function doesPublicIdExist($id, Field $field)
+    public function doesPublicIdExist(string $id, Field $field)
     {
         if ($field->getId()) {
             $s =  $this->getEntityManager()
@@ -32,7 +32,7 @@ class SelectValueRepository extends EntityRepository {
         }
     }
 
-    public function findByTitleFromUser(Field $field, $title) {
+    public function findByTitleFromUser(Field $field, string $title) {
         $s =  $this->getEntityManager()
                    ->createQuery(
                        ' SELECT sv FROM DirectokiBundle:SelectValue sv'.

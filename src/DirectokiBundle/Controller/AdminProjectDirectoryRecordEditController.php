@@ -23,7 +23,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class AdminProjectDirectoryRecordEditController extends AdminProjectDirectoryRecordController
 {
 
-    protected function build($projectId, $directoryId, $recordId) {
+    protected function build(string $projectId, string $directoryId, string $recordId) {
         parent::build($projectId, $directoryId, $recordId);
         $this->denyAccessUnlessGranted(ProjectVoter::ADMIN, $this->project);
         if ($this->container->getParameter('directoki.read_only')) {
@@ -31,7 +31,7 @@ class AdminProjectDirectoryRecordEditController extends AdminProjectDirectoryRec
         }
     }
 
-    public function moderateAction($projectId, $directoryId, $recordId, Request $request)
+    public function moderateAction(string $projectId, string $directoryId, string $recordId, Request $request)
     {
 
         // build
@@ -142,7 +142,7 @@ class AdminProjectDirectoryRecordEditController extends AdminProjectDirectoryRec
 
     }
 
-    public function newNoteAction($projectId, $directoryId, $recordId, Request $request) {
+    public function newNoteAction(string $projectId, string $directoryId, string $recordId, Request $request) {
 
         // build
         $this->build($projectId, $directoryId, $recordId);
@@ -180,7 +180,7 @@ class AdminProjectDirectoryRecordEditController extends AdminProjectDirectoryRec
 
     }
 
-    public function editStateAction($projectId, $directoryId, $recordId, Request $request) {
+    public function editStateAction(string $projectId, string $directoryId, string $recordId, Request $request) {
 
         // build
         $this->build($projectId, $directoryId, $recordId);

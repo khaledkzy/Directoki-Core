@@ -18,7 +18,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class AdminProjectDirectoryRecordReportEditController extends AdminProjectDirectoryRecordReportController
 {
-    protected function build($projectId, $directoryId, $recordId, $reportId)
+    protected function build(string $projectId, string $directoryId, string $recordId, string $reportId)
     {
         parent::build($projectId, $directoryId, $recordId, $reportId);
         $this->denyAccessUnlessGranted(ProjectVoter::ADMIN, $this->project);
@@ -27,7 +27,7 @@ class AdminProjectDirectoryRecordReportEditController extends AdminProjectDirect
         }
     }
 
-    public function resolveAction($projectId, $directoryId, $recordId, $reportId, Request $request) {
+    public function resolveAction(string $projectId, string $directoryId, string $recordId, string $reportId, Request $request) {
 
 
 

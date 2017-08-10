@@ -48,7 +48,7 @@ class ExternalCheck {
 
     }
 
-    protected function processURL($url, Record $record) {
+    protected function processURL(string $url, Record $record) {
 
         // TODO when was this URL last checked; do we skip?
 
@@ -66,7 +66,7 @@ class ExternalCheck {
 
     }
 
-    protected function recordResult($url, Record $record, $httpResponseCode, $errorMessage = '') {
+    protected function recordResult(string $url, Record $record, $httpResponseCode, $errorMessage = '') {
 
         $doctrine = $this->container->get('doctrine')->getManager();
 

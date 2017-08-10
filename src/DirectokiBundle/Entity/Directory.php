@@ -113,7 +113,7 @@ class Directory
     /**
      * @param mixed $publicId
      */
-    public function setPublicId($publicId)
+    public function setPublicId(string $publicId)
     {
         $this->publicId = $publicId;
     }
@@ -159,7 +159,7 @@ class Directory
     /**
      * @param string $titlePlural
      */
-    public function setTitlePlural( $titlePlural ) {
+    public function setTitlePlural( string $titlePlural ) {
         $this->titlePlural = $titlePlural;
     }
 
@@ -173,7 +173,7 @@ class Directory
     /**
      * @param mixed $titleSingular
      */
-    public function setTitleSingular( $titleSingular ) {
+    public function setTitleSingular( string $titleSingular ) {
         $this->titleSingular = $titleSingular;
     }
 

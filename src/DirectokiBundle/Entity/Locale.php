@@ -73,7 +73,7 @@ class Locale
     /**
      * @param mixed $id
      */
-    public function setId($id)
+    public function setId(int $id)
     {
         $this->id = $id;
     }
@@ -105,7 +105,7 @@ class Locale
     /**
      * @param mixed $publicId
      */
-    public function setPublicId($publicId)
+    public function setPublicId(string $publicId)
     {
         $this->publicId = $publicId;
     }
@@ -152,7 +152,7 @@ class Locale
     /**
      * @param string $title
      */
-    public function setTitle($title)
+    public function setTitle(string $title)
     {
         $this->title = $title;
     }

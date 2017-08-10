@@ -17,7 +17,7 @@ class  MultiLocaleMode extends  BaseLocaleMode
      * MultiLocaleMode constructor.
      * @param $locales
      */
-    public function __construct($locales)
+    public function __construct(array $locales)
     {
         $this->locales = $locales;
     }

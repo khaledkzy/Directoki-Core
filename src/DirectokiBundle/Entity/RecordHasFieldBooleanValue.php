@@ -37,7 +37,7 @@ class RecordHasFieldBooleanValue extends BaseRecordHasFieldValue
     /**
      * @param string $value
      */
-    public function setValue($value)
+    public function setValue(bool $value)
     {
         $this->value = $value;
     }

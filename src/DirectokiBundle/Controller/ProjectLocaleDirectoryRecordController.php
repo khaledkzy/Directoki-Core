@@ -30,7 +30,7 @@ class ProjectLocaleDirectoryRecordController extends Controller
     /** @var Record */
     protected $record;
 
-    protected function build($projectId, $localeId, $directoryId, $recordId) {
+    protected function build(string $projectId, string $localeId, string $directoryId, string $recordId) {
         $doctrine = $this->getDoctrine()->getManager();
         // load
         $repository = $doctrine->getRepository('DirectokiBundle:Project');
@@ -59,7 +59,7 @@ class ProjectLocaleDirectoryRecordController extends Controller
     }
 
 
-    public function indexAction($projectId, $localeId, $directoryId, $recordId)
+    public function indexAction(string $projectId, string $localeId, string $directoryId, string $recordId)
     {
 
         // build

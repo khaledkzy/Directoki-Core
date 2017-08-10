@@ -240,7 +240,7 @@ abstract class BaseRecordHasFieldMultiValue
     /**
      * @param mixed $id
      */
-    public function setId( $id ) {
+    public function setId( int $id ) {
         $this->id = $id;
     }
 

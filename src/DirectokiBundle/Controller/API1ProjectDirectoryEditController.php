@@ -22,7 +22,7 @@ class API1ProjectDirectoryEditController extends API1ProjectDirectoryController
 
     use API1TraitLocale;
 
-    protected function build( $projectId, $directoryId, Request $request ) {
+    protected function build( string $projectId, string $directoryId, Request $request ) {
         parent::build( $projectId, $directoryId , $request);
         // TODO check isAPIModeratedEditAllowed
 
@@ -35,7 +35,7 @@ class API1ProjectDirectoryEditController extends API1ProjectDirectoryController
     }
 
 
-    public function newRecordData($projectId, $directoryId, ParameterBag $parameterBag, Request $request) {
+    public function newRecordData(string $projectId, string $directoryId, ParameterBag $parameterBag, Request $request) {
 
         // build
         $this->build($projectId, $directoryId, $request);
@@ -103,14 +103,14 @@ class API1ProjectDirectoryEditController extends API1ProjectDirectoryController
 
     }
 
-    public function newRecordJSONAction($projectId, $directoryId, Request $request) {
+    public function newRecordJSONAction(string $projectId, string $directoryId, Request $request) {
         $response = new Response(json_encode($this->newRecordData($projectId, $directoryId, $request->request, $request)));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
 
     }
 
-    public function newRecordJSONPAction($projectId, $directoryId, Request $request) {
+    public function newRecordJSONPAction(string $projectId, string $directoryId, Request $request) {
         $callback = $request->get('q') ? $request->get('q') : 'callback';
         $response = new Response($callback."(".json_encode($this->newRecordData($projectId, $directoryId, $request->query, $request)).");");
         $response->headers->set('Content-Type', 'application/javascript');

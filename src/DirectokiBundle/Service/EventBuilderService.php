@@ -33,7 +33,7 @@ class EventBuilderService
      *
      * @return Event
      */
-    public function build(Project $project, User $user = null, Request $request = null, $comment = null) {
+    public function build(Project $project, User $user = null, Request $request = null, string $comment = null) {
         $event = new Event();
         $event->setProject($project);
         $event->setUser($user);

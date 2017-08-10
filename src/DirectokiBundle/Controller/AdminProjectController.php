@@ -19,7 +19,7 @@ class AdminProjectController extends Controller
     protected $project;
 
 
-    protected function build($projectId) {
+    protected function build(string $projectId) {
         $doctrine = $this->getDoctrine()->getManager();
         // load
         $repository = $doctrine->getRepository('DirectokiBundle:Project');
@@ -31,7 +31,7 @@ class AdminProjectController extends Controller
     }
 
 
-    public function indexAction($projectId)
+    public function indexAction(string $projectId)
     {
 
         // build
@@ -49,7 +49,7 @@ class AdminProjectController extends Controller
 
     }
 
-    public function userAction($projectId)
+    public function userAction(string $projectId)
     {
 
         // build
@@ -67,7 +67,7 @@ class AdminProjectController extends Controller
 
     }
 
-    public function contactAction($projectId)
+    public function contactAction(string $projectId)
     {
 
         // build
@@ -86,7 +86,7 @@ class AdminProjectController extends Controller
     }
 
 
-    public function historyAction($projectId)
+    public function historyAction(string $projectId)
     {
 
         // build
@@ -105,7 +105,7 @@ class AdminProjectController extends Controller
     }
 
 
-    public function statsAction($projectId)
+    public function statsAction(string $projectId)
     {
 
         // build
@@ -125,7 +125,7 @@ class AdminProjectController extends Controller
 
 
 
-    public function localeAction($projectId)
+    public function localeAction(string $projectId)
     {
 
         // build

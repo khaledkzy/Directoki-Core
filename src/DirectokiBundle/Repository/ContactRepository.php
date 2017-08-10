@@ -14,7 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
 class ContactRepository extends EntityRepository {
 
 
-    public function doesPublicIdExist($id, Project $project)
+    public function doesPublicIdExist(string $id, Project $project)
     {
         if ($project->getId()) {
             $s =  $this->getEntityManager()
@@ -31,7 +31,7 @@ class ContactRepository extends EntityRepository {
         }
     }
 
-    public function findOrCreateByEmail(Project $project, $email) {
+    public function findOrCreateByEmail(Project $project, string $email) {
 
         $contact = $this->findOneBy(array('project'=>$project, 'email'=>$email));
 
