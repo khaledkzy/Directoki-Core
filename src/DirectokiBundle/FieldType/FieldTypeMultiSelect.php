@@ -206,6 +206,9 @@ class FieldTypeMultiSelect extends  BaseFieldType
         }
         if ($parameterBag->has('field_' . $field->getPublicId() . '_add_id')) {
             $newValue = $parameterBag->get('field_' . $field->getPublicId() . '_add_id');
+            if (!is_array($newValue) && strpos($newValue,',') !== false) {
+                $newValue = explode(",", $newValue);
+            }
             if (is_array($newValue)) {
                 foreach ($newValue as $nv) {
                     $out = array_merge($out, $this->processAPI1RecordAddPublicIdValue($nv, $field, $record, $event));
@@ -216,6 +219,9 @@ class FieldTypeMultiSelect extends  BaseFieldType
         }
         if ($parameterBag->has('field_' . $field->getPublicId() . '_remove_id')) {
             $removeIdValue = $parameterBag->get('field_' . $field->getPublicId() . '_remove_id');
+            if (!is_array($removeIdValue) && strpos($removeIdValue,',') !== false) {
+                $removeIdValue = explode(",", $removeIdValue);
+            }
             if (is_array($removeIdValue)) {
                 foreach ($removeIdValue as $riv) {
                     $out = array_merge($out, $this->processAPI1RecordRemoveStringId($riv, $field, $record, $event));
@@ -269,9 +275,13 @@ class FieldTypeMultiSelect extends  BaseFieldType
     protected function processAPI1RecordAddPublicIdValue($publicId, Field $field, Record $record = null, Event $event, $approve = false)
     {
 
+        if (!trim($publicId)) {
+            return array();
+        }
+
         $repoSelectValue = $this->container->get('doctrine')->getManager()->getRepository('DirectokiBundle:SelectValue');
 
-        $valueObject = $repoSelectValue->findOneBy(array('field'=>$field, 'publicId'=>$publicId));
+        $valueObject = $repoSelectValue->findOneBy(array('field'=>$field, 'publicId'=>trim($publicId)));
 
         if (!$valueObject) {
             return array(); // TODO We can't find the value the user passed.
@@ -311,10 +321,14 @@ class FieldTypeMultiSelect extends  BaseFieldType
 
     protected function processAPI1RecordRemoveStringId($value, Field $field, Record $record = null, Event $event, $approve = false)
     {
+
+        if (!trim($value)) {
+            return array();
+        }
+
         $repoSelectValue = $this->container->get('doctrine')->getManager()->getRepository('DirectokiBundle:SelectValue');
 
-
-        $valueObject = $repoSelectValue->findOneBy(array('field'=>$field, 'publicId'=>$value));
+        $valueObject = $repoSelectValue->findOneBy(array('field'=>$field, 'publicId'=>trim($value)));
 
         if (!$valueObject) {
             return array(); // TODO We can't find the value the user passed.
