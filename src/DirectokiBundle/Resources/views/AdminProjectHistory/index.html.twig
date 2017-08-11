@@ -141,6 +141,38 @@
         </table>
     {% endif %}
 
+    {%  if  selectValuesCreated %}
+        <h2>Select Values Created</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Directory</th>
+                    <th>Field</th>
+                    <th>id</th>
+                    <th>Title</th>
+                </tr>
+            </thead>
+            <tbody>
+                {%  for selectValueCreated in selectValuesCreated %}
+                    <tr>
+                        <td>
+                            {{  selectValueCreated.field.directory.titleSingular }}
+                        </td>
+                        <td>
+                            {{  selectValueCreated.field.title }}
+                        </td>
+                        <td>
+                            {{ selectValueCreated.publicId  }}
+                        </td>
+                        <td>
+                            {{ selectValueCreated.title  }}
+                        </td>
+                    </tr>
+                {%  endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+
 
     {%  if  recordsCreated %}
         <h2>Records Created</h2>
