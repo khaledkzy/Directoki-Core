@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\CallbackValidator;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 
 /**
@@ -15,19 +16,13 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
  */
 class RecordHasFieldBooleanValueType extends BaseRecordHasFieldValueType {
 
-    /** @var RecordHasFieldBooleanValue  */
-    protected $recordHasBooleanFieldValue;
-
-    function __construct(RecordHasFieldBooleanValue $recordHasBooleanFieldValue ) {
-        $this->recordHasBooleanFieldValue = $recordHasBooleanFieldValue;
-    }
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
 
         $builder->add('value', CheckboxType::class, array(
             'required' => false,
             'label'=>'Value',
-            'data' => $this->recordHasBooleanFieldValue->getValue()
+            'data' => $options['current']->getValue()
         ));
 
 
@@ -39,9 +34,11 @@ class RecordHasFieldBooleanValueType extends BaseRecordHasFieldValueType {
         return 'tree';
     }
 
-    public function getDefaultOptions(array $options) {
-        return array(
-        );
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults(array(
+            'current'=>null,
+        ));
     }
 
 }

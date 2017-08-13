@@ -5,6 +5,8 @@ namespace DirectokiBundle\Controller;
 use DirectokiBundle\Action\UpdateRecordCache;
 use DirectokiBundle\Entity\Event;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpFoundation\Request;
+
 
 /**
  *  @license 3-clause BSD
@@ -22,7 +24,7 @@ class AdminProjectDirectoryRecordFieldEditController extends AdminProjectDirecto
     }
 
 
-    public function editAction(string $projectId, string $directoryId, string $recordId, string $fieldId)
+    public function editAction(string $projectId, string $directoryId, string $recordId, string $fieldId, Request $request)
     {
 
         // build
@@ -32,8 +34,7 @@ class AdminProjectDirectoryRecordFieldEditController extends AdminProjectDirecto
 
         $fieldType = $this->container->get('directoki_field_type_service')->getByField($this->field);
 
-        $form = $this->createForm($fieldType->getEditFieldForm($this->field, $this->record));
-        $request = $this->getRequest();
+        $form = $this->createForm($fieldType->getEditFieldFormClass($this->field, $this->record), null, $fieldType->getEditFieldFormOptions($this->field, $this->record));
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
             if ($form->isValid()) {
@@ -41,7 +42,7 @@ class AdminProjectDirectoryRecordFieldEditController extends AdminProjectDirecto
                 $event = $this->get('directoki_event_builder_service')->build(
                     $this->project,
                     $this->getUser(),
-                    $this->getRequest(),
+                    $request,
                     $form->get('createdComment')->getData()
                 );
 

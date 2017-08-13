@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\CallbackValidator;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 
 /**
@@ -15,27 +16,14 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
  */
 class RecordNewType extends AbstractType {
 
-    protected $fields;
-
-    protected $container;
-
-    /**
-     * RecordNewType constructor.
-     * @param $fields
-     */
-    public function __construct($container, $fields)
-    {
-        $this->fields = $fields;
-        $this->container = $container;
-    }
 
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
 
 
-        foreach($this->fields as $field) {
+        foreach($options['fields'] as $field) {
 
-            $fieldType = $this->container->get('directoki_field_type_service')->getByField($field);
+            $fieldType = $options['container']->get('directoki_field_type_service')->getByField($field);
 
             $fieldType->addToNewRecordForm($field, $builder);
 
@@ -54,9 +42,15 @@ class RecordNewType extends AbstractType {
         return 'tree';
     }
 
-    public function getDefaultOptions(array $options) {
-        return array(
-        );
+    /**
+     * {@inheritdoc}
+     */
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults(array(
+            'container' => null,
+            'fields' => null,
+        ));
     }
 
 }

@@ -28,6 +28,8 @@ use DirectokiBundle\Security\ProjectVoter;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpFoundation\Request;
+
 
 /**
  *  @license 3-clause BSD
@@ -44,7 +46,7 @@ class AdminProjectDirectoryEditController extends AdminProjectDirectoryControlle
         }
     }
 
-    public function newStringFieldAction(string $projectId, string $directoryId)
+    public function newStringFieldAction(string $projectId, string $directoryId, Request $request)
     {
 
         // build
@@ -58,8 +60,7 @@ class AdminProjectDirectoryEditController extends AdminProjectDirectoryControlle
         $field->setDirectory($this->directory);
         $field->setFieldType(FieldTypeString::FIELD_TYPE_INTERNAL);
 
-        $form = $this->createForm(new FieldNewStringType(), $field);
-        $request = $this->getRequest();
+        $form = $this->createForm(FieldNewStringType::class, $field);
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
             if ($form->isValid()) {
@@ -67,7 +68,7 @@ class AdminProjectDirectoryEditController extends AdminProjectDirectoryControlle
                 $event = $this->get('directoki_event_builder_service')->build(
                     $this->project,
                     $this->getUser(),
-                    $this->getRequest(),
+                    $request,
                     null
                 );
                 $doctrine->persist($event);
@@ -96,7 +97,7 @@ class AdminProjectDirectoryEditController extends AdminProjectDirectoryControlle
     }
 
 
-    public function newStringWithLocaleFieldAction(string $projectId, string $directoryId)
+    public function newStringWithLocaleFieldAction(string $projectId, string $directoryId, Request $request)
     {
 
         // build
@@ -110,8 +111,7 @@ class AdminProjectDirectoryEditController extends AdminProjectDirectoryControlle
         $field->setDirectory($this->directory);
         $field->setFieldType(FieldTypeStringWithLocale::FIELD_TYPE_INTERNAL);
 
-        $form = $this->createForm(new FieldNewStringWithLocaleType(), $field);
-        $request = $this->getRequest();
+        $form = $this->createForm(FieldNewStringWithLocaleType::class, $field);
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
             if ($form->isValid()) {
@@ -119,7 +119,7 @@ class AdminProjectDirectoryEditController extends AdminProjectDirectoryControlle
                 $event = $this->get('directoki_event_builder_service')->build(
                     $this->project,
                     $this->getUser(),
-                    $this->getRequest(),
+                    $request,
                     null
                 );
                 $doctrine->persist($event);
@@ -148,7 +148,7 @@ class AdminProjectDirectoryEditController extends AdminProjectDirectoryControlle
     }
 
 
-    public function newEmailFieldAction(string $projectId, string $directoryId)
+    public function newEmailFieldAction(string $projectId, string $directoryId, Request $request)
     {
 
         // build
@@ -162,8 +162,7 @@ class AdminProjectDirectoryEditController extends AdminProjectDirectoryControlle
         $field->setDirectory($this->directory);
         $field->setFieldType(FieldTypeEmail::FIELD_TYPE_INTERNAL);
 
-        $form = $this->createForm(new FieldNewEmailType(), $field);
-        $request = $this->getRequest();
+        $form = $this->createForm(FieldNewEmailType::class, $field);
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
             if ($form->isValid()) {
@@ -171,7 +170,7 @@ class AdminProjectDirectoryEditController extends AdminProjectDirectoryControlle
                 $event = $this->get('directoki_event_builder_service')->build(
                     $this->project,
                     $this->getUser(),
-                    $this->getRequest(),
+                    $request,
                     null
                 );
                 $doctrine->persist($event);
@@ -200,7 +199,7 @@ class AdminProjectDirectoryEditController extends AdminProjectDirectoryControlle
     }
 
 
-    public function newURLFieldAction(string $projectId, string $directoryId)
+    public function newURLFieldAction(string $projectId, string $directoryId, Request $request)
     {
 
         // build
@@ -214,8 +213,7 @@ class AdminProjectDirectoryEditController extends AdminProjectDirectoryControlle
         $field->setDirectory($this->directory);
         $field->setFieldType(FieldTypeURL::FIELD_TYPE_INTERNAL);
 
-        $form = $this->createForm(new FieldNewURLType(), $field);
-        $request = $this->getRequest();
+        $form = $this->createForm( FieldNewURLType::class, $field);
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
             if ($form->isValid()) {
@@ -223,7 +221,7 @@ class AdminProjectDirectoryEditController extends AdminProjectDirectoryControlle
                 $event = $this->get('directoki_event_builder_service')->build(
                     $this->project,
                     $this->getUser(),
-                    $this->getRequest(),
+                    $request,
                     null
                 );
                 $doctrine->persist($event);
@@ -253,7 +251,7 @@ class AdminProjectDirectoryEditController extends AdminProjectDirectoryControlle
 
 
 
-    public function newTextFieldAction(string $projectId, string $directoryId)
+    public function newTextFieldAction(string $projectId, string $directoryId, Request $request)
     {
 
         // build
@@ -267,8 +265,7 @@ class AdminProjectDirectoryEditController extends AdminProjectDirectoryControlle
         $field->setDirectory($this->directory);
         $field->setFieldType(FieldTypeText::FIELD_TYPE_INTERNAL);
 
-        $form = $this->createForm(new FieldNewTextType(), $field);
-        $request = $this->getRequest();
+        $form = $this->createForm(FieldNewTextType::class, $field);
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
             if ($form->isValid()) {
@@ -276,7 +273,7 @@ class AdminProjectDirectoryEditController extends AdminProjectDirectoryControlle
                 $event = $this->get('directoki_event_builder_service')->build(
                     $this->project,
                     $this->getUser(),
-                    $this->getRequest(),
+                    $request,
                     null
                 );
                 $doctrine->persist($event);
@@ -304,7 +301,7 @@ class AdminProjectDirectoryEditController extends AdminProjectDirectoryControlle
 
     }
 
-    public function newBooleanFieldAction(string $projectId, string $directoryId)
+    public function newBooleanFieldAction(string $projectId, string $directoryId, Request $request)
     {
 
         // build
@@ -318,8 +315,7 @@ class AdminProjectDirectoryEditController extends AdminProjectDirectoryControlle
         $field->setDirectory($this->directory);
         $field->setFieldType(FieldTypeBoolean::FIELD_TYPE_INTERNAL);
 
-        $form = $this->createForm(new FieldNewBooleanType(), $field);
-        $request = $this->getRequest();
+        $form = $this->createForm(FieldNewBooleanType::class, $field);
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
             if ($form->isValid()) {
@@ -327,7 +323,7 @@ class AdminProjectDirectoryEditController extends AdminProjectDirectoryControlle
                 $event = $this->get('directoki_event_builder_service')->build(
                     $this->project,
                     $this->getUser(),
-                    $this->getRequest(),
+                    $request,
                     null
                 );
                 $doctrine->persist($event);
@@ -355,7 +351,7 @@ class AdminProjectDirectoryEditController extends AdminProjectDirectoryControlle
 
     }
 
-    public function newLatLngFieldAction(string $projectId, string $directoryId)
+    public function newLatLngFieldAction(string $projectId, string $directoryId, Request $request)
     {
 
         // build
@@ -369,8 +365,7 @@ class AdminProjectDirectoryEditController extends AdminProjectDirectoryControlle
         $field->setDirectory($this->directory);
         $field->setFieldType(FieldTypeLatLng::FIELD_TYPE_INTERNAL);
 
-        $form = $this->createForm(new FieldNewLatLngType(), $field);
-        $request = $this->getRequest();
+        $form = $this->createForm( FieldNewLatLngType::class, $field);
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
             if ($form->isValid()) {
@@ -378,7 +373,7 @@ class AdminProjectDirectoryEditController extends AdminProjectDirectoryControlle
                 $event = $this->get('directoki_event_builder_service')->build(
                     $this->project,
                     $this->getUser(),
-                    $this->getRequest(),
+                    $request,
                     null
                 );
                 $doctrine->persist($event);
@@ -406,7 +401,7 @@ class AdminProjectDirectoryEditController extends AdminProjectDirectoryControlle
 
     }
 
-    public function newMultiSelectFieldAction(string $projectId, string $directoryId)
+    public function newMultiSelectFieldAction(string $projectId, string $directoryId, Request $request)
     {
 
         // build
@@ -420,8 +415,7 @@ class AdminProjectDirectoryEditController extends AdminProjectDirectoryControlle
         $field->setDirectory($this->directory);
         $field->setFieldType(FieldTypeMultiSelect::FIELD_TYPE_INTERNAL);
 
-        $form = $this->createForm(new FieldNewMultiSelectType(), $field);
-        $request = $this->getRequest();
+        $form = $this->createForm( FieldNewMultiSelectType::class, $field);
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
             if ($form->isValid()) {
@@ -429,7 +423,7 @@ class AdminProjectDirectoryEditController extends AdminProjectDirectoryControlle
                 $event = $this->get('directoki_event_builder_service')->build(
                     $this->project,
                     $this->getUser(),
-                    $this->getRequest(),
+                    $request,
                     null
                 );
                 $doctrine->persist($event);
@@ -458,7 +452,7 @@ class AdminProjectDirectoryEditController extends AdminProjectDirectoryControlle
     }
 
 
-    public function newRecordAction(string $projectId, string $directoryId) {
+    public function newRecordAction(string $projectId, string $directoryId, Request $request) {
 
         // build
         $this->build($projectId, $directoryId);
@@ -468,8 +462,7 @@ class AdminProjectDirectoryEditController extends AdminProjectDirectoryControlle
         $fields        = $doctrine->getRepository( 'DirectokiBundle:Field' )->findForDirectory( $this->directory );
 
 
-        $form = $this->createForm(new RecordNewType($this->container, $fields));
-        $request = $this->getRequest();
+        $form = $this->createForm( RecordNewType::class, null, array('container'=>$this->container, 'fields'=>$fields));
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
             if ($form->isValid()) {
@@ -479,7 +472,7 @@ class AdminProjectDirectoryEditController extends AdminProjectDirectoryControlle
                 $event = $this->get('directoki_event_builder_service')->build(
                     $this->project,
                     $this->getUser(),
-                    $this->getRequest(),
+                    $request,
                     null
                 );
                 $event->setAPIVersion(1);

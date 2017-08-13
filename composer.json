@@ -14,24 +14,28 @@
     "require": {
         "php": ">=7.0",
         "ext-mbstring": "*",
-        "symfony/symfony": "2.8.*",
-        "doctrine/orm": "^2.4.8",
-        "doctrine/doctrine-bundle": "~1.4",
+        "ext-xml": "*",
+        "symfony/symfony": "3.3.*",
+        "twig/twig": "2.4.*",
+        "doctrine/doctrine-bundle": "1.6.*",
+        "doctrine/orm": "2.5.*",
+        "twitter/bootstrap": "3.3.*",
+        "components/jquery": "2.2.*",
+        "symfony/assetic-bundle": "2.8.*",
+        "guzzlehttp/guzzle": "6.3.*",
         "symfony/swiftmailer-bundle": "~2.3",
-        "symfony/monolog-bundle": "~2.11.3",
-        "sensio/distribution-bundle": "~5.0",
+        "symfony/monolog-bundle": "3.1.*",
+        "incenteev/composer-parameter-handler": "2.1.*",
+        "sensio/distribution-bundle": "^5.0.19",
         "sensio/framework-extra-bundle": "^3.0.2",
-        "incenteev/composer-parameter-handler": "~2.0",
-		"twitter/bootstrap": "3.3.*",
-		"components/jquery": "2.1.*",
-		"symfony/assetic-bundle": "~2.3",
-		"friendsofsymfony/user-bundle": "2.0.0-alpha3",
-        "doctrine/doctrine-migrations-bundle": "^1.0",
-        "guzzlehttp/guzzle": "6.3.*"
+        "symfony/polyfill-apcu": "1.4.*",
+        "symfony/swiftmailer-bundle": "3.0.*",
+        "friendsofsymfony/user-bundle": "2.0.*",
+        "doctrine/doctrine-migrations-bundle": "1.2.*"
     },
     "require-dev": {
-        "sensio/generator-bundle": "~3.0",
-        "symfony/phpunit-bridge": "~2.7"
+        "sensio/generator-bundle": "3.1.*",
+        "symfony/phpunit-bridge": "3.3.*"
     },
     "scripts": {
         "symfony-scripts": [

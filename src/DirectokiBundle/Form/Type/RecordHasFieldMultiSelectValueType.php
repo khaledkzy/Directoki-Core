@@ -10,6 +10,7 @@ use Symfony\Component\Form\CallbackValidator;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 
 /**
@@ -22,18 +23,15 @@ class RecordHasFieldMultiSelectValueType extends BaseRecordHasFieldValueType {
 
     protected $selectValuesCurrentValue = array();
 
-    function __construct($container, Field $field, Record $record) {
-        $repoSelectValue = $container->get('doctrine')->getManager()->getRepository('DirectokiBundle:SelectValue');
-        $repoRecordHasFieldMultiSelectValue = $container->get('doctrine')->getManager()->getRepository('DirectokiBundle:RecordHasFieldMultiSelectValue');
-
-        foreach($repoSelectValue->findBy(array('field'=>$field), array('title'=>'asc')) as $selectValue) {
-            $this->selectValues[] = $selectValue;
-            $this->selectValuesCurrentValue[$selectValue->getPublicId()] = $repoRecordHasFieldMultiSelectValue->doesRecordHaveFieldHaveValue($record, $field, $selectValue);
-        }
-    }
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
+        $repoSelectValue = $options['container']->get('doctrine')->getManager()->getRepository('DirectokiBundle:SelectValue');
+        $repoRecordHasFieldMultiSelectValue = $options['container']->get('doctrine')->getManager()->getRepository('DirectokiBundle:RecordHasFieldMultiSelectValue');
 
+        foreach($repoSelectValue->findBy(array('field'=>$options['field']), array('title'=>'asc')) as $selectValue) {
+            $this->selectValues[] = $selectValue;
+            $this->selectValuesCurrentValue[$selectValue->getPublicId()] = $repoRecordHasFieldMultiSelectValue->doesRecordHaveFieldHaveValue($options['record'], $options['field'], $selectValue);
+        }
 
         foreach($this->selectValues as $selectValue) {
 
@@ -53,10 +51,15 @@ class RecordHasFieldMultiSelectValueType extends BaseRecordHasFieldValueType {
         return 'tree';
     }
 
-    public function getDefaultOptions(array $options) {
-        return array(
-        );
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults(array(
+            'container'=>null,
+            'field'=>null,
+            'record'=>null,
+        ));
     }
+
 
 
 

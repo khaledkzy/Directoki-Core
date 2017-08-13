@@ -18,6 +18,7 @@ use DirectokiBundle\ImportCSVLineResult;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 
 /**
@@ -80,12 +81,18 @@ class FieldTypeString extends  BaseFieldType {
         return false;
     }
 
-    public function getEditFieldForm( Field $field, Record $record ) {
+    public function getEditFieldFormClass( Field $field, Record $record ) {
+        return RecordHasFieldStringValueType::class;
+    }
+    public function getEditFieldFormOptions( Field $field, Record $record ) {
 
         $dataHasField = $this->getLatestFieldValue($field, $record);
 
-        return new RecordHasFieldStringValueType($dataHasField);
+        return array(
+            'current'=>$dataHasField,
+        );
     }
+
 
     public function getEditFieldFormNewRecords( Field $field, Record $record, Event $event, $form, User $user = null, $approve = false ) {
 
@@ -186,7 +193,7 @@ class FieldTypeString extends  BaseFieldType {
 
     public function addToNewRecordForm(Field $field, FormBuilderInterface $formBuilderInterface)
     {
-        $formBuilderInterface->add($field->getPublicId(), 'text', array(
+        $formBuilderInterface->add($field->getPublicId(), TextType::class, array(
             'required' => false,
             'label'=>$field->getTitle(),
         ));

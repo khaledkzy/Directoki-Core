@@ -71,11 +71,16 @@ class FieldTypeURL extends  BaseFieldType {
         return false;
     }
 
-    public function getEditFieldForm( Field $field, Record $record ) {
+    public function getEditFieldFormClass( Field $field, Record $record ) {
+        return RecordHasFieldURLValueType::class;
+    }
+    public function getEditFieldFormOptions( Field $field, Record $record ) {
 
         $dataHasField = $this->getLatestFieldValue($field, $record);
 
-        return new RecordHasFieldURLValueType($dataHasField);
+        return array(
+            'current'=>$dataHasField,
+        );
     }
 
     public function getEditFieldFormNewRecords( Field $field, Record $record, Event $event, $form, User $user = null, $approve = false ) {

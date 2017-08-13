@@ -12,8 +12,8 @@ before_script:
   - cp  .travis.parameters_test.pgsql.yml  app/config/parameters.yml
   - cp  .travis.parameters_test.pgsql.yml  app/config/parameters_test.yml
   - composer install --dev --no-interaction
-  - wget https://phar.phpunit.de/phpunit-5.7.phar
+  - wget https://phar.phpunit.de/phpunit-6.3.phar
 
-script: php phpunit-5.7.phar  --configuration app/
+script: php phpunit-6.3.phar  --configuration app/
 
 

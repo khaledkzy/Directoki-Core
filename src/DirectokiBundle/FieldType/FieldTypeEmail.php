@@ -18,6 +18,7 @@ use DirectokiBundle\ImportCSVLineResult;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 
 
 /**
@@ -71,11 +72,16 @@ class FieldTypeEmail extends  BaseFieldType {
         return false;
     }
 
-    public function getEditFieldForm( Field $field, Record $record ) {
+    public function getEditFieldFormClass( Field $field, Record $record ) {
+        return RecordHasFieldEmailValueType::class;
+    }
+    public function getEditFieldFormOptions( Field $field, Record $record ) {
 
         $dataHasField = $this->getLatestFieldValue($field, $record);
 
-        return new RecordHasFieldEmailValueType($dataHasField);
+        return array(
+            'current'=>$dataHasField,
+        );
     }
 
     public function getEditFieldFormNewRecords( Field $field, Record $record, Event $event, $form, User $user = null, $approve = false ) {
@@ -182,7 +188,7 @@ class FieldTypeEmail extends  BaseFieldType {
 
     public function addToNewRecordForm(Field $field, FormBuilderInterface $formBuilderInterface)
     {
-        $formBuilderInterface->add($field->getPublicId(), 'email', array(
+        $formBuilderInterface->add($field->getPublicId(), EmailType::class, array(
             'required' => false,
             'label'=>$field->getTitle(),
         ));

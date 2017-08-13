@@ -8,6 +8,7 @@ use Symfony\Component\Form\CallbackValidator;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 
 /**
@@ -17,23 +18,15 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 class RecordHasFieldStringWithLocaleValueType extends BaseRecordHasFieldValueType {
 
 
-    protected $locales;
-
-    protected $values;
-
-    function __construct($locales, $values) {
-        $this->locales = $locales;
-        $this->values = $values;
-    }
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
 
-        foreach($this->locales as $locale) {
+        foreach($options['locales'] as $locale) {
 
             $builder->add('value_'.$locale->getPublicId(), TextType::class, array(
                 'required' => false,
                 'label' => 'Value ('.$locale->getTitle().')',
-                'data' => $this->values[$locale->getPublicId()],
+                'data' => $options['values'][$locale->getPublicId()],
             ));
 
         }
@@ -47,9 +40,13 @@ class RecordHasFieldStringWithLocaleValueType extends BaseRecordHasFieldValueTyp
         return 'tree';
     }
 
-    public function getDefaultOptions(array $options) {
-        return array(
-        );
+
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults(array(
+            'locales'=>null,
+            'values'=>null,
+        ));
     }
 
 }

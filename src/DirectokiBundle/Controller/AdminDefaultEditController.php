@@ -6,6 +6,7 @@ use DirectokiBundle\Entity\Project;
 use DirectokiBundle\Form\Type\ProjectNewType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  *  @license 3-clause BSD
@@ -17,7 +18,7 @@ class AdminDefaultEditController extends Controller
 
 
 
-    public function newProjectAction()
+    public function newProjectAction(Request $request)
     {
 
         if ($this->container->getParameter('directoki.read_only')) {
@@ -30,8 +31,7 @@ class AdminDefaultEditController extends Controller
         $project = new Project();
         $project->setOwner($this->getUser());
 
-        $form = $this->createForm(new ProjectNewType(), $project);
-        $request = $this->getRequest();
+        $form = $this->createForm(ProjectNewType::class, $project);
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
             if ($form->isValid()) {

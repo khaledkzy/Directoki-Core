@@ -52,7 +52,8 @@ abstract class  BaseFieldType {
 
     public abstract function getModerationsNeeded(Field $field, Record $record);
 
-    public abstract function getEditFieldForm(Field $field, Record $record);
+    public abstract function getEditFieldFormClass(Field $field, Record $record);
+    public abstract function getEditFieldFormOptions(Field $field, Record $record);
 
     public abstract function getEditFieldFormNewRecords(Field $field, Record $record, Event $event, $form, User $user = null, $approve=false);
 

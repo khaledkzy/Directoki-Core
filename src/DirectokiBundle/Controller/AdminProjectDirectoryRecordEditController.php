@@ -16,6 +16,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
+
 /**
  *  @license 3-clause BSD
  *  @link https://github.com/Directoki/Directoki-Core/blob/master/LICENSE.txt
@@ -48,7 +49,7 @@ class AdminProjectDirectoryRecordEditController extends AdminProjectDirectoryRec
             $event = $this->get('directoki_event_builder_service')->build(
                 $this->project,
                 $this->getUser(),
-                $this->getRequest(),
+                $request,
                 null
             );
             $anythingToSave = false;
@@ -154,7 +155,7 @@ class AdminProjectDirectoryRecordEditController extends AdminProjectDirectoryRec
         $note->setRecord($this->record);
         $note->setCreatedBy($this->getUser());
 
-        $form = $this->createForm(new RecordNoteNewType(), $note);
+        $form = $this->createForm( RecordNoteNewType::class, $note);
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
             if ($form->isValid()) {
@@ -190,7 +191,7 @@ class AdminProjectDirectoryRecordEditController extends AdminProjectDirectoryRec
 
         $currentStateRecord = $doctrine->getRepository('DirectokiBundle:RecordHasState')->getLatestStateForRecord($this->record);
 
-        $form = $this->createForm(new RecordEditStateType($currentStateRecord));
+        $form = $this->createForm(RecordEditStateType::class, null, array('current'=>$currentStateRecord));
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
             if ($form->isValid()) {
@@ -201,7 +202,7 @@ class AdminProjectDirectoryRecordEditController extends AdminProjectDirectoryRec
                     $event = $this->get('directoki_event_builder_service')->build(
                         $this->project,
                         $this->getUser(),
-                        $this->getRequest(),
+                        $request,
                         $form->get('createdComment')->getData()
                     );
                     $doctrine->persist($event);

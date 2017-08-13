@@ -8,6 +8,7 @@ use Symfony\Component\Form\CallbackValidator;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 
 /**
@@ -16,12 +17,6 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
  */
 class RecordHasFieldEmailValueType extends BaseRecordHasFieldValueType {
 
-    /** @var RecordHasFieldEmailValue  */
-    protected $recordHasEmailFieldValue;
-
-    function __construct(RecordHasFieldEmailValue $recordHasEmailFieldValue ) {
-        $this->recordHasEmailFieldValue = $recordHasEmailFieldValue;
-    }
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
 
@@ -29,7 +24,7 @@ class RecordHasFieldEmailValueType extends BaseRecordHasFieldValueType {
         $builder->add('value', EmailType::class, array(
             'required' => false,
             'label'=>'Value',
-            'data' => $this->recordHasEmailFieldValue->getValue()
+            'data' => $options['current']->getValue()
         ));
 
 
@@ -42,9 +37,12 @@ class RecordHasFieldEmailValueType extends BaseRecordHasFieldValueType {
         return 'tree';
     }
 
-    public function getDefaultOptions(array $options) {
-        return array(
-        );
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults(array(
+            'current'=>null,
+        ));
     }
+
 
 }

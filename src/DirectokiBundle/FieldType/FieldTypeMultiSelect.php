@@ -114,11 +114,18 @@ class FieldTypeMultiSelect extends  BaseFieldType
         return true;
     }
 
-    public function getEditFieldForm(Field $field, Record $record)
-    {
-
-        return new RecordHasFieldMultiSelectValueType($this->container, $field, $record);
+    public function getEditFieldFormClass( Field $field, Record $record ) {
+        return RecordHasFieldMultiSelectValueType::class;
     }
+    public function getEditFieldFormOptions( Field $field, Record $record ) {
+
+        return array(
+            'container'=>$this->container,
+            'field'=>$field,
+            'record'=>$record,
+        );
+    }
+
 
     public function getEditFieldFormNewRecords(Field $field, Record $record, Event $event, $form, User $user = null, $approve = false)
     {

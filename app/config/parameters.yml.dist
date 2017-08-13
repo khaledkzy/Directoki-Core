@@ -19,3 +19,6 @@ parameters:
     secret:            ThisTokenIsNotSoSecretChangeIt
 
     directoki_read_only: false
+    mailer_from_email: test@example.com
+    mailer_from_name: test
+

@@ -39,7 +39,7 @@ class AdminProjectDirectoryRecordReportEditController extends AdminProjectDirect
 
 
 
-        $form = $this->createForm(new RecordReportResolveType());
+        $form = $this->createForm(RecordReportResolveType::class);
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
             if ($form->isValid()) {

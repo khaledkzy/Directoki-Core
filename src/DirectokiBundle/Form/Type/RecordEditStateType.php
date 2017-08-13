@@ -10,6 +10,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 
 /**
@@ -19,12 +20,6 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 class RecordEditStateType extends AbstractType {
 
 
-    /** @var RecordHasState */
-    protected $recordHasState;
-
-    function __construct(RecordHasState $recordHasState ) {
-        $this->recordHasState = $recordHasState;
-    }
 
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
@@ -39,6 +34,7 @@ class RecordEditStateType extends AbstractType {
                 'Published' => RecordHasState::STATE_PUBLISHED,
                 'Deleted' => RecordHasState::STATE_DELETED,
             ),
+            'data' => $options['current']->getState(),
         ));
 
         $builder->add('approve',  CheckboxType::class, array(
@@ -59,11 +55,12 @@ class RecordEditStateType extends AbstractType {
         return 'tree';
     }
 
-    public function getDefaultOptions(array $options) {
-        return array(
-        );
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults(array(
+            'current' => null,
+        ));
     }
-
 }
 
 

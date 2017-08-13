@@ -15,5 +15,5 @@ sudo su --login -c "psql -c \"CREATE USER test WITH PASSWORD 'testpassword';\"" 
 sudo su --login -c "psql -c \"CREATE DATABASE test WITH OWNER test ENCODING 'UTF8'  LC_COLLATE='en_GB.UTF-8' LC_CTYPE='en_GB.UTF-8'  TEMPLATE=template0 ;\"" postgres
 ## Now let's test!
 cp /vagrant/vagrant/tests/parameters_test.yml /vagrant/app/config/parameters_test.yml
-phpunit -c /vagrant/app
+php /home/vagrant/bin/phpunit.phar -c /vagrant/app
 

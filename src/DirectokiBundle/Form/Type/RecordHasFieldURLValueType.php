@@ -8,6 +8,7 @@ use Symfony\Component\Form\CallbackValidator;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 
 /**
@@ -15,21 +16,14 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
  *  @link https://github.com/Directoki/Directoki-Core/blob/master/LICENSE.txt
  */
 class RecordHasFieldURLValueType extends BaseRecordHasFieldValueType {
-
-    /** @var RecordHasFieldURLValue  */
-    protected $recordHasURLFieldValue;
-
-    function __construct(RecordHasFieldURLValue $recordHasURLFieldValue ) {
-        $this->recordHasURLFieldValue = $recordHasURLFieldValue;
-    }
-
+    
     public function buildForm(FormBuilderInterface $builder, array $options) {
 
 
         $builder->add('value', UrlType::class, array(
             'required' => false,
             'label'=>'Value',
-            'data' => $this->recordHasURLFieldValue->getValue()
+            'data' => $options['current']->getValue()
         ));
 
 
@@ -42,9 +36,12 @@ class RecordHasFieldURLValueType extends BaseRecordHasFieldValueType {
         return 'tree';
     }
 
-    public function getDefaultOptions(array $options) {
-        return array(
-        );
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults(array(
+            'current'=>null,
+        ));
     }
+
 
 }

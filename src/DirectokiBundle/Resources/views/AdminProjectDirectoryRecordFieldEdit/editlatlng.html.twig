@@ -23,7 +23,7 @@
 
 	<h1>Record: {{  record.publicId }} Field: {{  field.title }}</h1>
 
-	<form id="ValueForm" class="styled" action="" method="post" {{ form_enctype(form) }}>
+	<form id="ValueForm" class="styled" action="" method="post">
 		{{ form_errors(form) }}
 
 		{{ form_row(form.lat) }}

@@ -9,6 +9,8 @@ use DirectokiBundle\Form\Type\DirectoryNewType;
 use DirectokiBundle\Form\Type\LocaleNewType;
 use DirectokiBundle\Security\ProjectVoter;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpFoundation\Request;
+
 
 /**
  *  @license 3-clause BSD
@@ -28,7 +30,7 @@ class AdminProjectEditController extends AdminProjectController
     }
 
 
-    public function newDirectoryAction(string $projectId)
+    public function newDirectoryAction(string $projectId, Request $request)
     {
 
         // build
@@ -41,8 +43,7 @@ class AdminProjectEditController extends AdminProjectController
         $directory = new Directory();
         $directory->setProject($this->project);
 
-        $form = $this->createForm(new DirectoryNewType(), $directory);
-        $request = $this->getRequest();
+        $form = $this->createForm( DirectoryNewType::class, $directory);
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
             if ($form->isValid()) {
@@ -50,7 +51,7 @@ class AdminProjectEditController extends AdminProjectController
                 $event = $this->get('directoki_event_builder_service')->build(
                     $this->project,
                     $this->getUser(),
-                    $this->getRequest(),
+                    $request,
                     null
                 );
                 $doctrine->persist($event);
@@ -75,7 +76,7 @@ class AdminProjectEditController extends AdminProjectController
 
     }
 
-    public function newLocaleAction(string $projectId)
+    public function newLocaleAction(string $projectId, Request $request)
     {
 
         // build
@@ -88,8 +89,7 @@ class AdminProjectEditController extends AdminProjectController
         $locale = new Locale();
         $locale->setProject($this->project);
 
-        $form = $this->createForm(new LocaleNewType(), $locale);
-        $request = $this->getRequest();
+        $form = $this->createForm( LocaleNewType::class, $locale);
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
             if ($form->isValid()) {
@@ -97,7 +97,7 @@ class AdminProjectEditController extends AdminProjectController
                 $event = $this->get('directoki_event_builder_service')->build(
                     $this->project,
                     $this->getUser(),
-                    $this->getRequest(),
+                    $request,
                     null
                 );
                 $doctrine->persist($event);

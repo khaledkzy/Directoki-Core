@@ -8,6 +8,7 @@ use Symfony\Component\Form\CallbackValidator;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 
 /**
@@ -16,12 +17,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
  */
 class RecordHasFieldStringValueType extends BaseRecordHasFieldValueType {
 
-    /** @var RecordHasFieldStringValue  */
-    protected $recordHasStringFieldValue;
 
-    function __construct(RecordHasFieldStringValue $recordHasStringFieldValue ) {
-        $this->recordHasStringFieldValue = $recordHasStringFieldValue;
-    }
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
 
@@ -29,7 +25,7 @@ class RecordHasFieldStringValueType extends BaseRecordHasFieldValueType {
         $builder->add('value', TextType::class, array(
             'required' => false,
             'label'=>'Value',
-            'data' => $this->recordHasStringFieldValue->getValue()
+            'data' => $options['current']->getValue()
         ));
 
 
@@ -42,9 +38,12 @@ class RecordHasFieldStringValueType extends BaseRecordHasFieldValueType {
         return 'tree';
     }
 
-    public function getDefaultOptions(array $options) {
-        return array(
-        );
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults(array(
+            'current'=>null,
+        ));
     }
+
 
 }

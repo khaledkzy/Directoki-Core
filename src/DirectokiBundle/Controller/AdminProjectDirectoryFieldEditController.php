@@ -27,7 +27,7 @@ class AdminProjectDirectoryFieldEditController extends AdminProjectDirectoryFiel
     }
 
 
-    public function newSelectValueAction(string $projectId, string $directoryId, string $fieldId)
+    public function newSelectValueAction(string $projectId, string $directoryId, string $fieldId, Request $request)
     {
 
         // build
@@ -44,8 +44,7 @@ class AdminProjectDirectoryFieldEditController extends AdminProjectDirectoryFiel
         $selectValue = new SelectValue();
         $selectValue->setField($this->field);
 
-        $form = $this->createForm(new SelectValueNewType(), $selectValue);
-        $request = $this->getRequest();
+        $form = $this->createForm( SelectValueNewType::class, $selectValue);
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
             if ($form->isValid()) {
@@ -53,7 +52,7 @@ class AdminProjectDirectoryFieldEditController extends AdminProjectDirectoryFiel
                 $event = $this->get('directoki_event_builder_service')->build(
                     $this->project,
                     $this->getUser(),
-                    $this->getRequest(),
+                    $request,
                     null
                 );
                 $doctrine->persist($event);

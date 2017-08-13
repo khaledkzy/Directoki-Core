@@ -23,7 +23,7 @@ use DirectokiBundle\ImportCSVLineResult;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
-
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 /**
  *  @license 3-clause BSD
@@ -142,8 +142,11 @@ class FieldTypeStringWithLocale extends BaseFieldType {
 
     }
 
-    public function getEditFieldForm(Field $field, Record $record)
-    {
+    public function getEditFieldFormClass( Field $field, Record $record ) {
+        return RecordHasFieldStringWithLocaleValueType::class;
+    }
+    public function getEditFieldFormOptions( Field $field, Record $record ) {
+
         $repo = $this->container->get('doctrine')->getManager()->getRepository('DirectokiBundle:Locale');
 
         $locales = $repo->findByProject($record->getDirectory()->getProject());
@@ -153,7 +156,10 @@ class FieldTypeStringWithLocale extends BaseFieldType {
             $values[$locale->getPublicId()] = $this->getLatestFieldValueForLocale($field, $record, $locale)->getValue();
         }
 
-        return new RecordHasFieldStringWithLocaleValueType($locales, $values);
+        return array(
+            'locales'=>$locales,
+            'values'=>$values,
+        );
     }
 
     public function getEditFieldFormNewRecords(
@@ -344,7 +350,7 @@ class FieldTypeStringWithLocale extends BaseFieldType {
         foreach($repo->findByProject($field->getDirectory()->getProject()) as $locale) {
 
 
-            $formBuilderInterface->add($field->getPublicId().'_value_'.$locale->getPublicId(), 'text', array(
+            $formBuilderInterface->add($field->getPublicId().'_value_'.$locale->getPublicId(), TextType::class, array(
                 'required' => false,
                 'label' => $field->getTitle(). ' ('.$locale->getTitle().')',
             ));

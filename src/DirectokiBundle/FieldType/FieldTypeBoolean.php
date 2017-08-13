@@ -76,11 +76,16 @@ class FieldTypeBoolean extends  BaseFieldType {
         return false;
     }
 
-    public function getEditFieldForm( Field $field, Record $record ) {
+    public function getEditFieldFormClass( Field $field, Record $record ) {
+        return RecordHasFieldBooleanValueType::class;
+    }
+    public function getEditFieldFormOptions( Field $field, Record $record ) {
 
         $dataHasField = $this->getLatestFieldValue($field, $record);
 
-        return new RecordHasFieldBooleanValueType($dataHasField);
+        return array(
+            'current'=>$dataHasField,
+        );
     }
 
     public function getEditFieldFormNewRecords( Field $field, Record $record, Event $event, $form, User $user = null, $approve = false ) {

@@ -8,6 +8,7 @@ use Symfony\Component\Form\CallbackValidator;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 
 /**
@@ -16,13 +17,6 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
  */
 class RecordHasFieldLatLngValueType extends BaseRecordHasFieldValueType {
 
-    /** @var RecordHasFieldLatLngValue  */
-    protected $recordHasLatLngFieldValue;
-
-    function __construct(RecordHasFieldLatLngValue $recordHasLatLngFieldValue ) {
-        $this->recordHasLatLngFieldValue = $recordHasLatLngFieldValue;
-    }
-
     public function buildForm(FormBuilderInterface $builder, array $options) {
 
 
@@ -30,14 +24,14 @@ class RecordHasFieldLatLngValueType extends BaseRecordHasFieldValueType {
             'required' => false,
             'label'=>'Lat',
             'scale'=>12,
-            'data' => $this->recordHasLatLngFieldValue->getLat()
+            'data' => $options['current']->getLat()
         ));
 
         $builder->add('lng', NumberType::class, array(
             'required' => false,
             'label'=>'Lng',
             'scale'=>12,
-            'data' => $this->recordHasLatLngFieldValue->getLng()
+            'data' => $options['current']->getLng()
         ));
 
 
@@ -49,9 +43,11 @@ class RecordHasFieldLatLngValueType extends BaseRecordHasFieldValueType {
         return 'latlng';
     }
 
-    public function getDefaultOptions(array $options) {
-        return array(
-        );
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults(array(
+            'current'=>null,
+        ));
     }
 
 }
