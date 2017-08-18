@@ -13,5 +13,7 @@ parameters:
     server_host: null
     has_ssl: false
     directoki_read_only: false
+    mailer_from_email: test@example.com
+    mailer_from_name: test
 
 
