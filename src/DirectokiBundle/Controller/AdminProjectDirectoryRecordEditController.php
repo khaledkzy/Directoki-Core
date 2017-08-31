@@ -7,9 +7,11 @@ use DirectokiBundle\Entity\Event;
 use DirectokiBundle\Entity\Project;
 use DirectokiBundle\Entity\RecordHasState;
 use DirectokiBundle\Entity\RecordNote;
+use DirectokiBundle\Entity\RecordReport;
 use DirectokiBundle\FieldType\StringFieldType;
 use DirectokiBundle\Form\Type\RecordEditStateType;
 use DirectokiBundle\Form\Type\RecordNoteNewType;
+use DirectokiBundle\Form\Type\RecordReportNewType;
 use DirectokiBundle\Security\ProjectVoter;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -173,6 +175,53 @@ class AdminProjectDirectoryRecordEditController extends AdminProjectDirectoryRec
 
 
         return $this->render('DirectokiBundle:AdminProjectDirectoryRecordEdit:newNote.html.twig', array(
+            'project' => $this->project,
+            'directory' => $this->directory,
+            'record' => $this->record,
+            'form' => $form->createView(),
+        ));
+
+    }
+
+    public function newReportAction(string $projectId, string $directoryId, string $recordId, Request $request) {
+
+        // build
+        $this->build($projectId, $directoryId, $recordId);
+        //data
+        $doctrine = $this->getDoctrine()->getManager();
+
+
+        $report = new RecordReport();
+        $report->setRecord($this->record);
+
+        $form = $this->createForm( RecordReportNewType::class, $report);
+        if ($request->getMethod() == 'POST') {
+            $form->handleRequest($request);
+            if ($form->isValid()) {
+                $event = $this->get('directoki_event_builder_service')->build(
+                    $this->project,
+                    $this->getUser(),
+                    $request,
+                    null
+                );
+                $report->setCreationEvent($event);
+
+                $doctrine->persist($event);
+                $doctrine->persist($report);
+                $doctrine->flush();
+
+                return $this->redirect($this->generateUrl('directoki_admin_project_directory_record_show', array(
+                    'projectId'=>$this->project->getPublicId(),
+                    'directoryId'=>$this->directory->getPublicId(),
+                    'recordId'=>$this->record->getPublicId(),
+                )));
+            }
+        }
+
+
+
+
+        return $this->render('DirectokiBundle:AdminProjectDirectoryRecordEdit:newReport.html.twig', array(
             'project' => $this->project,
             'directory' => $this->directory,
             'record' => $this->record,

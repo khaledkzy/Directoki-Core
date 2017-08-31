@@ -151,6 +151,11 @@ directoki_admin_project_directory_record_note_new:
     defaults: { _controller: DirectokiBundle:AdminProjectDirectoryRecordEdit:newNote }
 
 
+directoki_admin_project_directory_record_report_new:
+    path:     /admin/project/{projectId}/directory/{directoryId}/record/{recordId}/newReport
+    defaults: { _controller: DirectokiBundle:AdminProjectDirectoryRecordEdit:newReport }
+
+
 directoki_admin_project_directory_record_moderate:
     path:     /admin/project/{projectId}/directory/{directoryId}/record/{recordId}/moderate
     defaults: { _controller: DirectokiBundle:AdminProjectDirectoryRecordEdit:moderate }
