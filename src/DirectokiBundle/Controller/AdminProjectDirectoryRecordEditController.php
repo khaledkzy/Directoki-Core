@@ -50,7 +50,7 @@ class AdminProjectDirectoryRecordEditController extends AdminProjectDirectoryRec
                 $this->project,
                 $this->getUser(),
                 $request,
-                null
+                $request->request->get('comment')
             );
             $anythingToSave = false;
 
