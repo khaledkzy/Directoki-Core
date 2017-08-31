@@ -24,6 +24,11 @@ class UpdateAllCachesCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
 
+        if ($this->getContainer()->getParameter('directoki.read_only')) {
+            $output->writeln('Directoki is currently read only.');
+            return;
+        }
+
         $updateRecordCache = new UpdateRecordCache($this->getContainer());
 
 

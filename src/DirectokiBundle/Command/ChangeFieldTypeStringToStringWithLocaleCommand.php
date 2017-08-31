@@ -36,6 +36,11 @@ class ChangeFieldTypeStringToStringWithLocaleCommand extends ContainerAwareComma
     protected function execute(InputInterface $input, OutputInterface $output)
     {
 
+        if ($this->getContainer()->getParameter('directoki.read_only')) {
+            $output->writeln('Directoki is currently read only.');
+            return;
+        }
+
 
         $doctrine = $this->getContainer()->get('doctrine')->getManager();
 

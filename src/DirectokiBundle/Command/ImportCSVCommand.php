@@ -29,6 +29,11 @@ class ImportCSVCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
 
+        if ($this->getContainer()->getParameter('directoki.read_only')) {
+            $output->writeln('Directoki is currently read only.');
+            return;
+        }
+
         $save = $input->getOption('save');
 
         $output->writeln('Import CSV '.($save ? '(SAVE)' : '(test run)'));

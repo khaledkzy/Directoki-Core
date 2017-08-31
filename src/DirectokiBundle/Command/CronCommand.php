@@ -31,6 +31,11 @@ class CronCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
 
+        if ($this->getContainer()->getParameter('directoki.read_only')) {
+            $output->writeln('Directoki is currently read only.');
+            return;
+        }
+
         $cronCommands = array(
             new ExternalCheck($this->getContainer()),
             new UpdateRecordCache($this->getContainer()),
