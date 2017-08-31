@@ -473,7 +473,7 @@ class AdminProjectDirectoryEditController extends AdminProjectDirectoryControlle
                     $this->project,
                     $this->getUser(),
                     $request,
-                    null
+                    $form->get('comment')->getData()
                 );
                 $event->setAPIVersion(1);
 
