@@ -24,13 +24,18 @@
 		State:
 		{%  if state.stateDraft %}
 			Draft
+			<a href="{{  path('directoki_admin_project_directory_record_state_edit_delete', { 'projectId':project.publicId,'directoryId':directory.publicId, 'recordId':record.publicId }) }}" class="btn btn-default">Delete</a>
+			<a href="{{  path('directoki_admin_project_directory_record_state_edit_publish', { 'projectId':project.publicId,'directoryId':directory.publicId, 'recordId':record.publicId }) }}" class="btn btn-default">Publish</a>
 		{%  elseif state.statePublished %}
 			Published
+			<a href="{{  path('directoki_admin_project_directory_record_state_edit_delete', { 'projectId':project.publicId,'directoryId':directory.publicId, 'recordId':record.publicId }) }}" class="btn btn-default">Delete</a>
+			<a href="{{  path('directoki_admin_project_directory_record_state_edit_draft', { 'projectId':project.publicId,'directoryId':directory.publicId, 'recordId':record.publicId }) }}" class="btn btn-default">Make Draft</a>
 		{%  elseif state.stateDeleted %}
 			Deleted
+			<a href="{{  path('directoki_admin_project_directory_record_state_edit_draft', { 'projectId':project.publicId,'directoryId':directory.publicId, 'recordId':record.publicId }) }}" class="btn btn-default">Make Draft</a>
+			<a href="{{  path('directoki_admin_project_directory_record_state_edit_publish', { 'projectId':project.publicId,'directoryId':directory.publicId, 'recordId':record.publicId }) }}" class="btn btn-default">Publish</a>
 		{%  endif %}
 
-		<a href="{{  path('directoki_admin_project_directory_record_state_edit', { 'projectId':project.publicId,'directoryId':directory.publicId, 'recordId':record.publicId }) }}" class="btn btn-default">Edit</a>
 	</p>
 
 	{%  if  fields %}

@@ -181,61 +181,185 @@ class AdminProjectDirectoryRecordEditController extends AdminProjectDirectoryRec
 
     }
 
-    public function editStateAction(string $projectId, string $directoryId, string $recordId, Request $request) {
+    public function editStateDraftAction(string $projectId, string $directoryId, string $recordId, Request $request)
+    {
+
 
         // build
         $this->build($projectId, $directoryId, $recordId);
         //data
         $doctrine = $this->getDoctrine()->getManager();
 
-
         $currentStateRecord = $doctrine->getRepository('DirectokiBundle:RecordHasState')->getLatestStateForRecord($this->record);
+
+        if ($currentStateRecord->getState() == RecordHasState::STATE_DRAFT) {
+            throw new  NotFoundHttpException('Not found - record is already in this state');
+        }
 
         $form = $this->createForm(RecordEditStateType::class, null, array('current'=>$currentStateRecord));
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
             if ($form->isValid()) {
 
+                $event = $this->get('directoki_event_builder_service')->build(
+                    $this->project,
+                    $this->getUser(),
+                    $request,
+                    $form->get('createdComment')->getData()
+                );
+                $doctrine->persist($event);
 
-                if ($currentStateRecord->getState() != $form->get('state')->getData()) {
-
-                    $event = $this->get('directoki_event_builder_service')->build(
-                        $this->project,
-                        $this->getUser(),
-                        $request,
-                        $form->get('createdComment')->getData()
-                    );
-                    $doctrine->persist($event);
-
-                    $recordHasState = new RecordHasState();
-                    $recordHasState->setRecord($this->record);
-                    $recordHasState->setState($form->get('state')->getData());
-                    $recordHasState->setCreationEvent($event);
-                    if ($form->get('approve')->getData()) {
-                        $recordHasState->setApprovedAt(new \DateTime());
-                        $recordHasState->setApprovalEvent($event);
-                    }
-                    $doctrine->persist($recordHasState);
-
-                    $doctrine->flush();
-
-                    $updateRecordCacheAction = new UpdateRecordCache($this->container);
-                    $updateRecordCacheAction->go($this->record);
+                $recordHasState = new RecordHasState();
+                $recordHasState->setRecord($this->record);
+                $recordHasState->setState(RecordHasState::STATE_DRAFT);
+                $recordHasState->setCreationEvent($event);
+                if ($form->get('approve')->getData()) {
+                    $recordHasState->setApprovedAt(new \DateTime());
+                    $recordHasState->setApprovalEvent($event);
                 }
+                $doctrine->persist($recordHasState);
 
+                $doctrine->flush();
+
+                $updateRecordCacheAction = new UpdateRecordCache($this->container);
+                $updateRecordCacheAction->go($this->record);
 
                 return $this->redirect($this->generateUrl('directoki_admin_project_directory_record_show', array(
                     'projectId'=>$this->project->getPublicId(),
                     'directoryId'=>$this->directory->getPublicId(),
                     'recordId'=>$this->record->getPublicId(),
                 )));
+
             }
+
         }
 
+        return $this->render('DirectokiBundle:AdminProjectDirectoryRecordEdit:editStateDraft.html.twig', array(
+            'project' => $this->project,
+            'directory' => $this->directory,
+            'record' => $this->record,
+            'form' => $form->createView(),
+        ));
+
+    }
+
+    public function editStatePublishAction(string $projectId, string $directoryId, string $recordId, Request $request)
+    {
 
 
+        // build
+        $this->build($projectId, $directoryId, $recordId);
+        //data
+        $doctrine = $this->getDoctrine()->getManager();
 
-        return $this->render('DirectokiBundle:AdminProjectDirectoryRecordEdit:editState.html.twig', array(
+        $currentStateRecord = $doctrine->getRepository('DirectokiBundle:RecordHasState')->getLatestStateForRecord($this->record);
+
+        if ($currentStateRecord->getState() == RecordHasState::STATE_PUBLISHED) {
+            throw new  NotFoundHttpException('Not found - record is already in this state');
+        }
+
+        $form = $this->createForm(RecordEditStateType::class, null, array('current'=>$currentStateRecord));
+        if ($request->getMethod() == 'POST') {
+            $form->handleRequest($request);
+            if ($form->isValid()) {
+
+                $event = $this->get('directoki_event_builder_service')->build(
+                    $this->project,
+                    $this->getUser(),
+                    $request,
+                    $form->get('createdComment')->getData()
+                );
+                $doctrine->persist($event);
+
+                $recordHasState = new RecordHasState();
+                $recordHasState->setRecord($this->record);
+                $recordHasState->setState(RecordHasState::STATE_PUBLISHED);
+                $recordHasState->setCreationEvent($event);
+                if ($form->get('approve')->getData()) {
+                    $recordHasState->setApprovedAt(new \DateTime());
+                    $recordHasState->setApprovalEvent($event);
+                }
+                $doctrine->persist($recordHasState);
+
+                $doctrine->flush();
+
+                $updateRecordCacheAction = new UpdateRecordCache($this->container);
+                $updateRecordCacheAction->go($this->record);
+
+                return $this->redirect($this->generateUrl('directoki_admin_project_directory_record_show', array(
+                    'projectId'=>$this->project->getPublicId(),
+                    'directoryId'=>$this->directory->getPublicId(),
+                    'recordId'=>$this->record->getPublicId(),
+                )));
+
+            }
+
+        }
+
+        return $this->render('DirectokiBundle:AdminProjectDirectoryRecordEdit:editStatePublish.html.twig', array(
+            'project' => $this->project,
+            'directory' => $this->directory,
+            'record' => $this->record,
+            'form' => $form->createView(),
+        ));
+
+    }
+
+
+    public function editStateDeleteAction(string $projectId, string $directoryId, string $recordId, Request $request)
+    {
+
+
+        // build
+        $this->build($projectId, $directoryId, $recordId);
+        //data
+        $doctrine = $this->getDoctrine()->getManager();
+
+        $currentStateRecord = $doctrine->getRepository('DirectokiBundle:RecordHasState')->getLatestStateForRecord($this->record);
+
+        if ($currentStateRecord->getState() == RecordHasState::STATE_DELETED) {
+            throw new  NotFoundHttpException('Not found - record is already in this state');
+        }
+
+        $form = $this->createForm(RecordEditStateType::class, null, array('current'=>$currentStateRecord));
+        if ($request->getMethod() == 'POST') {
+            $form->handleRequest($request);
+            if ($form->isValid()) {
+
+                $event = $this->get('directoki_event_builder_service')->build(
+                    $this->project,
+                    $this->getUser(),
+                    $request,
+                    $form->get('createdComment')->getData()
+                );
+                $doctrine->persist($event);
+
+                $recordHasState = new RecordHasState();
+                $recordHasState->setRecord($this->record);
+                $recordHasState->setState(RecordHasState::STATE_DELETED);
+                $recordHasState->setCreationEvent($event);
+                if ($form->get('approve')->getData()) {
+                    $recordHasState->setApprovedAt(new \DateTime());
+                    $recordHasState->setApprovalEvent($event);
+                }
+                $doctrine->persist($recordHasState);
+
+                $doctrine->flush();
+
+                $updateRecordCacheAction = new UpdateRecordCache($this->container);
+                $updateRecordCacheAction->go($this->record);
+
+                return $this->redirect($this->generateUrl('directoki_admin_project_directory_record_show', array(
+                    'projectId'=>$this->project->getPublicId(),
+                    'directoryId'=>$this->directory->getPublicId(),
+                    'recordId'=>$this->record->getPublicId(),
+                )));
+
+            }
+
+        }
+
+        return $this->render('DirectokiBundle:AdminProjectDirectoryRecordEdit:editStateDelete.html.twig', array(
             'project' => $this->project,
             'directory' => $this->directory,
             'record' => $this->record,

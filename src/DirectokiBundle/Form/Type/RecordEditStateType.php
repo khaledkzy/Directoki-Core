@@ -25,18 +25,6 @@ class RecordEditStateType extends AbstractType {
     public function buildForm(FormBuilderInterface $builder, array $options) {
 
 
-        $builder->add('state', ChoiceType::class, array(
-            'required' => true,
-            'label'=>'State',
-            'choices_as_values' => true,
-            'choices'=>array(
-                'Draft' => RecordHasState::STATE_DRAFT,
-                'Published' => RecordHasState::STATE_PUBLISHED,
-                'Deleted' => RecordHasState::STATE_DELETED,
-            ),
-            'data' => $options['current']->getState(),
-        ));
-
         $builder->add('approve',  CheckboxType::class, array(
             'required' => false,
             'label'=>'Approve instantly?',

@@ -159,9 +159,17 @@ directoki_admin_project_directory_record_report_resolve:
     path:     /admin/project/{projectId}/directory/{directoryId}/record/{recordId}/report/{reportId}/resolve
     defaults: { _controller: DirectokiBundle:AdminProjectDirectoryRecordReportEdit:resolve }
 
-directoki_admin_project_directory_record_state_edit:
-    path:     /admin/project/{projectId}/directory/{directoryId}/record/{recordId}/editState
-    defaults: { _controller: DirectokiBundle:AdminProjectDirectoryRecordEdit:editState }
+directoki_admin_project_directory_record_state_edit_draft:
+    path:     /admin/project/{projectId}/directory/{directoryId}/record/{recordId}/editStateDraft
+    defaults: { _controller: DirectokiBundle:AdminProjectDirectoryRecordEdit:editStateDraft }
+
+directoki_admin_project_directory_record_state_edit_delete:
+    path:     /admin/project/{projectId}/directory/{directoryId}/record/{recordId}/editStateDelete
+    defaults: { _controller: DirectokiBundle:AdminProjectDirectoryRecordEdit:editStateDelete }
+
+directoki_admin_project_directory_record_state_edit_publish:
+    path:     /admin/project/{projectId}/directory/{directoryId}/record/{recordId}/editStatePublish
+    defaults: { _controller: DirectokiBundle:AdminProjectDirectoryRecordEdit:editStatePublish }
 
 directoki_admin_project_directory_record_field_edit:
     path:     /admin/project/{projectId}/directory/{directoryId}/record/{recordId}/field/{fieldId}/edit

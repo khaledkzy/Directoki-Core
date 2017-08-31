@@ -18,10 +18,10 @@
 		<li><a href="{{  path('directoki_admin_project_show', { 'projectId':project.publicId }) }}">Project: {{  project.title }}</a></li>
 		<li><a href="{{  path('directoki_admin_project_directory_show', { 'projectId':project.publicId,'directoryId':directory.publicId }) }}">Directory: {{  directory.titlePlural }}</a></li>
 		<li><a href="{{  path('directoki_admin_project_directory_record_show', { 'projectId':project.publicId,'directoryId':directory.publicId, 'recordId':record.publicId }) }}">Record: {{  record.publicId }}</a></li>
-		<li class="active">Edit State</li>
+		<li class="active">Edit State - make Draft</li>
 	</ol>
 
-	<h1>Edit State Record: {{   record.publicId }}</h1>
+	<h1>Edit State - Make Draft - Record: {{   record.publicId }}</h1>
 
 	<form class="styled" action="" method="post">
 		{{ form_errors(form) }}
