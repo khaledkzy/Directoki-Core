@@ -33,6 +33,22 @@
             </tr>
             <tr>
                 <th>
+                    User
+                </td>
+                <td>
+                   {%  if event.user %}{{  event.user.username  }}{%  endif %}
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    Contact
+                </td>
+                <td>
+                   {%  if event.contact %}{{  event.contact.email  }}{%  endif %}
+                </td>
+            </tr>
+            <tr>
+                <th>
                     IP
                 </td>
                 <td>
