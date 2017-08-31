@@ -69,6 +69,12 @@
 		</div>
 	{% endfor %}
 
+	{% if directoki_read_only %}
+		<div class="alert alert-danger">
+			The site is currently read only. You can not make any changes.
+		</div>
+	{% endif %}
+
 	{% block main %}{% endblock %}
 
 
