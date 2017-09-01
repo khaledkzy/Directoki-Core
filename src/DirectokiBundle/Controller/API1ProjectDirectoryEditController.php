@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 /**
  *  @license 3-clause BSD
@@ -24,7 +25,6 @@ class API1ProjectDirectoryEditController extends API1ProjectDirectoryController
 
     protected function build( string $projectId, string $directoryId, Request $request ) {
         parent::build( $projectId, $directoryId , $request);
-        // TODO check isAPIModeratedEditAllowed
 
         if ($this->container->getParameter('directoki.read_only')) {
             throw new HttpException(503, 'Directoki is in Read Only mode.');
@@ -40,6 +40,10 @@ class API1ProjectDirectoryEditController extends API1ProjectDirectoryController
         // build
         $this->build($projectId, $directoryId, $request);
         //data
+
+        if (!$this->project->isAPIModeratedEditAllowed()) {
+            throw new AccessDeniedHttpException('Project Access Denied');
+        }
 
         $doctrine = $this->getDoctrine()->getManager();
 

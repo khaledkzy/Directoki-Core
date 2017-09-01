@@ -8,6 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 /**
  *  @license 3-clause BSD
@@ -32,7 +33,10 @@ class API1ProjectDirectoryController extends Controller
         if (!$this->project) {
             throw new  NotFoundHttpException('Not found');
         }
-        // TODO check isAPIReadAllowed
+        // check isAPIReadAllowed
+        if (!$this->project->isAPIReadAllowed()) {
+            throw new AccessDeniedHttpException('Project Access Denied');
+        }
         //$this->denyAccessUnlessGranted(ProjectVoter::VIEW, $this->project);
         // load
         $repository = $doctrine->getRepository('DirectokiBundle:Directory');

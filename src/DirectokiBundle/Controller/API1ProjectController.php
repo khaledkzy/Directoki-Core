@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 /**
  *  @license 3-clause BSD
@@ -29,6 +30,9 @@ class API1ProjectController extends Controller
             throw new  NotFoundHttpException('Not found');
         }
 
+        if (!$this->project->isAPIReadAllowed()) {
+            throw new AccessDeniedHttpException('Project Access Denied');
+        }
         // TODO check isAPIReadAllowed
         //$this->denyAccessUnlessGranted(ProjectVoter::VIEW, $this->project);
 
