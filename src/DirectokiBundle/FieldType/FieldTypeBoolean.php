@@ -19,6 +19,7 @@ use DirectokiBundle\Form\Type\RecordHasFieldBooleanValueType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 
 /**
@@ -151,18 +152,31 @@ class FieldTypeBoolean extends  BaseFieldType {
         $val = $this->getLatestFieldValue($field, $record);
         return $val ? array('value'=>$val->getValue()) : array();
     }
-
     public function addToNewRecordForm(Field $field, FormBuilderInterface $formBuilderInterface)
     {
-        // TODO: Implement addToNewRecordForm() method.
+        $formBuilderInterface->add($field->getPublicId(), CheckboxType::class, array(
+            'required' => false,
+            'label'=>$field->getTitle(),
+            'value' => true,
+        ));
     }
 
     public function processNewRecordForm(Field $field, Record $record, Form $form, Event $creationEvent, $published = false)
     {
-        // TODO: Implement processNewRecordForm() method.
+        $data = $form->get($field->getPublicId())->getData();
+        if ($data) {
+            $newRecordHasFieldValues = new RecordHasFieldBooleanValue();
+            $newRecordHasFieldValues->setRecord($record);
+            $newRecordHasFieldValues->setField($field);
+            $newRecordHasFieldValues->setValue(true);
+            $newRecordHasFieldValues->setCreationEvent($creationEvent);
+            if ($published) {
+                $newRecordHasFieldValues->setApprovalEvent($creationEvent);
+            }
+            return array($newRecordHasFieldValues);
+        }
         return array();
     }
-
 
     public function getViewTemplateNewRecordForm() {
         return '@Directoki/FieldType/Boolean/newRecordForm.html.twig';
