@@ -38,6 +38,7 @@ class API1ProjectDirectoryFieldControllerWithDataBaseTest extends BaseTestWithDa
         $project->setTitle('test1');
         $project->setPublicId('test1');
         $project->setOwner($user);
+        $project->setAPIReadAllowed(true);
         $this->em->persist($project);
 
         $event = new Event();
@@ -79,6 +80,60 @@ class API1ProjectDirectoryFieldControllerWithDataBaseTest extends BaseTestWithDa
 
         $this->assertEquals('tech', $data['field']['id']);
         $this->assertEquals('Tech Used', $data['field']['title']);
+
+    }
+
+
+    function testGetIndexWhenAccessDenied() {
+
+
+        $user = new User();
+        $user->setEmail('test1@example.com');
+        $user->setPassword('password');
+        $user->setUsername('test1');
+        $this->em->persist($user);
+
+        $project = new Project();
+        $project->setTitle('test1');
+        $project->setPublicId('test1');
+        $project->setOwner($user);
+        $project->setAPIReadAllowed(false);
+        $this->em->persist($project);
+
+        $event = new Event();
+        $event->setProject($project);
+        $event->setUser($user);
+        $this->em->persist($event);
+
+        $directory = new Directory();
+        $directory->setPublicId('resource');
+        $directory->setTitleSingular('Resource');
+        $directory->setTitlePlural('Resources');
+        $directory->setProject($project);
+        $directory->setCreationEvent($event);
+        $this->em->persist($directory);
+
+        $field = new Field();
+        $field->setTitle('Tech Used');
+        $field->setPublicId('tech');
+        $field->setDirectory($directory);
+        $field->setFieldType(FieldTypeString::FIELD_TYPE_INTERNAL);
+        $field->setCreationEvent($event);
+        $this->em->persist($field);
+
+        $record = new Record();
+        $record->setDirectory($directory);
+        $record->setCreationEvent($event);
+        $this->em->persist($record);
+
+        $this->em->flush();
+
+        # TEST
+        $client = $this->container->get('test.client');
+
+        $client->request('GET', '/api1/project/test1/directory/resource/field/tech/index.json');
+
+        $this->assertEquals(403, $client->getResponse()->getStatusCode());
 
     }
 
