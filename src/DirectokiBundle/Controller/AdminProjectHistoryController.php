@@ -54,6 +54,7 @@ class AdminProjectHistoryController extends Controller
         $fieldRepo = $doctrine->getRepository('DirectokiBundle:Field');
         $localeRepo = $doctrine->getRepository('DirectokiBundle:Locale');
         $selectValuesRepo = $doctrine->getRepository('DirectokiBundle:SelectValue');
+        $recordHasStateRepo = $doctrine->getRepository('DirectokiBundle:RecordHasState');
 
 
         $recordsCreated = $recordRepo->findBy(array('creationEvent'=>$this->event));
@@ -61,8 +62,7 @@ class AdminProjectHistoryController extends Controller
         $fieldsCreated = $fieldRepo->findBy(array('creationEvent'=>$this->event));
         $localesCreated = $localeRepo->findBy(array('creationEvent'=>$this->event));
         $selectValuesCreated = $selectValuesRepo->findBy(array('creationEvent'=>$this->event));
-
-
+        $recordStates = $recordHasStateRepo->findByEvent($this->event);
 
         return $this->render('DirectokiBundle:AdminProjectHistory:index.html.twig', array(
             'project' => $this->project,
@@ -72,6 +72,7 @@ class AdminProjectHistoryController extends Controller
             'fieldsCreated' => $fieldsCreated,
             'localesCreated' => $localesCreated,
             'selectValuesCreated' => $selectValuesCreated,
+            'recordStates' => $recordStates,
         ));
 
     }

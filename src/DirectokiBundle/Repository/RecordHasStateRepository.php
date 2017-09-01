@@ -2,6 +2,7 @@
 
 namespace DirectokiBundle\Repository;
 
+use DirectokiBundle\Entity\Event;
 use DirectokiBundle\Entity\Field;
 use DirectokiBundle\Entity\Record;
 use DirectokiBundle\Entity\RecordHasState;
@@ -44,6 +45,19 @@ class RecordHasStateRepository extends EntityRepository {
                ' ORDER BY rhs.approvedAt DESC '
            )
            ->setParameter('record', $record)
+           ->getResult();
+
+    }
+
+    public function findByEvent(Event $event) {
+
+        return $this->getEntityManager()
+           ->createQuery(
+               ' SELECT rhs FROM DirectokiBundle:RecordHasState rhs '.
+               ' WHERE  rhs.creationEvent = :event OR rhs.approvalEvent = :event OR rhs.refusalEvent = :event ' .
+               ' ORDER BY rhs.createdAt DESC '
+           )
+           ->setParameter('event', $event)
            ->getResult();
 
     }

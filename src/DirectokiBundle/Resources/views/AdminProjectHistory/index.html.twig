@@ -218,4 +218,68 @@
         </table>
     {% endif %}
 
+    {%  if  recordStates %}
+        <h2>Records State</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Record</th>
+                    <th>State</th>
+                    <th>Proposed</th>
+                    <th>Accepted</th>
+                    <th>Refused</th>
+                    <th>&nbsp;</th>
+                </tr>
+            </thead>
+            <tbody>
+                {%  for recordState in recordStates %}
+                    <tr>
+                        <td>
+                            {{ recordState.record.publicId }}
+                        </td>
+                        <td>
+                            {{  recordState.state }}
+                        </td>
+                        <td>
+                            {% if recordState.creationEvent %}
+                                {% if recordState.creationEvent == event  %}
+                                    This History
+                                {%  else %}
+                                    <a href="{{  path('directoki_admin_project_history_show', { 'projectId':project.publicId,'historyId':recordState.creationEvent.id, }) }}">
+                                        History {{ recordState.creationEvent.id }}
+                                    </a>
+                                {% endif %}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if recordState.approvalEvent  %}
+                                {% if recordState.approvalEvent == event  %}
+                                    This History
+                                {%  else %}
+                                    <a href="{{  path('directoki_admin_project_history_show', { 'projectId':project.publicId,'historyId':recordState.approvalEvent.id, }) }}">
+                                        History {{ recordState.approvalEvent.id }}
+                                    </a>
+                                {% endif %}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if recordState.refusalEvent  %}
+                                {% if recordState.refusalEvent == event  %}
+                                    This History
+                                {%  else %}
+                                    <a href="{{  path('directoki_admin_project_history_show', { 'projectId':project.publicId,'historyId':recordState.refusalEvent.id, }) }}">
+                                        History {{ recordState.refusalEvent.id }}
+                                    </a>
+                                {% endif %}
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{{  path('directoki_admin_project_directory_record_show', { 'projectId':project.publicId,'directoryId':recordState.record.directory.publicId, 'recordId':recordState.record.publicId }) }}" class="btn btn-default">View</a>
+                        </td>
+                    </tr>
+                {%  endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+
 {%  endblock %}
