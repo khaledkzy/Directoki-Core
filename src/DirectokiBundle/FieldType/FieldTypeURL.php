@@ -18,6 +18,8 @@ use DirectokiBundle\ImportCSVLineResult;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Form\Extension\Core\Type\UrlType;
+
 
 
 /**
@@ -165,18 +167,30 @@ class FieldTypeURL extends  BaseFieldType {
         $val = $this->getLatestFieldValue($field, $record);
         return $val ? array('value'=>$val->getValue()) : array();
     }
-
     public function addToNewRecordForm(Field $field, FormBuilderInterface $formBuilderInterface)
     {
-        // TODO: Implement addToNewRecordForm() method.
+        $formBuilderInterface->add($field->getPublicId(), UrlType::class, array(
+            'required' => false,
+            'label'=>$field->getTitle(),
+        ));
     }
 
     public function processNewRecordForm(Field $field, Record $record, Form $form, Event $creationEvent, $published = false)
     {
-        // TODO: Implement processNewRecordForm() method.
+        $data = $form->get($field->getPublicId())->getData();
+        if ($data) {
+            $newRecordHasFieldValues = new RecordHasFieldURLValue();
+            $newRecordHasFieldValues->setRecord($record);
+            $newRecordHasFieldValues->setField($field);
+            $newRecordHasFieldValues->setValue($data);
+            $newRecordHasFieldValues->setCreationEvent($creationEvent);
+            if ($published) {
+                $newRecordHasFieldValues->setApprovalEvent($creationEvent);
+            }
+            return array($newRecordHasFieldValues);
+        }
         return array();
     }
-
     public function getViewTemplateNewRecordForm() {
         return '@Directoki/FieldType/URL/newRecordForm.html.twig';
     }
